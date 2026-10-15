@@ -1,0 +1,548 @@
+{
+  "accelerator": "Google Cloud TPU v6e (Trillium)",
+  "num_chips_available": 4,
+  "model": "genbio-ai/GB.Protein-16B",
+  "pallas_vmem_microbenchmark": [
+    {
+      "M_routed_tokens": 512,
+      "I_shard": 3840,
+      "median_us": 201.29,
+      "effective_hbm_gbps": 97.7
+    },
+    {
+      "M_routed_tokens": 1024,
+      "I_shard": 3840,
+      "median_us": 217.65,
+      "effective_hbm_gbps": 180.7
+    },
+    {
+      "M_routed_tokens": 2048,
+      "I_shard": 3840,
+      "median_us": 242.95,
+      "effective_hbm_gbps": 323.7
+    },
+    {
+      "M_routed_tokens": 4096,
+      "I_shard": 3840,
+      "median_us": 307.4,
+      "effective_hbm_gbps": 511.7
+    },
+    {
+      "M_routed_tokens": 8192,
+      "I_shard": 3840,
+      "median_us": 414.23,
+      "effective_hbm_gbps": 759.4
+    }
+  ],
+  "biological_validation": {
+    "gfp_p42212_length_aa": 238,
+    "gfp_wildtype_top1_recovery": 0.063,
+    "sars2_rbd_ace2_complex_length_tokens": 822,
+    "sars2_rbd_ace2_top1_recovery": 0.927,
+    "embedding_dim": 2304,
+    "gfp_p42212_dms_scores": {
+      "S65T": {
+        "residue_pos_1based": 65,
+        "wt_aa": "S",
+        "mut_aa": "T",
+        "bf16_delta_log_prob": -0.109,
+        "int8_delta_log_prob": -0.083
+      },
+      "C48A": {
+        "residue_pos_1based": 48,
+        "wt_aa": "C",
+        "mut_aa": "A",
+        "bf16_delta_log_prob": 2.2559,
+        "int8_delta_log_prob": 2.1025
+      },
+      "G67A": {
+        "residue_pos_1based": 67,
+        "wt_aa": "G",
+        "mut_aa": "A",
+        "bf16_delta_log_prob": 0.0078,
+        "int8_delta_log_prob": 0.1699
+      }
+    }
+  },
+  "parity": {
+    "tp4_bf16_vs_tp2_bf16": {
+      "cosine_sim_logits": 0.999991,
+      "cosine_sim_hidden": 0.998195,
+      "top1_token_agreement": 0.995816
+    },
+    "int8_1chip_vs_bf16_reference": {
+      "cosine_sim_logits": 0.999952,
+      "cosine_sim_hidden": 0.992756,
+      "top1_token_agreement": 1.0
+    }
+  },
+  "tpu6e_1chip_pallas_w8a8_low_latency": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "median_ms": 42.64,
+      "tokens_per_sec": 6003.9,
+      "seqs_per_sec": 23.45,
+      "active_tflops": 101.49
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "median_ms": 47.66,
+      "tokens_per_sec": 10742.6,
+      "seqs_per_sec": 20.98,
+      "active_tflops": 182.5
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "median_ms": 77.36,
+      "tokens_per_sec": 13237.4,
+      "seqs_per_sec": 12.93,
+      "active_tflops": 227.14
+    }
+  ],
+  "tpu6e_1chip_int8_megakernel": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "median_ms": 42.87,
+      "tokens_per_sec": 5971.3,
+      "seqs_per_sec": 23.33,
+      "active_tflops": 100.94
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "median_ms": 49.9,
+      "tokens_per_sec": 10260.0,
+      "seqs_per_sec": 20.04,
+      "active_tflops": 174.31
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "median_ms": 78.92,
+      "tokens_per_sec": 12974.4,
+      "seqs_per_sec": 12.67,
+      "active_tflops": 222.62
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "median_ms": 130.06,
+      "tokens_per_sec": 15746.1,
+      "seqs_per_sec": 7.69,
+      "active_tflops": 275.53
+    },
+    {
+      "batch_size": 4,
+      "seq_len": 512,
+      "tokens_per_batch": 2048,
+      "median_ms": 119.55,
+      "tokens_per_sec": 17130.8,
+      "seqs_per_sec": 33.46,
+      "active_tflops": 291.03
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 512,
+      "tokens_per_batch": 4096,
+      "median_ms": 203.0,
+      "tokens_per_sec": 20177.6,
+      "seqs_per_sec": 39.41,
+      "active_tflops": 342.79
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "tokens_per_batch": 8192,
+      "median_ms": 388.02,
+      "tokens_per_sec": 21112.5,
+      "seqs_per_sec": 41.24,
+      "active_tflops": 358.68
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 1024,
+      "tokens_per_batch": 8192,
+      "median_ms": 420.49,
+      "tokens_per_sec": 19481.8,
+      "seqs_per_sec": 19.03,
+      "active_tflops": 334.28
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 1024,
+      "tokens_per_batch": 16384,
+      "median_ms": 814.53,
+      "tokens_per_sec": 20114.7,
+      "seqs_per_sec": 19.64,
+      "active_tflops": 345.14
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 2048,
+      "tokens_per_batch": 16384,
+      "median_ms": 814.35,
+      "tokens_per_sec": 20119.2,
+      "seqs_per_sec": 9.82,
+      "active_tflops": 352.06
+    },
+    {
+      "batch_size": 32,
+      "seq_len": 512,
+      "tokens_per_batch": 16384,
+      "median_ms": 759.82,
+      "tokens_per_sec": 21563.0,
+      "seqs_per_sec": 42.12,
+      "active_tflops": 366.33
+    }
+  ],
+  "tpu6e_2chip_bf16_megakernel_tp2": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "median_ms": 41.8,
+      "tokens_per_sec": 6124.4,
+      "seqs_per_sec": 23.92,
+      "active_tflops": 103.53
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "median_ms": 43.98,
+      "tokens_per_sec": 11640.6,
+      "seqs_per_sec": 22.74,
+      "active_tflops": 197.76
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "median_ms": 56.59,
+      "tokens_per_sec": 18096.4,
+      "seqs_per_sec": 17.67,
+      "active_tflops": 310.51
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "median_ms": 92.74,
+      "tokens_per_sec": 22083.2,
+      "seqs_per_sec": 10.78,
+      "active_tflops": 386.42
+    },
+    {
+      "batch_size": 4,
+      "seq_len": 512,
+      "tokens_per_batch": 2048,
+      "median_ms": 85.63,
+      "tokens_per_sec": 23918.1,
+      "seqs_per_sec": 46.72,
+      "active_tflops": 406.34
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 512,
+      "tokens_per_batch": 4096,
+      "median_ms": 138.16,
+      "tokens_per_sec": 29646.7,
+      "seqs_per_sec": 57.9,
+      "active_tflops": 503.66
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "tokens_per_batch": 8192,
+      "median_ms": 250.97,
+      "tokens_per_sec": 32641.9,
+      "seqs_per_sec": 63.75,
+      "active_tflops": 554.55
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 1024,
+      "tokens_per_batch": 8192,
+      "median_ms": 267.32,
+      "tokens_per_sec": 30644.8,
+      "seqs_per_sec": 29.93,
+      "active_tflops": 525.83
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 1024,
+      "tokens_per_batch": 16384,
+      "median_ms": 528.57,
+      "tokens_per_sec": 30996.6,
+      "seqs_per_sec": 30.27,
+      "active_tflops": 531.86
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 2048,
+      "tokens_per_batch": 16384,
+      "median_ms": 533.41,
+      "tokens_per_sec": 30715.8,
+      "seqs_per_sec": 15.0,
+      "active_tflops": 537.48
+    },
+    {
+      "batch_size": 32,
+      "seq_len": 512,
+      "tokens_per_batch": 16384,
+      "median_ms": 499.49,
+      "tokens_per_sec": 32801.4,
+      "seqs_per_sec": 64.07,
+      "active_tflops": 557.26
+    }
+  ],
+  "tpu6e_4chip_bf16_megakernel_tp4_low_latency": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "median_ms": 18.85,
+      "tokens_per_sec": 13584.1,
+      "seqs_per_sec": 53.06,
+      "active_tflops": 229.62
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "median_ms": 22.67,
+      "tokens_per_sec": 22582.5,
+      "seqs_per_sec": 44.11,
+      "active_tflops": 383.65
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "median_ms": 30.83,
+      "tokens_per_sec": 33218.1,
+      "seqs_per_sec": 32.44,
+      "active_tflops": 569.98
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "median_ms": 52.84,
+      "tokens_per_sec": 38756.1,
+      "seqs_per_sec": 18.92,
+      "active_tflops": 678.17
+    },
+    {
+      "batch_size": 4,
+      "seq_len": 512,
+      "tokens_per_batch": 2048,
+      "median_ms": 49.8,
+      "tokens_per_sec": 41120.5,
+      "seqs_per_sec": 80.31,
+      "active_tflops": 698.59
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 512,
+      "tokens_per_batch": 4096,
+      "median_ms": 86.43,
+      "tokens_per_sec": 47393.5,
+      "seqs_per_sec": 92.57,
+      "active_tflops": 805.16
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "tokens_per_batch": 8192,
+      "median_ms": 167.33,
+      "tokens_per_sec": 48956.6,
+      "seqs_per_sec": 95.62,
+      "active_tflops": 831.72
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 1024,
+      "tokens_per_batch": 8192,
+      "median_ms": 176.01,
+      "tokens_per_sec": 46543.9,
+      "seqs_per_sec": 45.45,
+      "active_tflops": 798.63
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 1024,
+      "tokens_per_batch": 16384,
+      "median_ms": 359.17,
+      "tokens_per_sec": 45615.8,
+      "seqs_per_sec": 44.55,
+      "active_tflops": 782.71
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 2048,
+      "tokens_per_batch": 16384,
+      "median_ms": 363.49,
+      "tokens_per_sec": 45073.7,
+      "seqs_per_sec": 22.01,
+      "active_tflops": 788.72
+    },
+    {
+      "batch_size": 32,
+      "seq_len": 512,
+      "tokens_per_batch": 16384,
+      "median_ms": 343.47,
+      "tokens_per_sec": 47701.2,
+      "seqs_per_sec": 93.17,
+      "active_tflops": 810.39
+    }
+  ],
+  "tpu6e_4chip_bf16_megakernel_dp2_tp2_high_throughput": [
+    {
+      "total_batch_size": 4,
+      "seq_len": 512,
+      "tokens_per_batch": 2048,
+      "median_ms": 56.23,
+      "tokens_per_sec": 36419.2,
+      "seqs_per_sec": 71.13,
+      "active_tflops": 618.72
+    },
+    {
+      "total_batch_size": 16,
+      "seq_len": 512,
+      "tokens_per_batch": 8192,
+      "median_ms": 138.12,
+      "tokens_per_sec": 59311.4,
+      "seqs_per_sec": 115.84,
+      "active_tflops": 1007.63
+    },
+    {
+      "total_batch_size": 32,
+      "seq_len": 512,
+      "tokens_per_batch": 16384,
+      "median_ms": 250.95,
+      "tokens_per_sec": 65287.6,
+      "seqs_per_sec": 127.51,
+      "active_tflops": 1109.16
+    },
+    {
+      "total_batch_size": 64,
+      "seq_len": 512,
+      "tokens_per_batch": 32768,
+      "median_ms": 499.48,
+      "tokens_per_sec": 65604.6,
+      "seqs_per_sec": 128.13,
+      "active_tflops": 1114.55
+    },
+    {
+      "total_batch_size": 32,
+      "seq_len": 1024,
+      "tokens_per_batch": 32768,
+      "median_ms": 528.53,
+      "tokens_per_sec": 61998.2,
+      "seqs_per_sec": 60.55,
+      "active_tflops": 1063.81
+    },
+    {
+      "total_batch_size": 64,
+      "seq_len": 1024,
+      "tokens_per_batch": 65536,
+      "median_ms": 1101.78,
+      "tokens_per_sec": 59481.7,
+      "seqs_per_sec": 58.09,
+      "active_tflops": 1020.63
+    },
+    {
+      "total_batch_size": 32,
+      "seq_len": 2048,
+      "tokens_per_batch": 65536,
+      "median_ms": 1109.94,
+      "tokens_per_sec": 59044.8,
+      "seqs_per_sec": 28.83,
+      "active_tflops": 1033.19
+    }
+  ],
+  "tpu6e_4chip_int8_megakernel_dp4_high_throughput": [
+    {
+      "total_batch_size": 4,
+      "batch_per_chip": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 2048,
+      "median_ms": 49.97,
+      "tokens_per_sec": 40986.5,
+      "seqs_per_sec": 80.05,
+      "active_tflops": 696.31
+    },
+    {
+      "total_batch_size": 16,
+      "batch_per_chip": 4,
+      "seq_len": 512,
+      "tokens_per_batch": 8192,
+      "median_ms": 119.76,
+      "tokens_per_sec": 68404.3,
+      "seqs_per_sec": 133.6,
+      "active_tflops": 1162.11
+    },
+    {
+      "total_batch_size": 32,
+      "batch_per_chip": 8,
+      "seq_len": 512,
+      "tokens_per_batch": 16384,
+      "median_ms": 203.22,
+      "tokens_per_sec": 80620.8,
+      "seqs_per_sec": 157.46,
+      "active_tflops": 1369.65
+    },
+    {
+      "total_batch_size": 64,
+      "batch_per_chip": 16,
+      "seq_len": 512,
+      "tokens_per_batch": 32768,
+      "median_ms": 388.46,
+      "tokens_per_sec": 84353.1,
+      "seqs_per_sec": 164.75,
+      "active_tflops": 1433.06
+    },
+    {
+      "total_batch_size": 32,
+      "batch_per_chip": 8,
+      "seq_len": 1024,
+      "tokens_per_batch": 32768,
+      "median_ms": 420.82,
+      "tokens_per_sec": 77866.8,
+      "seqs_per_sec": 76.04,
+      "active_tflops": 1336.09
+    },
+    {
+      "total_batch_size": 64,
+      "batch_per_chip": 16,
+      "seq_len": 1024,
+      "tokens_per_batch": 65536,
+      "median_ms": 814.62,
+      "tokens_per_sec": 80449.4,
+      "seqs_per_sec": 78.56,
+      "active_tflops": 1380.41
+    },
+    {
+      "total_batch_size": 32,
+      "batch_per_chip": 8,
+      "seq_len": 2048,
+      "tokens_per_batch": 65536,
+      "median_ms": 814.9,
+      "tokens_per_sec": 80421.9,
+      "seqs_per_sec": 39.27,
+      "active_tflops": 1407.26
+    }
+  ]
+}
