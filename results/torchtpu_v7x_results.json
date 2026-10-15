@@ -1,0 +1,1066 @@
+{
+  "accelerator": "Google Cloud TPU v7x (Ironwood)",
+  "framework": "TorchTPU (torch 2.13.0 + torch_tpu + torch.compile(backend='tpu') + pallas.jax_op)",
+  "torchtpu_compile_benchmark": {
+    "framework": "TorchTPU (torch 2.13.0 + torch_tpu + torch.compile(backend='tpu') + pallas.jax_op)",
+    "device": "tpu:0",
+    "num_tpu_tensorcores": 8,
+    "parity_stock_vs_pallas_jax_op": {
+      "torchtpu_stock_vs_pallas_jax_op_cosine_sim": 0.999995,
+      "torchtpu_stock_vs_pallas_jax_op_max_abs_diff": 0.00781
+    },
+    "torchtpu_1core_compile_benchmark": [
+      {
+        "batch_size": 1,
+        "seq_len": 256,
+        "tokens_per_batch": 256,
+        "torchtpu_1core_36l_ms": 21.87,
+        "torchtpu_pallas_jax_op_1core_36l_ms": 22.74
+      },
+      {
+        "batch_size": 1,
+        "seq_len": 512,
+        "tokens_per_batch": 512,
+        "torchtpu_1core_36l_ms": 31.88,
+        "torchtpu_pallas_jax_op_1core_36l_ms": 35.47
+      },
+      {
+        "batch_size": 1,
+        "seq_len": 1024,
+        "tokens_per_batch": 1024,
+        "torchtpu_1core_36l_ms": 53.75,
+        "torchtpu_pallas_jax_op_1core_36l_ms": 62.63
+      }
+    ]
+  },
+  "e2e_36layer_benchmarks": {},
+  "intelligence_evaluations": {
+    "TorchTPU_v7x_Naive_Port_Unmasked_BF16Router": {
+      "chip_name": "TorchTPU_v7x_Naive_Port_Unmasked_BF16Router",
+      "mlm_per_protein": {
+        "GFP_P42212": {
+          "length_tokens": 239,
+          "num_masked": 34,
+          "mean_nll": 2.80815,
+          "perplexity": 16.5793,
+          "top1_accuracy": 0.11765,
+          "top3_accuracy": 0.26471,
+          "top5_accuracy": 0.47059,
+          "mean_entropy_nats": 2.79402
+        },
+        "HBB_P68871": {
+          "length_tokens": 148,
+          "num_masked": 21,
+          "mean_nll": 3.67524,
+          "perplexity": 39.4582,
+          "top1_accuracy": 0.04762,
+          "top3_accuracy": 0.19048,
+          "top5_accuracy": 0.19048,
+          "mean_entropy_nats": 2.39838
+        },
+        "TP53_DBD_P04637": {
+          "length_tokens": 200,
+          "num_masked": 28,
+          "mean_nll": 2.22917,
+          "perplexity": 9.2922,
+          "top1_accuracy": 0.32143,
+          "top3_accuracy": 0.53571,
+          "top5_accuracy": 0.64286,
+          "mean_entropy_nats": 1.99801
+        },
+        "UBB_P0CG47": {
+          "length_tokens": 77,
+          "num_masked": 11,
+          "mean_nll": 3.57724,
+          "perplexity": 35.7746,
+          "top1_accuracy": 0.09091,
+          "top3_accuracy": 0.18182,
+          "top5_accuracy": 0.36364,
+          "mean_entropy_nats": 2.24011
+        },
+        "LYZ_P61626": {
+          "length_tokens": 149,
+          "num_masked": 21,
+          "mean_nll": 3.37687,
+          "perplexity": 29.2791,
+          "top1_accuracy": 0.09524,
+          "top3_accuracy": 0.14286,
+          "top5_accuracy": 0.2381,
+          "mean_entropy_nats": 2.46815
+        },
+        "SARS2_RBD_ACE2": {
+          "length_tokens": 822,
+          "num_masked": 117,
+          "mean_nll": 1.3506,
+          "perplexity": 3.8598,
+          "top1_accuracy": 0.58974,
+          "top3_accuracy": 0.73504,
+          "top5_accuracy": 0.78632,
+          "mean_entropy_nats": 1.37355
+        }
+      },
+      "clinvar_dms_variants": {
+        "HBB_H92Y_Hb_M_Hyde_Park": {
+          "protein": "HBB_P68871",
+          "pos_1based": 93,
+          "wt": "H",
+          "mut": "Y",
+          "label": "Pathogenic",
+          "delta_log_prob": -1.94922,
+          "wt_log_prob": -3.73297,
+          "mut_log_prob": -5.68219
+        },
+        "HBB_H63Y_Hb_M_Saskatoon": {
+          "protein": "HBB_P68871",
+          "pos_1based": 64,
+          "wt": "H",
+          "mut": "Y",
+          "label": "Pathogenic",
+          "delta_log_prob": -2.08984,
+          "wt_log_prob": -3.68667,
+          "mut_log_prob": -5.77652
+        },
+        "HBB_F42S_Hb_Hammersmith": {
+          "protein": "HBB_P68871",
+          "pos_1based": 43,
+          "wt": "F",
+          "mut": "S",
+          "label": "Pathogenic",
+          "delta_log_prob": 1.19702,
+          "wt_log_prob": -4.33563,
+          "mut_log_prob": -3.13861
+        },
+        "HBB_L28P_Hb_Genova": {
+          "protein": "HBB_P68871",
+          "pos_1based": 29,
+          "wt": "L",
+          "mut": "P",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.07422,
+          "wt_log_prob": -2.64933,
+          "mut_log_prob": -2.57511
+        },
+        "HBB_E6A_Hb_G_Makassar": {
+          "protein": "HBB_P68871",
+          "pos_1based": 7,
+          "wt": "E",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": 1.4248,
+          "wt_log_prob": -3.19436,
+          "mut_log_prob": -1.76956
+        },
+        "HBB_G16D_Hb_J_Baltimore": {
+          "protein": "HBB_P68871",
+          "pos_1based": 17,
+          "wt": "G",
+          "mut": "D",
+          "label": "Benign",
+          "delta_log_prob": -0.79492,
+          "wt_log_prob": -2.10464,
+          "mut_log_prob": -2.89956
+        },
+        "HBB_K59N_Hb_J_Kaohsiung": {
+          "protein": "HBB_P68871",
+          "pos_1based": 60,
+          "wt": "K",
+          "mut": "N",
+          "label": "Benign",
+          "delta_log_prob": -0.25781,
+          "wt_log_prob": -5.03782,
+          "mut_log_prob": -5.29563
+        },
+        "HBB_T87Q_Surface_Neutral": {
+          "protein": "HBB_P68871",
+          "pos_1based": 88,
+          "wt": "T",
+          "mut": "Q",
+          "label": "Benign",
+          "delta_log_prob": -0.13965,
+          "wt_log_prob": -3.36127,
+          "mut_log_prob": -3.50092
+        },
+        "TP53_R175H_Zinc_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 82,
+          "wt": "R",
+          "mut": "H",
+          "label": "Pathogenic",
+          "delta_log_prob": -6.1875,
+          "wt_log_prob": -0.01062,
+          "mut_log_prob": -6.19812
+        },
+        "TP53_C176F_Zinc_Coord": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 83,
+          "wt": "C",
+          "mut": "F",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.32749,
+          "wt_log_prob": -3.23592,
+          "mut_log_prob": -2.90842
+        },
+        "TP53_G245S_L3_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 152,
+          "wt": "G",
+          "mut": "S",
+          "label": "Pathogenic",
+          "delta_log_prob": -7.75,
+          "wt_log_prob": -0.0011,
+          "mut_log_prob": -7.7511
+        },
+        "TP53_R282W_Helix_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 189,
+          "wt": "R",
+          "mut": "W",
+          "label": "Pathogenic",
+          "delta_log_prob": -7.25,
+          "wt_log_prob": -1.29164,
+          "mut_log_prob": -8.54164
+        },
+        "TP53_V217M_ClinVar_Benign": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 124,
+          "wt": "V",
+          "mut": "M",
+          "label": "Benign",
+          "delta_log_prob": -2.82812,
+          "wt_log_prob": -0.82497,
+          "mut_log_prob": -3.6531
+        },
+        "TP53_S96A_Nterm_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 3,
+          "wt": "S",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": 1.0625,
+          "wt_log_prob": -2.32626,
+          "mut_log_prob": -1.26376
+        },
+        "TP53_K291R_Cterm_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 198,
+          "wt": "K",
+          "mut": "R",
+          "label": "Benign",
+          "delta_log_prob": -0.53906,
+          "wt_log_prob": -1.57512,
+          "mut_log_prob": -2.11418
+        },
+        "TP53_E224D_Loop_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 131,
+          "wt": "E",
+          "mut": "D",
+          "label": "Benign",
+          "delta_log_prob": -3.04102,
+          "wt_log_prob": -5.37035,
+          "mut_log_prob": -8.41136
+        },
+        "GFP_G67A_Chromophore_Dead": {
+          "protein": "GFP_P42212",
+          "pos_1based": 67,
+          "wt": "G",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.16992,
+          "wt_log_prob": -2.758,
+          "mut_log_prob": -2.58808
+        },
+        "GFP_W57G_Core_Collapse": {
+          "protein": "GFP_P42212",
+          "pos_1based": 57,
+          "wt": "W",
+          "mut": "G",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.43359,
+          "wt_log_prob": -4.19452,
+          "mut_log_prob": -3.76093
+        },
+        "GFP_F27A_BetaBarrel_Core": {
+          "protein": "GFP_P42212",
+          "pos_1based": 27,
+          "wt": "F",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": -2.37891,
+          "wt_log_prob": -1.2851,
+          "mut_log_prob": -3.664
+        },
+        "GFP_R96A_Catalytic_Arg": {
+          "protein": "GFP_P42212",
+          "pos_1based": 96,
+          "wt": "R",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.44189,
+          "wt_log_prob": -2.93691,
+          "mut_log_prob": -2.49502
+        },
+        "GFP_C48A_CysFree_Stable": {
+          "protein": "GFP_P42212",
+          "pos_1based": 48,
+          "wt": "C",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": 2.38672,
+          "wt_log_prob": -5.23084,
+          "mut_log_prob": -2.84412
+        },
+        "GFP_V163A_Cycle3_Folder": {
+          "protein": "GFP_P42212",
+          "pos_1based": 163,
+          "wt": "V",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": -0.39844,
+          "wt_log_prob": -2.35765,
+          "mut_log_prob": -2.75609
+        },
+        "GFP_F99S_Surface_Soluble": {
+          "protein": "GFP_P42212",
+          "pos_1based": 99,
+          "wt": "F",
+          "mut": "S",
+          "label": "Benign",
+          "delta_log_prob": 1.0625,
+          "wt_log_prob": -3.89558,
+          "mut_log_prob": -2.83308
+        },
+        "GFP_I167T_Conservative_Neutral": {
+          "protein": "GFP_P42212",
+          "pos_1based": 167,
+          "wt": "I",
+          "mut": "T",
+          "label": "Benign",
+          "delta_log_prob": -0.41406,
+          "wt_log_prob": -2.35512,
+          "mut_log_prob": -2.76918
+        }
+      },
+      "embeddings": {},
+      "mlm_aggregate": {
+        "total_masked_residues": 232,
+        "mean_nll": 2.16965,
+        "perplexity": 8.7552,
+        "top1_accuracy": 0.37069,
+        "top3_accuracy": 0.51293,
+        "top5_accuracy": 0.59914,
+        "mean_entropy_nats": 1.89002
+      },
+      "clinvar_dms_summary": {
+        "num_variants": 24,
+        "num_benign": 12,
+        "num_pathogenic": 12,
+        "mean_benign_delta_log_prob": -0.2064,
+        "mean_pathogenic_delta_log_prob": -2.0801,
+        "separation_gap_log_prob": 1.8737,
+        "auroc": 0.61111,
+        "classification_accuracy": 0.66667,
+        "optimal_threshold": -0.7949
+      },
+      "embedding_summary": {
+        "num_sequences_embedded": 30,
+        "embedding_dim": 2304,
+        "family_retrieval_recall_at_1": 1.0
+      },
+      "comparison_vs_tpu7x_tp2": {
+        "dms_pearson_r": 0.496286,
+        "dms_spearman_rho": 0.436522,
+        "dms_mae_log_prob": 4.3745,
+        "mlm_perplexity_delta": 6.8371,
+        "mlm_top1_acc_delta": -0.43965,
+        "mlm_top5_acc_delta": -0.31896,
+        "clinvar_auroc_delta": -0.13889,
+        "logit_cosine_similarity": 0.994933,
+        "embedding_cosine_similarity": 0.979238,
+        "pairwise_similarity_matrix_r": 0.817122,
+        "kl_divergence_nats": 0.040207,
+        "js_divergence_nats": 0.008813
+      }
+    },
+    "TorchTPU_v7x_1Chip_BF16_TP2": {
+      "chip_name": "TorchTPU_v7x_1Chip_BF16_TP2",
+      "mlm_per_protein": {
+        "GFP_P42212": {
+          "length_tokens": 239,
+          "num_masked": 34,
+          "mean_nll": 2.81478,
+          "perplexity": 16.6895,
+          "top1_accuracy": 0.14706,
+          "top3_accuracy": 0.35294,
+          "top5_accuracy": 0.52941,
+          "mean_entropy_nats": 2.7825
+        },
+        "HBB_P68871": {
+          "length_tokens": 148,
+          "num_masked": 21,
+          "mean_nll": 0.49892,
+          "perplexity": 1.6469,
+          "top1_accuracy": 0.90476,
+          "top3_accuracy": 0.90476,
+          "top5_accuracy": 0.95238,
+          "mean_entropy_nats": 0.36494
+        },
+        "TP53_DBD_P04637": {
+          "length_tokens": 200,
+          "num_masked": 28,
+          "mean_nll": 0.11186,
+          "perplexity": 1.1184,
+          "top1_accuracy": 0.96429,
+          "top3_accuracy": 1.0,
+          "top5_accuracy": 1.0,
+          "mean_entropy_nats": 0.13358
+        },
+        "UBB_P0CG47": {
+          "length_tokens": 77,
+          "num_masked": 11,
+          "mean_nll": 0.00064,
+          "perplexity": 1.0006,
+          "top1_accuracy": 1.0,
+          "top3_accuracy": 1.0,
+          "top5_accuracy": 1.0,
+          "mean_entropy_nats": 0.00621
+        },
+        "LYZ_P61626": {
+          "length_tokens": 149,
+          "num_masked": 21,
+          "mean_nll": 0.21696,
+          "perplexity": 1.2423,
+          "top1_accuracy": 0.95238,
+          "top3_accuracy": 1.0,
+          "top5_accuracy": 1.0,
+          "mean_entropy_nats": 0.48898
+        },
+        "SARS2_RBD_ACE2": {
+          "length_tokens": 822,
+          "num_masked": 117,
+          "mean_nll": 0.31827,
+          "perplexity": 1.3748,
+          "top1_accuracy": 0.90598,
+          "top3_accuracy": 0.98291,
+          "top5_accuracy": 0.98291,
+          "mean_entropy_nats": 0.3687
+        }
+      },
+      "clinvar_dms_variants": {
+        "HBB_H92Y_Hb_M_Hyde_Park": {
+          "protein": "HBB_P68871",
+          "pos_1based": 93,
+          "wt": "H",
+          "mut": "Y",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.53125,
+          "wt_log_prob": -0.00016,
+          "mut_log_prob": -10.53141
+        },
+        "HBB_H63Y_Hb_M_Saskatoon": {
+          "protein": "HBB_P68871",
+          "pos_1based": 64,
+          "wt": "H",
+          "mut": "Y",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.04688,
+          "wt_log_prob": -0.00068,
+          "mut_log_prob": -10.04756
+        },
+        "HBB_F42S_Hb_Hammersmith": {
+          "protein": "HBB_P68871",
+          "pos_1based": 43,
+          "wt": "F",
+          "mut": "S",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.47656,
+          "wt_log_prob": -0.00026,
+          "mut_log_prob": -10.47682
+        },
+        "HBB_L28P_Hb_Genova": {
+          "protein": "HBB_P68871",
+          "pos_1based": 29,
+          "wt": "L",
+          "mut": "P",
+          "label": "Pathogenic",
+          "delta_log_prob": -11.67969,
+          "wt_log_prob": -0.01167,
+          "mut_log_prob": -11.69136
+        },
+        "HBB_E6A_Hb_G_Makassar": {
+          "protein": "HBB_P68871",
+          "pos_1based": 7,
+          "wt": "E",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": -5.92188,
+          "wt_log_prob": -0.16438,
+          "mut_log_prob": -6.08626
+        },
+        "HBB_G16D_Hb_J_Baltimore": {
+          "protein": "HBB_P68871",
+          "pos_1based": 17,
+          "wt": "G",
+          "mut": "D",
+          "label": "Benign",
+          "delta_log_prob": -6.34375,
+          "wt_log_prob": -0.69987,
+          "mut_log_prob": -7.04362
+        },
+        "HBB_K59N_Hb_J_Kaohsiung": {
+          "protein": "HBB_P68871",
+          "pos_1based": 60,
+          "wt": "K",
+          "mut": "N",
+          "label": "Benign",
+          "delta_log_prob": -5.73438,
+          "wt_log_prob": -0.03108,
+          "mut_log_prob": -5.76546
+        },
+        "HBB_T87Q_Surface_Neutral": {
+          "protein": "HBB_P68871",
+          "pos_1based": 88,
+          "wt": "T",
+          "mut": "Q",
+          "label": "Benign",
+          "delta_log_prob": 0.96875,
+          "wt_log_prob": -3.78401,
+          "mut_log_prob": -2.81526
+        },
+        "TP53_R175H_Zinc_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 82,
+          "wt": "R",
+          "mut": "H",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.64062,
+          "wt_log_prob": -0.00011,
+          "mut_log_prob": -10.64073
+        },
+        "TP53_C176F_Zinc_Coord": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 83,
+          "wt": "C",
+          "mut": "F",
+          "label": "Pathogenic",
+          "delta_log_prob": -12.89062,
+          "wt_log_prob": -7e-05,
+          "mut_log_prob": -12.8907
+        },
+        "TP53_G245S_L3_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 152,
+          "wt": "G",
+          "mut": "S",
+          "label": "Pathogenic",
+          "delta_log_prob": -11.21875,
+          "wt_log_prob": -3e-05,
+          "mut_log_prob": -11.21878
+        },
+        "TP53_R282W_Helix_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 189,
+          "wt": "R",
+          "mut": "W",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.57031,
+          "wt_log_prob": -0.00034,
+          "mut_log_prob": -10.57065
+        },
+        "TP53_V217M_ClinVar_Benign": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 124,
+          "wt": "V",
+          "mut": "M",
+          "label": "Benign",
+          "delta_log_prob": -4.0,
+          "wt_log_prob": -0.05405,
+          "mut_log_prob": -4.05405
+        },
+        "TP53_S96A_Nterm_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 3,
+          "wt": "S",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": -5.76562,
+          "wt_log_prob": -0.04209,
+          "mut_log_prob": -5.80772
+        },
+        "TP53_K291R_Cterm_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 198,
+          "wt": "K",
+          "mut": "R",
+          "label": "Benign",
+          "delta_log_prob": -5.375,
+          "wt_log_prob": -0.00623,
+          "mut_log_prob": -5.38123
+        },
+        "TP53_E224D_Loop_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 131,
+          "wt": "E",
+          "mut": "D",
+          "label": "Benign",
+          "delta_log_prob": -8.9375,
+          "wt_log_prob": -0.00078,
+          "mut_log_prob": -8.93828
+        },
+        "GFP_G67A_Chromophore_Dead": {
+          "protein": "GFP_P42212",
+          "pos_1based": 67,
+          "wt": "G",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.03711,
+          "wt_log_prob": -2.74736,
+          "mut_log_prob": -2.71025
+        },
+        "GFP_W57G_Core_Collapse": {
+          "protein": "GFP_P42212",
+          "pos_1based": 57,
+          "wt": "W",
+          "mut": "G",
+          "label": "Pathogenic",
+          "delta_log_prob": 1.33789,
+          "wt_log_prob": -4.8097,
+          "mut_log_prob": -3.47181
+        },
+        "GFP_F27A_BetaBarrel_Core": {
+          "protein": "GFP_P42212",
+          "pos_1based": 27,
+          "wt": "F",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": -2.07812,
+          "wt_log_prob": -1.57335,
+          "mut_log_prob": -3.65148
+        },
+        "GFP_R96A_Catalytic_Arg": {
+          "protein": "GFP_P42212",
+          "pos_1based": 96,
+          "wt": "R",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.6709,
+          "wt_log_prob": -3.17314,
+          "mut_log_prob": -2.50224
+        },
+        "GFP_C48A_CysFree_Stable": {
+          "protein": "GFP_P42212",
+          "pos_1based": 48,
+          "wt": "C",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": 2.1377,
+          "wt_log_prob": -5.15359,
+          "mut_log_prob": -3.01589
+        },
+        "GFP_V163A_Cycle3_Folder": {
+          "protein": "GFP_P42212",
+          "pos_1based": 163,
+          "wt": "V",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": -0.06152,
+          "wt_log_prob": -2.73229,
+          "mut_log_prob": -2.79382
+        },
+        "GFP_F99S_Surface_Soluble": {
+          "protein": "GFP_P42212",
+          "pos_1based": 99,
+          "wt": "F",
+          "mut": "S",
+          "label": "Benign",
+          "delta_log_prob": 1.04883,
+          "wt_log_prob": -3.98287,
+          "mut_log_prob": -2.93405
+        },
+        "GFP_I167T_Conservative_Neutral": {
+          "protein": "GFP_P42212",
+          "pos_1based": 167,
+          "wt": "I",
+          "mut": "T",
+          "label": "Benign",
+          "delta_log_prob": -0.23242,
+          "wt_log_prob": -2.48361,
+          "mut_log_prob": -2.71603
+        }
+      },
+      "embeddings": {},
+      "mlm_aggregate": {
+        "total_masked_residues": 232,
+        "mean_nll": 0.65135,
+        "perplexity": 1.9181,
+        "top1_accuracy": 0.81034,
+        "top3_accuracy": 0.88793,
+        "top5_accuracy": 0.9181,
+        "mean_entropy_nats": 0.68743
+      },
+      "clinvar_dms_summary": {
+        "num_variants": 24,
+        "num_benign": 12,
+        "num_pathogenic": 12,
+        "mean_benign_delta_log_prob": -3.1847,
+        "mean_pathogenic_delta_log_prob": -7.3406,
+        "separation_gap_log_prob": 4.1558,
+        "auroc": 0.75,
+        "classification_accuracy": 0.83333,
+        "optimal_threshold": -8.9375
+      },
+      "embedding_summary": {
+        "num_sequences_embedded": 30,
+        "embedding_dim": 2304,
+        "family_retrieval_recall_at_1": 1.0
+      }
+    },
+    "TorchTPU_v7x_4Chip_BF16_TP8": {
+      "chip_name": "TorchTPU_v7x_4Chip_BF16_TP8",
+      "mlm_per_protein": {
+        "GFP_P42212": {
+          "length_tokens": 239,
+          "num_masked": 34,
+          "mean_nll": 2.80804,
+          "perplexity": 16.5774,
+          "top1_accuracy": 0.14706,
+          "top3_accuracy": 0.35294,
+          "top5_accuracy": 0.52941,
+          "mean_entropy_nats": 2.78447
+        },
+        "HBB_P68871": {
+          "length_tokens": 148,
+          "num_masked": 21,
+          "mean_nll": 0.49904,
+          "perplexity": 1.6471,
+          "top1_accuracy": 0.90476,
+          "top3_accuracy": 0.90476,
+          "top5_accuracy": 0.95238,
+          "mean_entropy_nats": 0.36986
+        },
+        "TP53_DBD_P04637": {
+          "length_tokens": 200,
+          "num_masked": 28,
+          "mean_nll": 0.12129,
+          "perplexity": 1.1289,
+          "top1_accuracy": 0.96429,
+          "top3_accuracy": 1.0,
+          "top5_accuracy": 1.0,
+          "mean_entropy_nats": 0.14065
+        },
+        "UBB_P0CG47": {
+          "length_tokens": 77,
+          "num_masked": 11,
+          "mean_nll": 0.00063,
+          "perplexity": 1.0006,
+          "top1_accuracy": 1.0,
+          "top3_accuracy": 1.0,
+          "top5_accuracy": 1.0,
+          "mean_entropy_nats": 0.0061
+        },
+        "LYZ_P61626": {
+          "length_tokens": 149,
+          "num_masked": 21,
+          "mean_nll": 0.21085,
+          "perplexity": 1.2347,
+          "top1_accuracy": 0.95238,
+          "top3_accuracy": 1.0,
+          "top5_accuracy": 1.0,
+          "mean_entropy_nats": 0.49645
+        },
+        "SARS2_RBD_ACE2": {
+          "length_tokens": 822,
+          "num_masked": 117,
+          "mean_nll": 0.31834,
+          "perplexity": 1.3748,
+          "top1_accuracy": 0.89744,
+          "top3_accuracy": 0.98291,
+          "top5_accuracy": 0.98291,
+          "mean_entropy_nats": 0.37129
+        }
+      },
+      "clinvar_dms_variants": {
+        "HBB_H92Y_Hb_M_Hyde_Park": {
+          "protein": "HBB_P68871",
+          "pos_1based": 93,
+          "wt": "H",
+          "mut": "Y",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.51562,
+          "wt_log_prob": -0.00016,
+          "mut_log_prob": -10.51579
+        },
+        "HBB_H63Y_Hb_M_Saskatoon": {
+          "protein": "HBB_P68871",
+          "pos_1based": 64,
+          "wt": "H",
+          "mut": "Y",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.16406,
+          "wt_log_prob": -0.00059,
+          "mut_log_prob": -10.16465
+        },
+        "HBB_F42S_Hb_Hammersmith": {
+          "protein": "HBB_P68871",
+          "pos_1based": 43,
+          "wt": "F",
+          "mut": "S",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.54688,
+          "wt_log_prob": -0.00024,
+          "mut_log_prob": -10.54712
+        },
+        "HBB_L28P_Hb_Genova": {
+          "protein": "HBB_P68871",
+          "pos_1based": 29,
+          "wt": "L",
+          "mut": "P",
+          "label": "Pathogenic",
+          "delta_log_prob": -11.70312,
+          "wt_log_prob": -0.01302,
+          "mut_log_prob": -11.71614
+        },
+        "HBB_E6A_Hb_G_Makassar": {
+          "protein": "HBB_P68871",
+          "pos_1based": 7,
+          "wt": "E",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": -5.92188,
+          "wt_log_prob": -0.15999,
+          "mut_log_prob": -6.08187
+        },
+        "HBB_G16D_Hb_J_Baltimore": {
+          "protein": "HBB_P68871",
+          "pos_1based": 17,
+          "wt": "G",
+          "mut": "D",
+          "label": "Benign",
+          "delta_log_prob": -6.36719,
+          "wt_log_prob": -0.6756,
+          "mut_log_prob": -7.04278
+        },
+        "HBB_K59N_Hb_J_Kaohsiung": {
+          "protein": "HBB_P68871",
+          "pos_1based": 60,
+          "wt": "K",
+          "mut": "N",
+          "label": "Benign",
+          "delta_log_prob": -5.79688,
+          "wt_log_prob": -0.02982,
+          "mut_log_prob": -5.8267
+        },
+        "HBB_T87Q_Surface_Neutral": {
+          "protein": "HBB_P68871",
+          "pos_1based": 88,
+          "wt": "T",
+          "mut": "Q",
+          "label": "Benign",
+          "delta_log_prob": 0.92969,
+          "wt_log_prob": -3.81882,
+          "mut_log_prob": -2.88914
+        },
+        "TP53_R175H_Zinc_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 82,
+          "wt": "R",
+          "mut": "H",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.76562,
+          "wt_log_prob": -9e-05,
+          "mut_log_prob": -10.76572
+        },
+        "TP53_C176F_Zinc_Coord": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 83,
+          "wt": "C",
+          "mut": "F",
+          "label": "Pathogenic",
+          "delta_log_prob": -12.78906,
+          "wt_log_prob": -8e-05,
+          "mut_log_prob": -12.78914
+        },
+        "TP53_G245S_L3_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 152,
+          "wt": "G",
+          "mut": "S",
+          "label": "Pathogenic",
+          "delta_log_prob": -11.26562,
+          "wt_log_prob": -3e-05,
+          "mut_log_prob": -11.26566
+        },
+        "TP53_R282W_Helix_Hotspot": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 189,
+          "wt": "R",
+          "mut": "W",
+          "label": "Pathogenic",
+          "delta_log_prob": -10.53906,
+          "wt_log_prob": -0.00036,
+          "mut_log_prob": -10.53943
+        },
+        "TP53_V217M_ClinVar_Benign": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 124,
+          "wt": "V",
+          "mut": "M",
+          "label": "Benign",
+          "delta_log_prob": -4.04688,
+          "wt_log_prob": -0.0506,
+          "mut_log_prob": -4.09748
+        },
+        "TP53_S96A_Nterm_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 3,
+          "wt": "S",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": -5.78125,
+          "wt_log_prob": -0.04196,
+          "mut_log_prob": -5.82321
+        },
+        "TP53_K291R_Cterm_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 198,
+          "wt": "K",
+          "mut": "R",
+          "label": "Benign",
+          "delta_log_prob": -5.375,
+          "wt_log_prob": -0.00621,
+          "mut_log_prob": -5.38121
+        },
+        "TP53_E224D_Loop_Neutral": {
+          "protein": "TP53_DBD_P04637",
+          "pos_1based": 131,
+          "wt": "E",
+          "mut": "D",
+          "label": "Benign",
+          "delta_log_prob": -8.90625,
+          "wt_log_prob": -0.00078,
+          "mut_log_prob": -8.90703
+        },
+        "GFP_G67A_Chromophore_Dead": {
+          "protein": "GFP_P42212",
+          "pos_1based": 67,
+          "wt": "G",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.06641,
+          "wt_log_prob": -2.67429,
+          "mut_log_prob": -2.60788
+        },
+        "GFP_W57G_Core_Collapse": {
+          "protein": "GFP_P42212",
+          "pos_1based": 57,
+          "wt": "W",
+          "mut": "G",
+          "label": "Pathogenic",
+          "delta_log_prob": 1.35352,
+          "wt_log_prob": -4.81634,
+          "mut_log_prob": -3.46282
+        },
+        "GFP_F27A_BetaBarrel_Core": {
+          "protein": "GFP_P42212",
+          "pos_1based": 27,
+          "wt": "F",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": -2.05859,
+          "wt_log_prob": -1.5857,
+          "mut_log_prob": -3.64429
+        },
+        "GFP_R96A_Catalytic_Arg": {
+          "protein": "GFP_P42212",
+          "pos_1based": 96,
+          "wt": "R",
+          "mut": "A",
+          "label": "Pathogenic",
+          "delta_log_prob": 0.66895,
+          "wt_log_prob": -3.16598,
+          "mut_log_prob": -2.49703
+        },
+        "GFP_C48A_CysFree_Stable": {
+          "protein": "GFP_P42212",
+          "pos_1based": 48,
+          "wt": "C",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": 2.11328,
+          "wt_log_prob": -5.12746,
+          "mut_log_prob": -3.01418
+        },
+        "GFP_V163A_Cycle3_Folder": {
+          "protein": "GFP_P42212",
+          "pos_1based": 163,
+          "wt": "V",
+          "mut": "A",
+          "label": "Benign",
+          "delta_log_prob": -0.0752,
+          "wt_log_prob": -2.73933,
+          "mut_log_prob": -2.81452
+        },
+        "GFP_F99S_Surface_Soluble": {
+          "protein": "GFP_P42212",
+          "pos_1based": 99,
+          "wt": "F",
+          "mut": "S",
+          "label": "Benign",
+          "delta_log_prob": 1.08398,
+          "wt_log_prob": -3.99748,
+          "mut_log_prob": -2.9135
+        },
+        "GFP_I167T_Conservative_Neutral": {
+          "protein": "GFP_P42212",
+          "pos_1based": 167,
+          "wt": "I",
+          "mut": "T",
+          "label": "Benign",
+          "delta_log_prob": -0.27148,
+          "wt_log_prob": -2.45159,
+          "mut_log_prob": -2.72308
+        }
+      },
+      "embeddings": {},
+      "mlm_aggregate": {
+        "total_masked_residues": 232,
+        "mean_nll": 0.65099,
+        "perplexity": 1.9174,
+        "top1_accuracy": 0.80603,
+        "top3_accuracy": 0.88793,
+        "top5_accuracy": 0.9181,
+        "mean_entropy_nats": 0.691
+      },
+      "clinvar_dms_summary": {
+        "num_variants": 24,
+        "num_benign": 12,
+        "num_pathogenic": 12,
+        "mean_benign_delta_log_prob": -3.2013,
+        "mean_pathogenic_delta_log_prob": -7.3549,
+        "separation_gap_log_prob": 4.1536,
+        "auroc": 0.75,
+        "classification_accuracy": 0.83333,
+        "optimal_threshold": -8.9062
+      },
+      "embedding_summary": {
+        "num_sequences_embedded": 30,
+        "embedding_dim": 2304,
+        "family_retrieval_recall_at_1": 1.0
+      },
+      "comparison_vs_tpu7x_tp2": {
+        "dms_pearson_r": 0.999952,
+        "dms_spearman_rho": 0.996522,
+        "dms_mae_log_prob": 0.0387,
+        "mlm_perplexity_delta": -0.0007,
+        "mlm_top1_acc_delta": -0.00431,
+        "mlm_top5_acc_delta": 0.0,
+        "clinvar_auroc_delta": 0.0,
+        "logit_cosine_similarity": 0.999948,
+        "embedding_cosine_similarity": 0.999879,
+        "pairwise_similarity_matrix_r": 0.999958,
+        "kl_divergence_nats": 0.000328,
+        "js_divergence_nats": 8.2e-05
+      }
+    }
+  }
+}

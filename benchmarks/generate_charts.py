@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Generates 8 high-resolution (300 DPI) visualization charts directly from the
-hardware-verified benchmark JSON files:
+Generates 9 high-resolution (300 DPI) visualization charts directly from the
+hardware-verified benchmark and intelligence JSON files:
   - results/g4_benchmark_results.json
   - results/tpu6e_benchmark_results.json
   - results/tpu7x_benchmark_results.json
+  - results/cross_chip_intelligence_summary.json
 
 Zero hardcoded/estimated numbers: every bar and curve is computed directly
 from the measured hardware JSON outputs.
@@ -17,8 +18,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-WORKDIR = SCRIPT_DIR if os.path.exists(os.path.join(SCRIPT_DIR, "results")) else os.path.dirname(SCRIPT_DIR)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+WORKDIR = _HERE if os.path.isdir(os.path.join(_HERE, "results")) else os.path.dirname(_HERE)
 RESULTS_DIR = os.path.join(WORKDIR, "results")
 CHARTS_DIR = os.path.join(WORKDIR, "charts")
 os.makedirs(CHARTS_DIR, exist_ok=True)
@@ -28,13 +29,16 @@ plt.rcParams["axes.edgecolor"] = "#CCCCCC"
 plt.rcParams["axes.linewidth"] = 0.8
 
 COLORS = {
+    "g4_fp32": "#4B5563",        # Slate dark gray (FP32 Gold Ref)
     "g4_stock": "#6E7781",       # Slate gray
     "g4_opt": "#2DA44E",         # NVIDIA-style green
-    "v6e_int8": "#0088FF",       # Bright sky blue
-    "v6e_bf16_tp2": "#0969DA",   # Deep royal blue
-    "v6e_bf16_tp4": "#54AEFF",   # Light azure blue
-    "v7x_tp2": "#8250DF",        # Ironwood purple
-    "v7x_tp8": "#BF3989",        # Magenta / Ultra-low-latency
+    "v6e_w8a8": "#00A3BF",       # Teal cyan (Pallas W8A8 1-Chip)
+    "v6e_int8": "#0088FF",       # Bright sky blue (INT8 W8A16 1-Chip)
+    "v6e_bf16_tp2": "#0969DA",   # Deep royal blue (2-Chip BF16)
+    "v6e_bf16_tp4": "#54AEFF",   # Light azure blue (4-Chip BF16)
+    "v7x_tp2": "#8250DF",        # Ironwood purple (1-Chip BF16 TP=2)
+    "v7x_tp8": "#BF3989",        # Magenta / Ultra-low-latency (4-Chip BF16 TP=8)
+    "naive_port": "#CF222E",     # Warning crimson red (Naive Unmasked TPU Port)
 }
 
 
@@ -45,7 +49,12 @@ def load_results():
         v6e = json.load(f)
     with open(os.path.join(RESULTS_DIR, "tpu7x_benchmark_results.json")) as f:
         v7x = json.load(f)
-    return g4, v6e, v7x
+    intel_path = os.path.join(RESULTS_DIR, "cross_chip_intelligence_summary.json")
+    intel = None
+    if os.path.exists(intel_path):
+        with open(intel_path) as f:
+            intel = json.load(f)
+    return g4, v6e, v7x, intel
 
 
 def find_entry(rows, batch_size, seq_len, batch_key="batch_size"):
@@ -64,17 +73,18 @@ def find_max_tflops(rows):
 
 
 def chart_01_executive_headline(g4, v6e, v7x):
-    fig, axes = plt.subplots(2, 2, figsize=(16, 11.2), dpi=300)
+    fig, axes = plt.subplots(2, 2, figsize=(16.5, 11.4), dpi=300)
     fig.suptitle(
-        "GenBio AI GB.Protein-16B (16.05B MoE): Executive Hardware Benchmark Overview\n"
+        "GenBio AI GB.Protein-16B (16.05B MoE): TorchTPU & Pallas VMEM Executive Hardware Benchmark\n"
         "Google Cloud TPU v7x (Ironwood) & TPU v6e (Trillium) vs. NVIDIA G4 (RTX PRO 6000 Blackwell)",
-        fontsize=15, fontweight="bold", y=0.98
+        fontsize=14.8, fontweight="bold", y=0.98
     )
 
     # Panel A: Single-Protein Latency (B=1, S=256, Lower is Better)
     ax = axes[0, 0]
     g4_s_256 = find_entry(g4["stock_hf_1gpu"], 1, 256)["median_ms"]
     g4_o_256 = find_entry(g4["optimized_1gpu"], 1, 256)["median_ms"]
+    v6e_w8a8_256 = find_entry(v6e["tpu6e_1chip_pallas_w8a8_low_latency"], 1, 256)["median_ms"]
     v6e_i8_256 = find_entry(v6e["tpu6e_1chip_int8_megakernel"], 1, 256)["median_ms"]
     v6e_tp2_256 = find_entry(v6e["tpu6e_2chip_bf16_megakernel_tp2"], 1, 256)["median_ms"]
     v6e_tp4_256 = find_entry(v6e["tpu6e_4chip_bf16_megakernel_tp4_low_latency"], 1, 256)["median_ms"]
@@ -84,15 +94,16 @@ def chart_01_executive_headline(g4, v6e, v7x):
     labels_a = [
         "1x G4 GPU\n(Stock HF)",
         "1x G4 GPU\n(Best Opt)",
-        "1x TPU v6e\n(INT8 TP=1)",
+        "1x TPU v6e\n(INT8 W8A16)",
+        "1x TPU v6e\n(Pallas W8A8)",
         "2x TPU v6e\n(BF16 TP=2)",
         "1x TPU v7x\n(BF16 TP=2)",
         "4x TPU v6e\n(BF16 TP=4)",
         "4x TPU v7x\n(BF16 TP=8)",
     ]
-    vals_a = [g4_s_256, g4_o_256, v6e_i8_256, v6e_tp2_256, v7x_tp2_256, v6e_tp4_256, v7x_tp8_256]
+    vals_a = [g4_s_256, g4_o_256, v6e_i8_256, v6e_w8a8_256, v6e_tp2_256, v7x_tp2_256, v6e_tp4_256, v7x_tp8_256]
     cols_a = [
-        COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_int8"],
+        COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_int8"], COLORS["v6e_w8a8"],
         COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
     ]
     bars = ax.bar(labels_a, vals_a, color=cols_a, width=0.62, edgecolor="black", linewidth=0.5)
@@ -100,13 +111,13 @@ def chart_01_executive_headline(g4, v6e, v7x):
     ax.set_ylabel("Median Latency (ms)", fontsize=10)
     ax.set_ylim(0, max(vals_a) * 1.25)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
-    ax.tick_params(axis="x", labelsize=8.5)
+    ax.tick_params(axis="x", labelsize=8.0)
     for b, v in zip(bars, vals_a):
         speedup = g4_o_256 / v
         ax.text(
             b.get_x() + b.get_width() / 2, v + max(vals_a) * 0.02,
             f"{v:.1f} ms\n({speedup:.2f}x vs G4)",
-            ha="center", va="bottom", fontsize=7.4, fontweight="bold"
+            ha="center", va="bottom", fontsize=6.9, fontweight="bold"
         )
 
     # Panel B: Peak Single-Unit / Low-Chip Throughput (tokens/sec, Higher is Better)
@@ -120,14 +131,14 @@ def chart_01_executive_headline(g4, v6e, v7x):
     labels_b = [
         "1x G4 GPU\n(Stock HF)",
         "1x G4 GPU\n(Best Opt)",
-        "1x TPU v6e\n(INT8 TP=1)",
-        "2x TPU v6e\n(BF16 TP=2)",
-        "1x TPU v7x\n(BF16 TP=2)",
+        "1x TPU v6e\n(TorchTPU INT8)",
+        "2x TPU v6e\n(TorchTPU BF16)",
+        "1x TPU v7x\n(TorchTPU BF16)",
     ]
     vals_b = [g4_s_pk, g4_o_pk, v6e_i8_pk, v6e_tp2_pk, v7x_tp2_pk]
     cols_b = [COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_int8"], COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"]]
     bars = ax.bar(labels_b, [v / 1000.0 for v in vals_b], color=cols_b, width=0.55, edgecolor="black", linewidth=0.5)
-    ax.set_title("B. Sustained Throughput: Single-Unit & 2-Chip Configs — Higher is Better", fontsize=11.5, fontweight="bold")
+    ax.set_title("B. Sustained Throughput: Single-Chip & 2-Chip Configs — Higher is Better", fontsize=11.5, fontweight="bold")
     ax.set_ylabel("Throughput (Thousands of Amino Acid Tokens / sec)", fontsize=10)
     ax.set_ylim(0, (max(vals_b) / 1000.0) * 1.25)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
@@ -183,7 +194,7 @@ def chart_01_executive_headline(g4, v6e, v7x):
         "1x G4 GPU\n(Stock Baseline)",
         "1x G4 GPU\n(Best Optimized)",
         "2x TPU v6e\n(Full BF16 TP=2)",
-        "1x TPU v6e\n(INT8 Weight-Only)",
+        "1x TPU v6e\n(INT8 + Pallas)",
         "1x TPU v7x\n(Full BF16 TP=2)",
     ]
     pp_vals = [
@@ -216,16 +227,16 @@ def chart_01_executive_headline(g4, v6e, v7x):
 
 def chart_02_single_protein_latency(g4, v6e, v7x):
     seq_lens = [256, 512, 1024, 2048]
-    fig, ax = plt.subplots(figsize=(12.5, 6.8), dpi=300)
+    fig, ax = plt.subplots(figsize=(12.8, 6.8), dpi=300)
 
     series = [
         ("1x G4 GPU (Stock HF PyTorch)", g4["stock_hf_1gpu"], COLORS["g4_stock"]),
         ("1x G4 GPU (Best-Optimized: Compiled + TopK=2 + SDPA)", g4["optimized_1gpu"], COLORS["g4_opt"]),
-        ("1x TPU v6e Chip (INT8 Weight-Only Bio-Megakernel, TP=1)", v6e["tpu6e_1chip_int8_megakernel"], COLORS["v6e_int8"]),
-        ("2x TPU v6e Chips (Full BF16 Bio-Megakernel, TP=2)", v6e["tpu6e_2chip_bf16_megakernel_tp2"], COLORS["v6e_bf16_tp2"]),
-        ("1x TPU v7x Chip (Full BF16 Bio-Megakernel, On-Die TP=2)", v7x["tpu7x_1chip_megakernel_tp2"], COLORS["v7x_tp2"]),
-        ("4x TPU v6e Chips (Full BF16 Ultra-Low-Latency, TP=4)", v6e["tpu6e_4chip_bf16_megakernel_tp4_low_latency"], COLORS["v6e_bf16_tp4"]),
-        ("4x TPU v7x Chips (Full BF16 Ultra-Low-Latency, TP=8)", v7x["tpu7x_4chip_megakernel_tp8_low_latency"], COLORS["v7x_tp8"]),
+        ("1x TPU v6e Chip (TorchTPU INT8 + Pallas VMEM, TP=1)", v6e["tpu6e_1chip_int8_megakernel"], COLORS["v6e_int8"]),
+        ("2x TPU v6e Chips (TorchTPU Full BF16, TP=2)", v6e["tpu6e_2chip_bf16_megakernel_tp2"], COLORS["v6e_bf16_tp2"]),
+        ("1x TPU v7x Chip (TorchTPU Full BF16, On-Die TP=2)", v7x["tpu7x_1chip_megakernel_tp2"], COLORS["v7x_tp2"]),
+        ("4x TPU v6e Chips (TorchTPU Full BF16 Low-Latency, TP=4)", v6e["tpu6e_4chip_bf16_megakernel_tp4_low_latency"], COLORS["v6e_bf16_tp4"]),
+        ("4x TPU v7x Chips (TorchTPU Full BF16 Low-Latency, TP=8)", v7x["tpu7x_4chip_megakernel_tp8_low_latency"], COLORS["v7x_tp8"]),
     ]
 
     x = np.arange(len(seq_lens))
@@ -247,8 +258,8 @@ def chart_02_single_protein_latency(g4, v6e, v7x):
     ax.set_ylabel("Median Forward Latency per Protein (ms) — Lower is Better", fontsize=11, fontweight="bold")
     ax.set_title(
         "GB.Protein-16B Single-Sequence Interactive Latency (Batch Size = 1)\n"
-        "Across Protein Sequence Lengths (256 to 2,048 Amino Acids)",
-        fontsize=13.5, fontweight="bold"
+        "TorchTPU (PyTorch-on-TPU + Pallas VMEM Bio-Megakernel) vs. NVIDIA G4 Across Sequence Lengths",
+        fontsize=13.2, fontweight="bold"
     )
     ax.set_ylim(0, max_y * 1.24)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
@@ -269,9 +280,9 @@ def chart_03_per_accelerator_throughput(g4, v6e, v7x):
     series = [
         ("1x G4 GPU (Stock HF)", g4["stock_hf_1gpu"], COLORS["g4_stock"]),
         ("1x G4 GPU (Best-Optimized)", g4["optimized_1gpu"], COLORS["g4_opt"]),
-        ("1x TPU v6e Chip (INT8 TP=1, 32GB)", v6e["tpu6e_1chip_int8_megakernel"], COLORS["v6e_int8"]),
-        ("2x TPU v6e Chips (BF16 TP=2, 64GB)", v6e["tpu6e_2chip_bf16_megakernel_tp2"], COLORS["v6e_bf16_tp2"]),
-        ("1x TPU v7x Chip (BF16 TP=2, 192GB)", v7x["tpu7x_1chip_megakernel_tp2"], COLORS["v7x_tp2"]),
+        ("1x TPU v6e Chip (TorchTPU INT8 + Pallas, 32GB)", v6e["tpu6e_1chip_int8_megakernel"], COLORS["v6e_int8"]),
+        ("2x TPU v6e Chips (TorchTPU BF16 TP=2, 64GB)", v6e["tpu6e_2chip_bf16_megakernel_tp2"], COLORS["v6e_bf16_tp2"]),
+        ("1x TPU v7x Chip (TorchTPU BF16 TP=2, 192GB)", v7x["tpu7x_1chip_megakernel_tp2"], COLORS["v7x_tp2"]),
     ]
 
     x = np.arange(len(shapes))
@@ -295,8 +306,8 @@ def chart_03_per_accelerator_throughput(g4, v6e, v7x):
     ax.set_ylabel("Throughput (Thousands of Tokens / sec) — Higher is Better", fontsize=11, fontweight="bold")
     ax.set_title(
         "GB.Protein-16B Throughput Scaling Across Batch Sizes & Sequence Lengths\n"
-        "1x G4 GPU vs. TPU v6e (1-Chip INT8 & 2-Chip BF16) vs. 1x TPU v7x Chip",
-        fontsize=13.5, fontweight="bold"
+        "1x G4 GPU vs. TorchTPU v6e (1-Chip INT8 & 2-Chip BF16) vs. 1x TorchTPU v7x Chip",
+        fontsize=13.2, fontweight="bold"
     )
     ax.set_ylim(0, max(find_max_tps(v7x["tpu7x_1chip_megakernel_tp2"]), find_max_tps(v6e["tpu6e_2chip_bf16_megakernel_tp2"])) / 1000.0 * 1.24)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
@@ -315,9 +326,9 @@ def chart_04_4chip_cluster_throughput(g4, v6e, v7x):
 
     series = [
         ("4x G4 GPU (Best-Optimized DP=4)", g4["optimized_4gpu_dp4"], COLORS["g4_opt"]),
-        ("4x TPU v6e Chips (Full BF16 DP=2 x TP=2)", v6e["tpu6e_4chip_bf16_megakernel_dp2_tp2_high_throughput"], COLORS["v6e_bf16_tp2"]),
-        ("4x TPU v6e Chips (INT8 Weight-Only DP=4)", v6e["tpu6e_4chip_int8_megakernel_dp4_high_throughput"], COLORS["v6e_int8"]),
-        ("4x TPU v7x Chips (Full BF16 DP=4 x On-Die TP=2)", v7x["tpu7x_4chip_megakernel_dp4_tp2_high_throughput"], COLORS["v7x_tp2"]),
+        ("4x TPU v6e Chips (TorchTPU BF16 DP=2 x TP=2)", v6e["tpu6e_4chip_bf16_megakernel_dp2_tp2_high_throughput"], COLORS["v6e_bf16_tp2"]),
+        ("4x TPU v6e Chips (TorchTPU INT8 + Pallas DP=4)", v6e["tpu6e_4chip_int8_megakernel_dp4_high_throughput"], COLORS["v6e_int8"]),
+        ("4x TPU v7x Chips (TorchTPU BF16 DP=4 x On-Die TP=2)", v7x["tpu7x_4chip_megakernel_dp4_tp2_high_throughput"], COLORS["v7x_tp2"]),
     ]
 
     x = np.arange(len(shapes))
@@ -340,7 +351,7 @@ def chart_04_4chip_cluster_throughput(g4, v6e, v7x):
     ax.set_xticklabels([f"TotalB={tb}\nS={s}\n({tb*s:,} tok)" for tb, s in shapes], fontsize=9.5, fontweight="bold")
     ax.set_ylabel("4-Chip Cluster Throughput (Thousands of Tokens / sec)", fontsize=11, fontweight="bold")
     ax.set_title(
-        "4-Chip Scale-Out Proteome Throughput: 4x TPU v7x & 4x TPU v6e vs. 4x NVIDIA G4\n"
+        "4-Chip Scale-Out Proteome Throughput: 4x TorchTPU v7x & 4x TorchTPU v6e vs. 4x NVIDIA G4\n"
         "High-Throughput Batch Screening & Embedding Extraction",
         fontsize=13.5, fontweight="bold"
     )
@@ -371,18 +382,16 @@ def chart_05_price_performance_percentage(g4, v6e, v7x):
     v6e_2c_bf16_tps = find_max_tps(v6e["tpu6e_2chip_bf16_megakernel_tp2"])
     v7x_1c_bf16_tps = find_max_tps(v7x["tpu7x_1chip_megakernel_tp2"])
 
-    # Panel A: Price/Performance Index (%) across 3 relative cost-ratio models (Normalized to Stock G4 = 100%)
     ax = axes[0]
     configs = [
         "1x G4 GPU\n(Stock Baseline)",
         "1x G4 GPU\n(Best Optimized)",
         "2x TPU v6e Chips\n(Full BF16 TP=2)",
-        "1x TPU v6e Chip\n(INT8 Weight-Only)",
+        "1x TPU v6e Chip\n(INT8 + Pallas)",
         "1x TPU v7x Chip\n(Full BF16 TP=2)",
     ]
     unit_tps = [g4_s_tps, g4_o_tps, v6e_2c_bf16_tps, v6e_1c_int8_tps, v7x_1c_bf16_tps]
 
-    # Relative cost weights for the deployment unit (normalized to 1x G4 = 1.0)
     w_equal_unit = [1.0, 1.0, 1.0, 1.0, 1.0]
     w_standard = [1.0, 1.0, 1.30, 0.65, 1.15]
     w_conservative = [1.0, 1.0, 1.50, 0.75, 1.25]
@@ -415,11 +424,10 @@ def chart_05_price_performance_percentage(g4, v6e, v7x):
     ax.grid(axis="y", linestyle="--", alpha=0.4)
     ax.legend(loc="upper left", fontsize=8.3, framealpha=0.95)
 
-    # Panel B: Direct Head-to-Head % Advantage over Best-Optimized G4 (= 100%)
     ax = axes[1]
     workloads = [
         "1x G4 GPU\n(Best-Opt Baseline)",
-        "1x TPU v6e\n(INT8 Weight-Only)",
+        "1x TPU v6e\n(INT8 + Pallas)",
         "2x TPU v6e\n(Full BF16 TP=2)",
         "1x TPU v7x\n(Full BF16 TP=2)",
         "4x TPU v7x vs 4x G4\n(4-Chip Cluster)",
@@ -470,7 +478,6 @@ def chart_06_tflops_and_pallas_bandwidth(g4, v6e, v7x):
         fontsize=14, fontweight="bold", y=0.98
     )
 
-    # Panel A: Active TFLOPS Comparison
     ax = axes[0]
     labels = [
         "1x G4 GPU\n(Stock HF)",
@@ -511,7 +518,6 @@ def chart_06_tflops_and_pallas_bandwidth(g4, v6e, v7x):
     ax.tick_params(axis="x", labelsize=8.0, rotation=20)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
 
-    # Panel B: Pallas VMEM Fused Bias-SwiGLU Kernel Effective Bandwidth (GB/s)
     ax = axes[1]
     v7x_pallas = v7x["pallas_vmem_microbenchmark"]
     v6e_pallas = v6e["pallas_vmem_microbenchmark"]
@@ -549,7 +555,6 @@ def chart_07_parity_and_bio_validation(g4, v6e, v7x):
         fontsize=13.5, fontweight="bold", y=0.98
     )
 
-    # Panel A: Numerical Parity (Cosine Similarity & Token Agreement)
     ax = axes[0]
     metrics = ["Logit Cosine\nSimilarity", "Hidden State\nCosine Similarity", "Top-1 Amino Acid\nAgreement"]
     g4_p = g4["parity"]
@@ -559,9 +564,9 @@ def chart_07_parity_and_bio_validation(g4, v6e, v7x):
 
     series = [
         ("G4 Best-Opt vs. Stock HF", [g4_p["cosine_sim_logits"], g4_p["cosine_sim_hidden"], g4_p["top1_token_agreement"]], COLORS["g4_opt"]),
-        ("TPU v7x BF16 vs. Stock HF", [v7x_p["cosine_sim_logits"], v7x_p["cosine_sim_hidden"], v7x_p["top1_token_agreement"]], COLORS["v7x_tp2"]),
-        ("TPU v6e BF16 (TP=4 vs TP=2)", [v6e_tp4_p["cosine_sim_logits"], v6e_tp4_p["cosine_sim_hidden"], v6e_tp4_p["top1_token_agreement"]], COLORS["v6e_bf16_tp2"]),
-        ("TPU v6e INT8 vs. BF16 Ref", [v6e_int8_p["cosine_sim_logits"], v6e_int8_p["cosine_sim_hidden"], v6e_int8_p["top1_token_agreement"]], COLORS["v6e_int8"]),
+        ("TorchTPU v7x BF16 vs. Stock HF", [v7x_p["cosine_sim_logits"], v7x_p["cosine_sim_hidden"], v7x_p["top1_token_agreement"]], COLORS["v7x_tp2"]),
+        ("TorchTPU v6e BF16 (TP=4 vs TP=2)", [v6e_tp4_p["cosine_sim_logits"], v6e_tp4_p["cosine_sim_hidden"], v6e_tp4_p["top1_token_agreement"]], COLORS["v6e_bf16_tp2"]),
+        ("TorchTPU v6e INT8 vs. BF16 Ref", [v6e_int8_p["cosine_sim_logits"], v6e_int8_p["cosine_sim_hidden"], v6e_int8_p["top1_token_agreement"]], COLORS["v6e_int8"]),
     ]
 
     x = np.arange(len(metrics))
@@ -581,10 +586,8 @@ def chart_07_parity_and_bio_validation(g4, v6e, v7x):
     ax.grid(axis="y", linestyle="--", alpha=0.4)
     ax.legend(loc="lower right", fontsize=8.5, framealpha=0.95)
 
-    # Panel B: Real Biological Complex (SARS-CoV-2 RBD + Human ACE2, 822 aa) & GFP (238 aa) Throughput (proteins/sec)
     ax = axes[1]
     bio = v6e["biological_validation"]
-    # Compare proteins/sec on S=1024 (which holds the 822-token SARS-CoV-2 RBD-ACE2 multi-chain complex) at B=8
     g4_s_complex = find_entry(g4["stock_hf_1gpu"], 8, 1024)["seqs_per_sec"]
     g4_o_complex = find_entry(g4["optimized_1gpu"], 8, 1024)["seqs_per_sec"]
     v6e_i8_complex = find_entry(v6e["tpu6e_1chip_int8_megakernel"], 8, 1024)["seqs_per_sec"]
@@ -631,15 +634,14 @@ def chart_07_parity_and_bio_validation(g4, v6e, v7x):
 def chart_08_optimization_waterfall(g4, v6e, v7x):
     fig, axes = plt.subplots(1, 2, figsize=(15.5, 6.4), dpi=300)
     fig.suptitle(
-        "Step-by-Step Engineering Progression: From Stock PyTorch on G4 to Custom TPU Bio-Megakernels",
+        "Step-by-Step Engineering Progression: From Stock PyTorch on G4 to TorchTPU + Pallas VMEM Bio-Megakernels",
         fontsize=13.5, fontweight="bold", y=0.98
     )
 
-    # Panel A: Single-Protein Speedup Waterfall (B=1, S=256, sequences/sec)
     ax = axes[0]
     s_g4 = find_entry(g4["stock_hf_1gpu"], 1, 256)
     o_g4 = find_entry(g4["optimized_1gpu"], 1, 256)
-    v6e_i8 = find_entry(v6e["tpu6e_1chip_int8_megakernel"], 1, 256)
+    v6e_w8a8 = find_entry(v6e["tpu6e_1chip_pallas_w8a8_low_latency"], 1, 256)
     v6e_tp2 = find_entry(v6e["tpu6e_2chip_bf16_megakernel_tp2"], 1, 256)
     v7x_tp2 = find_entry(v7x["tpu7x_1chip_megakernel_tp2"], 1, 256)
     v6e_tp4 = find_entry(v6e["tpu6e_4chip_bf16_megakernel_tp4_low_latency"], 1, 256)
@@ -648,16 +650,16 @@ def chart_08_optimization_waterfall(g4, v6e, v7x):
     steps_a = [
         "1. Stock HF\n(1x G4 GPU\nEager Loops)",
         "2. Best-Opt G4\n(1x G4 GPU\nTopK=2+SDPA)",
-        "3. 1x TPU v6e\n(INT8 TP=1\n32GB Chip)",
-        "4. 2x TPU v6e\n(BF16 TP=2\nPallas VMEM)",
-        "5. 1x TPU v7x\n(BF16 TP=2\n7.37 TB/s HBM)",
-        "6. 4x TPU v6e\n(BF16 TP=4\n9 Heads/Chip)",
-        "7. 4x TPU v7x\n(BF16 TP=8\n8 TensorCores)",
+        "3. 1x TPU v6e\n(TorchTPU W8A8\n32GB Chip)",
+        "4. 2x TPU v6e\n(TorchTPU BF16\nPallas VMEM)",
+        "5. 1x TPU v7x\n(TorchTPU BF16\n7.37 TB/s HBM)",
+        "6. 4x TPU v6e\n(TorchTPU TP=4\n9 Heads/Chip)",
+        "7. 4x TPU v7x\n(TorchTPU TP=8\n8 TensorCores)",
     ]
-    sps_a = [x["seqs_per_sec"] for x in [s_g4, o_g4, v6e_i8, v6e_tp2, v7x_tp2, v6e_tp4, v7x_tp8]]
-    ms_a = [x["median_ms"] for x in [s_g4, o_g4, v6e_i8, v6e_tp2, v7x_tp2, v6e_tp4, v7x_tp8]]
+    sps_a = [x["seqs_per_sec"] for x in [s_g4, o_g4, v6e_w8a8, v6e_tp2, v7x_tp2, v6e_tp4, v7x_tp8]]
+    ms_a = [x["median_ms"] for x in [s_g4, o_g4, v6e_w8a8, v6e_tp2, v7x_tp2, v6e_tp4, v7x_tp8]]
     cols_a = [
-        COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_int8"],
+        COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_w8a8"],
         COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
     ]
     bars = ax.bar(steps_a, sps_a, color=cols_a, width=0.58, edgecolor="black", linewidth=0.5)
@@ -674,7 +676,6 @@ def chart_08_optimization_waterfall(g4, v6e, v7x):
     ax.tick_params(axis="x", labelsize=7.8)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
 
-    # Panel B: High-Throughput Batch Screening Speedup Waterfall (B=32, S=512, proteins/sec)
     ax = axes[1]
     s_g4_b32 = find_entry(g4["stock_hf_1gpu"], 32, 512)
     o_g4_b32 = find_entry(g4["optimized_1gpu"], 32, 512)
@@ -718,8 +719,157 @@ def chart_08_optimization_waterfall(g4, v6e, v7x):
     plt.close(fig)
 
 
+def chart_09_cross_chip_intelligence(intel):
+    if not intel:
+        print("Skipping chart_09_cross_chip_intelligence (no cross_chip_intelligence_summary.json yet)")
+        return
+
+    fig, axes = plt.subplots(2, 2, figsize=(17.6, 11.8), dpi=300)
+    fig.suptitle(
+        "GB.Protein-16B Cross-Chip Model Intelligence & Biological Accuracy Audit (4-Task Suite)\n"
+        "NVIDIA G4 (FP32 Gold Standard & BF16) vs. TorchTPU v7x (Ironwood) vs. TorchTPU v6e (Trillium)",
+        fontsize=14.5, fontweight="bold", y=0.98
+    )
+
+    ordered_keys = [
+        ("G4_Stock_FP32_Reference", "1x G4 GPU\n(FP32 Ref)", COLORS["g4_fp32"]),
+        ("G4_Best_Optimized_BF16", "1x G4 GPU\n(Opt BF16)", COLORS["g4_opt"]),
+        ("TorchTPU_v7x_1Chip_BF16_TP2", "1x TPU v7x\n(BF16 TP=2)", COLORS["v7x_tp2"]),
+        ("TorchTPU_v7x_4Chip_BF16_TP8", "4x TPU v7x\n(BF16 TP=8)", COLORS["v7x_tp8"]),
+        ("TorchTPU_v6e_2Chip_BF16_TP2", "2x TPU v6e\n(BF16 TP=2)", COLORS["v6e_bf16_tp2"]),
+        ("TorchTPU_v6e_4Chip_BF16_TP4", "4x TPU v6e\n(BF16 TP=4)", COLORS["v6e_bf16_tp4"]),
+        ("TorchTPU_v6e_1Chip_INT8_W8A16", "1x TPU v6e\n(INT8 W8A16)", COLORS["v6e_int8"]),
+        ("TorchTPU_v6e_1Chip_Pallas_W8A8", "1x TPU v6e\n(Pallas W8A8)", COLORS["v6e_w8a8"]),
+    ]
+    present = [(k, lbl, col) for k, lbl, col in ordered_keys if k in intel]
+
+    # Panel A: Task 1 — Masked Amino Acid Recovery (Top-1, Top-3, Top-5 Accuracy %)
+    ax = axes[0, 0]
+    x = np.arange(len(present))
+    w = 0.25
+    top1 = [intel[k]["mlm_summary"]["overall_top1_accuracy"] * 100.0 for k, _, _ in present]
+    top3 = [intel[k]["mlm_summary"]["overall_top3_accuracy"] * 100.0 for k, _, _ in present]
+    top5 = [intel[k]["mlm_summary"]["overall_top5_accuracy"] * 100.0 for k, _, _ in present]
+    ppls = [intel[k]["mlm_summary"]["overall_perplexity"] for k, _, _ in present]
+
+    b1 = ax.bar(x - w, top1, width=w, label="Top-1 Masked Residue Recovery (%)", color="#0969DA", edgecolor="black", linewidth=0.45)
+    b2 = ax.bar(x, top3, width=w, label="Top-3 Masked Residue Recovery (%)", color="#2DA44E", edgecolor="black", linewidth=0.45)
+    b3 = ax.bar(x + w, top5, width=w, label="Top-5 Masked Residue Recovery (%)", color="#8250DF", edgecolor="black", linewidth=0.45)
+
+    for b, v, ppl in zip(b1, top1, ppls):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.5, f"{v:.1f}%\n(PPL {ppl:.2f})", ha="center", va="bottom", fontsize=6.3, fontweight="bold")
+    for b, v in zip(b2, top3):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.5, f"{v:.1f}%", ha="center", va="bottom", fontsize=6.5, fontweight="bold")
+    for b, v in zip(b3, top5):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.5, f"{v:.1f}%", ha="center", va="bottom", fontsize=6.5, fontweight="bold")
+
+    ax.set_xticks(x)
+    ax.set_xticklabels([lbl for _, lbl, _ in present], fontsize=7.6, fontweight="bold")
+    ax.set_ylim(68.0, 100.0)
+    ax.set_ylabel("Masked Amino Acid Recovery Accuracy (%)", fontsize=10, fontweight="bold")
+    ax.set_title("A. Task 1: Masked Residue Recovery (232 Masked Positions Across 6 UniProt Proteins)", fontsize=11.0, fontweight="bold")
+    ax.grid(axis="y", linestyle="--", alpha=0.4)
+    ax.legend(loc="lower right", fontsize=8.2, framealpha=0.95)
+
+    # Panel B: Task 2 — ClinVar Pathogenic vs. Benign Variant Classification & DMS Correlation
+    ax = axes[0, 1]
+    auroc_pct = [intel[k]["clinvar_dms_summary"]["auroc_pathogenic_vs_benign"] * 100.0 for k, _, _ in present]
+    acc_pct = [intel[k]["clinvar_dms_summary"]["classification_accuracy"] * 100.0 for k, _, _ in present]
+    dms_r_pct = [intel[k]["vs_G4_FP32_Reference"]["dms_pearson_r"] * 100.0 for k, _, _ in present]
+
+    b1 = ax.bar(x - w, acc_pct, width=w, label="ClinVar Variant Classification Accuracy (%)", color="#2DA44E", edgecolor="black", linewidth=0.45)
+    b2 = ax.bar(x, auroc_pct, width=w, label="ClinVar Pathogenic vs. Benign AUROC (%)", color="#0969DA", edgecolor="black", linewidth=0.45)
+    b3 = ax.bar(x + w, dms_r_pct, width=w, label="DMS Log-Likelihood Pearson r vs. FP32 (%)", color="#8250DF", edgecolor="black", linewidth=0.45)
+
+    for b, v in zip(b1, acc_pct):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.5, f"{v:.1f}%", ha="center", va="bottom", fontsize=6.6, fontweight="bold")
+    for b, v in zip(b2, auroc_pct):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.5, f"{v:.1f}%", ha="center", va="bottom", fontsize=6.6, fontweight="bold")
+    for b, v in zip(b3, dms_r_pct):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.5, f"{v:.2f}%", ha="center", va="bottom", fontsize=6.5, fontweight="bold")
+
+    ax.set_xticks(x)
+    ax.set_xticklabels([lbl for _, lbl, _ in present], fontsize=7.6, fontweight="bold")
+    ax.set_ylim(65.0, 105.0)
+    ax.set_ylabel("Accuracy / AUROC / Correlation (%)", fontsize=10, fontweight="bold")
+    ax.set_title("B. Task 2: ClinVar Pathogenic vs. Benign Zero-Shot DMS (24 Clinical Missense Variants)", fontsize=11.0, fontweight="bold")
+    ax.grid(axis="y", linestyle="--", alpha=0.4)
+    ax.legend(loc="lower right", fontsize=8.0, framealpha=0.95)
+
+    # Panel C: Root-Cause Diagnostic Ablation (Why Naive TPU Ports Drop Accuracy vs. Our Fix)
+    ax = axes[1, 0]
+    naive_key = "TorchTPU_v7x_Naive_Port_Unmasked_BF16Router"
+    ablation_items = []
+    if naive_key in intel:
+        ablation_items.append((naive_key, "Naive TPU Port\n(Unmasked Pad +\nBF16 Router)", COLORS["naive_port"]))
+    ablation_items.extend([
+        ("G4_Stock_FP32_Reference", "1x G4 GPU\n(IEEE FP32\nGold Ref)", COLORS["g4_fp32"]),
+        ("G4_Best_Optimized_BF16", "1x G4 GPU\n(Opt BF16)", COLORS["g4_opt"]),
+        ("TorchTPU_v7x_1Chip_BF16_TP2", "1x TPU v7x\n(TorchTPU Fixed:\nMask+FP32 Rtr)", COLORS["v7x_tp2"]),
+        ("TorchTPU_v6e_2Chip_BF16_TP2", "2x TPU v6e\n(TorchTPU Fixed:\nMask+FP32 Rtr)", COLORS["v6e_bf16_tp2"]),
+        ("TorchTPU_v6e_1Chip_INT8_W8A16", "1x TPU v6e\n(TorchTPU Fixed:\n1-Chip INT8)", COLORS["v6e_int8"]),
+    ])
+    ablation_items = [(k, l, c) for k, l, c in ablation_items if k in intel]
+    xa = np.arange(len(ablation_items))
+    wa = 0.26
+    ab_top1 = [intel[k]["mlm_summary"]["overall_top1_accuracy"] * 100.0 for k, _, _ in ablation_items]
+    ab_clin = [intel[k]["clinvar_dms_summary"]["classification_accuracy"] * 100.0 for k, _, _ in ablation_items]
+    ab_dms_r = [intel[k]["vs_G4_FP32_Reference"]["dms_pearson_r"] * 100.0 for k, _, _ in ablation_items]
+
+    b1 = ax.bar(xa - wa, ab_top1, width=wa, label="MLM Top-1 Accuracy (%)", color="#0969DA", edgecolor="black", linewidth=0.45)
+    b2 = ax.bar(xa, ab_clin, width=wa, label="ClinVar Variant Accuracy (%)", color="#2DA44E", edgecolor="black", linewidth=0.45)
+    b3 = ax.bar(xa + wa, ab_dms_r, width=wa, label="DMS Log-Likelihood Pearson r vs FP32 (%)", color="#8250DF", edgecolor="black", linewidth=0.45)
+
+    for b, v in zip(b1, ab_top1):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.8, f"{v:.1f}%", ha="center", va="bottom", fontsize=6.8, fontweight="bold")
+    for b, v in zip(b2, ab_clin):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.8, f"{v:.1f}%", ha="center", va="bottom", fontsize=6.8, fontweight="bold")
+    for b, v in zip(b3, ab_dms_r):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.8, f"{v:.2f}%", ha="center", va="bottom", fontsize=6.6, fontweight="bold")
+
+    ax.set_xticks(xa)
+    ax.set_xticklabels([l for _, l, _ in ablation_items], fontsize=7.6, fontweight="bold")
+    ax.set_ylim(25.0, 110.0)
+    ax.set_ylabel("Accuracy / Correlation (%)", fontsize=10, fontweight="bold")
+    ax.set_title("C. Root-Cause Ablation: Naive Unmasked TPU Port vs. Properly Masked TorchTPU Engine", fontsize=11.0, fontweight="bold")
+    ax.grid(axis="y", linestyle="--", alpha=0.4)
+    ax.legend(loc="lower right", fontsize=8.0, framealpha=0.95)
+
+    # Panel D: Tasks 3 & 4 — 30-Protein Homology Space & Logit Cosine Fidelity vs. FP32 Reference
+    ax = axes[1, 1]
+    logit_cos = [intel[k]["vs_G4_FP32_Reference"]["mean_logit_cosine_sim"] * 100.0 for k, _, _ in present]
+    embed_cos = [intel[k]["vs_G4_FP32_Reference"]["mean_embedding_cosine_sim"] * 100.0 for k, _, _ in present]
+    homol_r = [intel[k]["vs_G4_FP32_Reference"]["homology_matrix_pearson_r"] * 100.0 for k, _, _ in present]
+    recall1 = [intel[k]["homology_summary"]["nearest_neighbor_family_recall_at_1"] * 100.0 for k, _, _ in present]
+
+    w4 = 0.20
+    b1 = ax.bar(x - 1.5 * w4, logit_cos, width=w4, label="Logit Cosine Sim vs FP32 (%)", color="#0969DA", edgecolor="black", linewidth=0.45)
+    b2 = ax.bar(x - 0.5 * w4, embed_cos, width=w4, label="Embedding Cosine Sim vs FP32 (%)", color="#2DA44E", edgecolor="black", linewidth=0.45)
+    b3 = ax.bar(x + 0.5 * w4, homol_r, width=w4, label="Pairwise Homology Matrix r (%)", color="#8250DF", edgecolor="black", linewidth=0.45)
+    b4 = ax.bar(x + 1.5 * w4, recall1, width=w4, label="Protein Family Recall@1 (%)", color="#00A3BF", edgecolor="black", linewidth=0.45)
+
+    for b, v in zip(b1, logit_cos):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.04, f"{v:.3f}%", ha="center", va="bottom", fontsize=6.0, fontweight="bold", rotation=90)
+    for b, v in zip(b2, embed_cos):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.04, f"{v:.3f}%", ha="center", va="bottom", fontsize=6.0, fontweight="bold", rotation=90)
+    for b, v in zip(b3, homol_r):
+        ax.text(b.get_x() + b.get_width() / 2, v + 0.04, f"{v:.3f}%", ha="center", va="bottom", fontsize=6.0, fontweight="bold", rotation=90)
+
+    ax.set_xticks(x)
+    ax.set_xticklabels([lbl for _, lbl, _ in present], fontsize=7.6, fontweight="bold")
+    ax.set_ylim(99.5, 100.35)
+    ax.set_ylabel("Fidelity vs. IEEE FP32 Gold Reference (%)", fontsize=10, fontweight="bold")
+    ax.set_title("D. Tasks 3 & 4: 30-Protein Embedding Space, Homology Matrix & Logit Fidelity vs. FP32", fontsize=11.0, fontweight="bold")
+    ax.grid(axis="y", linestyle="--", alpha=0.4)
+    ax.legend(loc="lower right", fontsize=8.0, framealpha=0.95)
+
+    plt.tight_layout(rect=[0, 0, 1, 0.94])
+    plt.savefig(os.path.join(CHARTS_DIR, "09_cross_chip_model_intelligence_benchmark.png"), dpi=300)
+    plt.close(fig)
+
+
 def main():
-    g4, v6e, v7x = load_results()
+    g4, v6e, v7x, intel = load_results()
     chart_01_executive_headline(g4, v6e, v7x)
     chart_02_single_protein_latency(g4, v6e, v7x)
     chart_03_per_accelerator_throughput(g4, v6e, v7x)
@@ -728,7 +878,8 @@ def main():
     chart_06_tflops_and_pallas_bandwidth(g4, v6e, v7x)
     chart_07_parity_and_bio_validation(g4, v6e, v7x)
     chart_08_optimization_waterfall(g4, v6e, v7x)
-    print("Successfully generated all 8 charts in:", CHARTS_DIR)
+    chart_09_cross_chip_intelligence(intel)
+    print("Successfully generated all 9 charts in:", CHARTS_DIR)
 
 
 if __name__ == "__main__":

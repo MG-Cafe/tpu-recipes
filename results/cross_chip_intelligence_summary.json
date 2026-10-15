@@ -1,0 +1,442 @@
+{
+  "G4_Stock_FP32_Reference": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.64925,
+      "overall_perplexity": 1.9141,
+      "overall_top1_accuracy": 0.80603,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.68659
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.1802,
+      "mean_benign_delta_log_prob": -3.1942,
+      "mean_pathogenic_delta_log_prob": -7.3744
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 1.0,
+      "dms_spearman_rho": 1.0,
+      "dms_mae_log_prob": 0.0,
+      "mlm_perplexity_delta": 0.0,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 1.0,
+      "mean_embedding_cosine_sim": 1.0,
+      "homology_matrix_pearson_r": 1.0,
+      "kl_divergence_nats": 0.0,
+      "js_divergence_nats": 0.0
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.999911,
+      "dms_spearman_rho": 0.996522,
+      "dms_mae_log_prob": 0.04984,
+      "mlm_perplexity_delta": -0.0066,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "G4_Stock_BF16": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65186,
+      "overall_perplexity": 1.9191,
+      "overall_top1_accuracy": 0.80603,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.68899
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.1246,
+      "mean_benign_delta_log_prob": -3.2104,
+      "mean_pathogenic_delta_log_prob": -7.335
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.99995,
+      "dms_spearman_rho": 0.99913,
+      "dms_mae_log_prob": 0.03852,
+      "mlm_perplexity_delta": 0.005,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999959,
+      "mean_embedding_cosine_sim": 0.999924,
+      "homology_matrix_pearson_r": 0.999939,
+      "kl_divergence_nats": 0.000246,
+      "js_divergence_nats": 6.1e-05
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.999927,
+      "dms_spearman_rho": 0.997391,
+      "dms_mae_log_prob": 0.04248,
+      "mlm_perplexity_delta": -0.0016,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "G4_Best_Optimized_BF16": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65269,
+      "overall_perplexity": 1.9207,
+      "overall_top1_accuracy": 0.80603,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.68976
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.0986,
+      "mean_benign_delta_log_prob": -3.2271,
+      "mean_pathogenic_delta_log_prob": -7.3257
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.999911,
+      "dms_spearman_rho": 0.996522,
+      "dms_mae_log_prob": 0.04984,
+      "mlm_perplexity_delta": 0.0066,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999971,
+      "mean_embedding_cosine_sim": 0.99992,
+      "homology_matrix_pearson_r": 0.999937,
+      "kl_divergence_nats": 0.000166,
+      "js_divergence_nats": 4.1e-05
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 1.0,
+      "dms_spearman_rho": 1.0,
+      "dms_mae_log_prob": 0.0,
+      "mlm_perplexity_delta": 0.0,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "TorchTPU_v7x_Naive_Port_Unmasked_BF16Router": {
+    "mlm_summary": {
+      "overall_mean_nll": 2.16965,
+      "overall_perplexity": 8.7552,
+      "overall_top1_accuracy": 0.37069,
+      "overall_top3_accuracy": 0.51293,
+      "overall_top5_accuracy": 0.59914,
+      "overall_entropy_nats": 1.89002
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.61111,
+      "classification_accuracy": 0.66667,
+      "separation_gap_log_prob": 1.8737,
+      "mean_benign_delta_log_prob": -0.2064,
+      "mean_pathogenic_delta_log_prob": -2.0801
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.496404,
+      "dms_spearman_rho": 0.424348,
+      "dms_mae_log_prob": 4.38292,
+      "mlm_perplexity_delta": 6.8411,
+      "mlm_top1_acc_delta": -0.43534,
+      "mlm_top5_acc_delta": -0.31896,
+      "clinvar_auroc_delta": -0.13889,
+      "mean_logit_cosine_sim": 0.994933,
+      "mean_embedding_cosine_sim": 0.979238,
+      "homology_matrix_pearson_r": 0.817122,
+      "kl_divergence_nats": 0.040207,
+      "js_divergence_nats": 0.008813
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.495647,
+      "dms_spearman_rho": 0.438261,
+      "dms_mae_log_prob": 4.38776,
+      "mlm_perplexity_delta": 6.8345,
+      "mlm_top1_acc_delta": -0.43534,
+      "mlm_top5_acc_delta": -0.31896,
+      "clinvar_auroc_delta": -0.13889
+    }
+  },
+  "TorchTPU_v7x_1Chip_BF16_TP2": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65135,
+      "overall_perplexity": 1.9181,
+      "overall_top1_accuracy": 0.81034,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.68743
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.1558,
+      "mean_benign_delta_log_prob": -3.1847,
+      "mean_pathogenic_delta_log_prob": -7.3406
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.999941,
+      "dms_spearman_rho": 0.99913,
+      "dms_mae_log_prob": 0.04145,
+      "mlm_perplexity_delta": 0.004,
+      "mlm_top1_acc_delta": 0.00431,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999984,
+      "mean_embedding_cosine_sim": 0.999924,
+      "homology_matrix_pearson_r": 0.999937,
+      "kl_divergence_nats": 0.000215,
+      "js_divergence_nats": 5.4e-05
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.999893,
+      "dms_spearman_rho": 0.998261,
+      "dms_mae_log_prob": 0.05745,
+      "mlm_perplexity_delta": -0.0026,
+      "mlm_top1_acc_delta": 0.00431,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "TorchTPU_v7x_4Chip_BF16_TP8": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65099,
+      "overall_perplexity": 1.9174,
+      "overall_top1_accuracy": 0.80603,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.691
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.1536,
+      "mean_benign_delta_log_prob": -3.2013,
+      "mean_pathogenic_delta_log_prob": -7.3549
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.999965,
+      "dms_spearman_rho": 0.998261,
+      "dms_mae_log_prob": 0.03431,
+      "mlm_perplexity_delta": 0.0033,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999948,
+      "mean_embedding_cosine_sim": 0.999879,
+      "homology_matrix_pearson_r": 0.999958,
+      "kl_divergence_nats": 0.000328,
+      "js_divergence_nats": 8.2e-05
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.9999,
+      "dms_spearman_rho": 0.996522,
+      "dms_mae_log_prob": 0.04936,
+      "mlm_perplexity_delta": -0.0033,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "TorchTPU_v6e_2Chip_BF16_TP2": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65265,
+      "overall_perplexity": 1.9206,
+      "overall_top1_accuracy": 0.81034,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.69025
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.1541,
+      "mean_benign_delta_log_prob": -3.1965,
+      "mean_pathogenic_delta_log_prob": -7.3506
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.999924,
+      "dms_spearman_rho": 0.998261,
+      "dms_mae_log_prob": 0.04371,
+      "mlm_perplexity_delta": 0.0065,
+      "mlm_top1_acc_delta": 0.00431,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999949,
+      "mean_embedding_cosine_sim": 0.999904,
+      "homology_matrix_pearson_r": 0.999933,
+      "kl_divergence_nats": 0.000302,
+      "js_divergence_nats": 7.6e-05
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.999889,
+      "dms_spearman_rho": 0.996522,
+      "dms_mae_log_prob": 0.05306,
+      "mlm_perplexity_delta": -0.0001,
+      "mlm_top1_acc_delta": 0.00431,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "TorchTPU_v6e_4Chip_BF16_TP4": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65001,
+      "overall_perplexity": 1.9156,
+      "overall_top1_accuracy": 0.81034,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.68845
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.156,
+      "mean_benign_delta_log_prob": -3.1997,
+      "mean_pathogenic_delta_log_prob": -7.3557
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.999969,
+      "dms_spearman_rho": 0.99913,
+      "dms_mae_log_prob": 0.03426,
+      "mlm_perplexity_delta": 0.0015,
+      "mlm_top1_acc_delta": 0.00431,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999939,
+      "mean_embedding_cosine_sim": 0.999863,
+      "homology_matrix_pearson_r": 0.999942,
+      "kl_divergence_nats": 0.000345,
+      "js_divergence_nats": 8.6e-05
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.999868,
+      "dms_spearman_rho": 0.994783,
+      "dms_mae_log_prob": 0.06274,
+      "mlm_perplexity_delta": -0.0051,
+      "mlm_top1_acc_delta": 0.00431,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "TorchTPU_v6e_1Chip_INT8_W8A16": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65153,
+      "overall_perplexity": 1.9185,
+      "overall_top1_accuracy": 0.80603,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.9181,
+      "overall_entropy_nats": 0.68693
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.1478,
+      "mean_benign_delta_log_prob": -3.2084,
+      "mean_pathogenic_delta_log_prob": -7.3562
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.999929,
+      "dms_spearman_rho": 0.997391,
+      "dms_mae_log_prob": 0.04501,
+      "mlm_perplexity_delta": 0.0044,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999945,
+      "mean_embedding_cosine_sim": 0.999891,
+      "homology_matrix_pearson_r": 0.999915,
+      "kl_divergence_nats": 0.000371,
+      "js_divergence_nats": 9.3e-05
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.999902,
+      "dms_spearman_rho": 0.997391,
+      "dms_mae_log_prob": 0.05147,
+      "mlm_perplexity_delta": -0.0022,
+      "mlm_top1_acc_delta": 0.0,
+      "mlm_top5_acc_delta": 0.0,
+      "clinvar_auroc_delta": 0.0
+    }
+  },
+  "TorchTPU_v6e_1Chip_Pallas_W8A8": {
+    "mlm_summary": {
+      "overall_mean_nll": 0.65536,
+      "overall_perplexity": 1.9258,
+      "overall_top1_accuracy": 0.79741,
+      "overall_top3_accuracy": 0.88793,
+      "overall_top5_accuracy": 0.90948,
+      "overall_entropy_nats": 0.69908
+    },
+    "clinvar_dms_summary": {
+      "auroc_pathogenic_vs_benign": 0.75,
+      "classification_accuracy": 0.83333,
+      "separation_gap_log_prob": 4.1348,
+      "mean_benign_delta_log_prob": -3.1605,
+      "mean_pathogenic_delta_log_prob": -7.2953
+    },
+    "homology_summary": {
+      "nearest_neighbor_family_recall_at_1": 1.0,
+      "num_sequences_embedded": 30
+    },
+    "vs_G4_FP32_Reference": {
+      "dms_pearson_r": 0.999703,
+      "dms_spearman_rho": 0.993913,
+      "dms_mae_log_prob": 0.10442,
+      "mlm_perplexity_delta": 0.0117,
+      "mlm_top1_acc_delta": -0.00862,
+      "mlm_top5_acc_delta": -0.00862,
+      "clinvar_auroc_delta": 0.0,
+      "mean_logit_cosine_sim": 0.999863,
+      "mean_embedding_cosine_sim": 0.99963,
+      "homology_matrix_pearson_r": 0.999877,
+      "kl_divergence_nats": 0.000839,
+      "js_divergence_nats": 0.000208
+    },
+    "vs_G4_Best_Optimized_BF16": {
+      "dms_pearson_r": 0.999677,
+      "dms_spearman_rho": 0.997391,
+      "dms_mae_log_prob": 0.0966,
+      "mlm_perplexity_delta": 0.0051,
+      "mlm_top1_acc_delta": -0.00862,
+      "mlm_top5_acc_delta": -0.00862,
+      "clinvar_auroc_delta": 0.0
+    }
+  }
+}
