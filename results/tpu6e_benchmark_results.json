@@ -81,28 +81,111 @@
       "batch_size": 1,
       "seq_len": 256,
       "tokens_per_batch": 256,
-      "median_ms": 42.64,
-      "tokens_per_sec": 6003.9,
-      "seqs_per_sec": 23.45,
-      "active_tflops": 101.49
+      "median_ms": 42.06,
+      "tokens_per_sec": 6086.7,
+      "seqs_per_sec": 23.78,
+      "active_tflops": 102.89,
+      "mxu_bf16_equiv_util_pct": 11.21,
+      "mxu_int8_util_pct": 5.6
     },
     {
       "batch_size": 1,
       "seq_len": 512,
       "tokens_per_batch": 512,
-      "median_ms": 47.66,
-      "tokens_per_sec": 10742.6,
-      "seqs_per_sec": 20.98,
-      "active_tflops": 182.5
+      "median_ms": 46.5,
+      "tokens_per_sec": 11011.3,
+      "seqs_per_sec": 21.51,
+      "active_tflops": 187.07,
+      "mxu_bf16_equiv_util_pct": 20.38,
+      "mxu_int8_util_pct": 10.19
     },
     {
       "batch_size": 1,
       "seq_len": 1024,
       "tokens_per_batch": 1024,
-      "median_ms": 77.36,
-      "tokens_per_sec": 13237.4,
-      "seqs_per_sec": 12.93,
-      "active_tflops": 227.14
+      "median_ms": 70.91,
+      "tokens_per_sec": 14440.2,
+      "seqs_per_sec": 14.1,
+      "active_tflops": 247.78,
+      "mxu_bf16_equiv_util_pct": 26.99,
+      "mxu_int8_util_pct": 13.5
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "median_ms": 134.83,
+      "tokens_per_sec": 15189.7,
+      "seqs_per_sec": 7.42,
+      "active_tflops": 265.8,
+      "mxu_bf16_equiv_util_pct": 28.95,
+      "mxu_int8_util_pct": 14.48
+    },
+    {
+      "batch_size": 2,
+      "seq_len": 256,
+      "tokens_per_batch": 512,
+      "median_ms": 46.75,
+      "tokens_per_sec": 10950.7,
+      "seqs_per_sec": 42.78,
+      "active_tflops": 185.11,
+      "mxu_bf16_equiv_util_pct": 20.16,
+      "mxu_int8_util_pct": 10.08
+    },
+    {
+      "batch_size": 4,
+      "seq_len": 256,
+      "tokens_per_batch": 1024,
+      "median_ms": 69.53,
+      "tokens_per_sec": 14726.8,
+      "seqs_per_sec": 57.53,
+      "active_tflops": 248.94,
+      "mxu_bf16_equiv_util_pct": 27.12,
+      "mxu_int8_util_pct": 13.56
+    },
+    {
+      "batch_size": 4,
+      "seq_len": 512,
+      "tokens_per_batch": 2048,
+      "median_ms": 119.44,
+      "tokens_per_sec": 17146.1,
+      "seqs_per_sec": 33.49,
+      "active_tflops": 291.29,
+      "mxu_bf16_equiv_util_pct": 31.73,
+      "mxu_int8_util_pct": 15.87
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 256,
+      "tokens_per_batch": 2048,
+      "median_ms": 122.07,
+      "tokens_per_sec": 16777.1,
+      "seqs_per_sec": 65.54,
+      "active_tflops": 283.6,
+      "mxu_bf16_equiv_util_pct": 30.89,
+      "mxu_int8_util_pct": 15.45
+    },
+    {
+      "batch_size": 8,
+      "seq_len": 512,
+      "tokens_per_batch": 4096,
+      "median_ms": 211.16,
+      "tokens_per_sec": 19397.6,
+      "seqs_per_sec": 37.89,
+      "active_tflops": 329.54,
+      "mxu_bf16_equiv_util_pct": 35.9,
+      "mxu_int8_util_pct": 17.95
+    },
+    {
+      "batch_size": 16,
+      "seq_len": 512,
+      "tokens_per_batch": 8192,
+      "median_ms": 428.23,
+      "tokens_per_sec": 19130.1,
+      "seqs_per_sec": 37.36,
+      "active_tflops": 325.0,
+      "mxu_bf16_equiv_util_pct": 35.4,
+      "mxu_int8_util_pct": 17.7
     }
   ],
   "tpu6e_1chip_int8_megakernel": [
@@ -543,6 +626,305 @@
       "tokens_per_sec": 80421.9,
       "seqs_per_sec": 39.27,
       "active_tflops": 1407.26
+    }
+  ],
+  "long_context_1chip_w8a8_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 41.93,
+      "tokens_per_sec": 6105.1,
+      "achieved_tflops": 103.2
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 45.25,
+      "tokens_per_sec": 11314.3,
+      "achieved_tflops": 192.22
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 72.72,
+      "tokens_per_sec": 14081.4,
+      "achieved_tflops": 241.62
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 129.12,
+      "tokens_per_sec": 15861.3,
+      "achieved_tflops": 277.55
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 334.14,
+      "tokens_per_sec": 12258.4,
+      "achieved_tflops": 222.83
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "RESOURCE_EXHAUSTED: Ran out of memory on HBM, the total memory required for HLO temporaries (42.84G) exceeds available HBM (31.24G). HLO module: jit_forward_fn."
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "RESOURCE_EXHAUSTED: 32 GB HBM exceeded by [1, 36, 16384, 16384] attention score tensor (RESOURCE_EXHAUSTED: Ran out of memory on HBM, the total memory required for HLO temporaries (52.12G) exceeds available H)"
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "RESOURCE_EXHAUSTED: 32 GB HBM exceeded by [1, 36, 20480, 20480] attention score tensor (RESOURCE_EXHAUSTED: Ran out of memory on HBM, the total memory required for HLO temporaries (72.47G) exceeds available H)"
+    }
+  ],
+  "long_context_1chip_w8a8_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 42.01,
+      "tokens_per_sec": 6093.4,
+      "achieved_tflops": 103.0
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 46.54,
+      "tokens_per_sec": 11002.4,
+      "achieved_tflops": 186.92
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 70.9,
+      "tokens_per_sec": 14443.5,
+      "achieved_tflops": 247.83
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 134.85,
+      "tokens_per_sec": 15187.4,
+      "achieved_tflops": 265.76
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 273.46,
+      "tokens_per_sec": 14978.6,
+      "achieved_tflops": 272.28
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 679.83,
+      "tokens_per_sec": 12050.0,
+      "achieved_tflops": 235.42
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 1930.48,
+      "tokens_per_sec": 8487.0,
+      "achieved_tflops": 188.88
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 2710.3,
+      "tokens_per_sec": 7556.4,
+      "achieved_tflops": 178.43
+    }
+  ],
+  "long_context_4chip_bf16_tp4_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 18.53,
+      "tokens_per_sec": 13818.3,
+      "achieved_tflops": 233.58
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 21.84,
+      "tokens_per_sec": 23444.0,
+      "achieved_tflops": 398.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 29.26,
+      "tokens_per_sec": 34991.0,
+      "achieved_tflops": 600.4
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 49.71,
+      "tokens_per_sec": 41198.3,
+      "achieved_tflops": 720.91
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 100.24,
+      "tokens_per_sec": 40860.6,
+      "achieved_tflops": 742.76
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 10668.6,
+      "tokens_per_sec": 767.9,
+      "achieved_tflops": 15.0
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 1178.99,
+      "tokens_per_sec": 13896.6,
+      "achieved_tflops": 309.27
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1805.67,
+      "tokens_per_sec": 11342.0,
+      "achieved_tflops": 267.83
+    }
+  ],
+  "long_context_4chip_bf16_tp4_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 18.73,
+      "tokens_per_sec": 13666.7,
+      "achieved_tflops": 231.02
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 22.17,
+      "tokens_per_sec": 23091.3,
+      "achieved_tflops": 392.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 29.92,
+      "tokens_per_sec": 34227.1,
+      "achieved_tflops": 587.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 50.0,
+      "tokens_per_sec": 40959.0,
+      "achieved_tflops": 716.72
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 102.73,
+      "tokens_per_sec": 39870.0,
+      "achieved_tflops": 724.76
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 221.92,
+      "tokens_per_sec": 36913.9,
+      "achieved_tflops": 721.18
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 576.41,
+      "tokens_per_sec": 28424.2,
+      "achieved_tflops": 632.57
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 793.43,
+      "tokens_per_sec": 25812.0,
+      "achieved_tflops": 609.52
     }
   ]
 }

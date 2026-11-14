@@ -427,5 +427,301 @@
       "seqs_per_sec": 88.09,
       "active_tflops": 3157.02
     }
+  ],
+  "long_context_1chip_bf16_tp2_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 34.62,
+      "tokens_per_sec": 7395.5,
+      "achieved_tflops": 125.01
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 38.78,
+      "tokens_per_sec": 13202.3,
+      "achieved_tflops": 224.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 50.63,
+      "tokens_per_sec": 20226.1,
+      "achieved_tflops": 347.05
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 73.46,
+      "tokens_per_sec": 27877.9,
+      "achieved_tflops": 487.82
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 130.44,
+      "tokens_per_sec": 31402.5,
+      "achieved_tflops": 570.83
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 6974.63,
+      "tokens_per_sec": 1174.5,
+      "achieved_tflops": 22.95
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 936.86,
+      "tokens_per_sec": 17488.1,
+      "achieved_tflops": 389.19
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1343.35,
+      "tokens_per_sec": 15245.5,
+      "achieved_tflops": 360.0
+    }
+  ],
+  "long_context_1chip_bf16_tp2_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 35.15,
+      "tokens_per_sec": 7282.9,
+      "achieved_tflops": 123.11
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 38.79,
+      "tokens_per_sec": 13199.2,
+      "achieved_tflops": 224.24
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 51.61,
+      "tokens_per_sec": 19842.0,
+      "achieved_tflops": 340.46
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 77.67,
+      "tokens_per_sec": 26366.3,
+      "achieved_tflops": 461.37
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 145.93,
+      "tokens_per_sec": 28067.5,
+      "achieved_tflops": 510.21
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 342.32,
+      "tokens_per_sec": 23931.1,
+      "achieved_tflops": 467.54
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 976.52,
+      "tokens_per_sec": 16778.0,
+      "achieved_tflops": 373.39
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1404.95,
+      "tokens_per_sec": 14577.0,
+      "achieved_tflops": 344.22
+    }
+  ],
+  "long_context_4chip_bf16_tp8_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 12.56,
+      "tokens_per_sec": 20377.4,
+      "achieved_tflops": 344.46
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 15.44,
+      "tokens_per_sec": 33171.3,
+      "achieved_tflops": 563.54
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 22.55,
+      "tokens_per_sec": 45410.2,
+      "achieved_tflops": 779.18
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 38.53,
+      "tokens_per_sec": 53154.5,
+      "achieved_tflops": 930.12
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 70.38,
+      "tokens_per_sec": 58195.8,
+      "achieved_tflops": 1057.88
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 2021.58,
+      "tokens_per_sec": 4052.3,
+      "achieved_tflops": 79.17
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 394.34,
+      "tokens_per_sec": 41548.4,
+      "achieved_tflops": 924.65
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 544.87,
+      "tokens_per_sec": 37586.7,
+      "achieved_tflops": 887.56
+    }
+  ],
+  "long_context_4chip_bf16_tp8_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 12.79,
+      "tokens_per_sec": 20015.5,
+      "achieved_tflops": 338.34
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 15.74,
+      "tokens_per_sec": 32519.5,
+      "achieved_tflops": 552.47
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 22.67,
+      "tokens_per_sec": 45164.4,
+      "achieved_tflops": 774.96
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 38.88,
+      "tokens_per_sec": 52679.6,
+      "achieved_tflops": 921.81
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 72.66,
+      "tokens_per_sec": 56375.1,
+      "achieved_tflops": 1024.78
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 161.64,
+      "tokens_per_sec": 50681.2,
+      "achieved_tflops": 990.15
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 401.49,
+      "tokens_per_sec": 40807.7,
+      "achieved_tflops": 908.17
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 559.74,
+      "tokens_per_sec": 36588.7,
+      "achieved_tflops": 864.0
+    }
   ]
 }

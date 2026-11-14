@@ -1,0 +1,929 @@
+{
+  "model": "genbio-ai/GB.Protein-16B",
+  "batch_size": 1,
+  "sequence_lengths": [
+    256,
+    512,
+    1024,
+    2048,
+    4096,
+    8192,
+    16384,
+    20480
+  ],
+  "g4_1gpu_stock_hf_sdpa": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 63.63,
+      "tokens_per_sec": 4023.3,
+      "achieved_tflops": 68.01,
+      "peak_vram_gb": 32.41
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 67.59,
+      "tokens_per_sec": 7575.4,
+      "achieved_tflops": 128.7,
+      "peak_vram_gb": 32.41
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 76.37,
+      "tokens_per_sec": 13408.1,
+      "achieved_tflops": 230.07,
+      "peak_vram_gb": 32.45
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 111.66,
+      "tokens_per_sec": 18342.1,
+      "achieved_tflops": 320.96,
+      "peak_vram_gb": 32.52
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 189.71,
+      "tokens_per_sec": 21591.3,
+      "achieved_tflops": 392.49,
+      "peak_vram_gb": 32.73
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 377.28,
+      "tokens_per_sec": 21713.6,
+      "achieved_tflops": 424.22,
+      "peak_vram_gb": 33.32
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 880.26,
+      "tokens_per_sec": 18612.6,
+      "achieved_tflops": 414.22,
+      "peak_vram_gb": 34.72
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1167.22,
+      "tokens_per_sec": 17546.0,
+      "achieved_tflops": 414.33,
+      "peak_vram_gb": 35.71
+    }
+  ],
+  "g4_1gpu_best_opt_sdpa": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 39.02,
+      "tokens_per_sec": 6561.1,
+      "achieved_tflops": 110.91,
+      "peak_vram_gb": 32.21
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 44.63,
+      "tokens_per_sec": 11472.5,
+      "achieved_tflops": 194.9,
+      "peak_vram_gb": 32.25
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 56.21,
+      "tokens_per_sec": 18218.3,
+      "achieved_tflops": 312.6,
+      "peak_vram_gb": 32.34
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 90.74,
+      "tokens_per_sec": 22569.1,
+      "achieved_tflops": 394.92,
+      "peak_vram_gb": 32.53
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 164.95,
+      "tokens_per_sec": 24831.2,
+      "achieved_tflops": 451.38,
+      "peak_vram_gb": 32.9
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 341.17,
+      "tokens_per_sec": 24011.8,
+      "achieved_tflops": 469.11,
+      "peak_vram_gb": 33.63
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 790.23,
+      "tokens_per_sec": 20733.2,
+      "achieved_tflops": 461.41,
+      "peak_vram_gb": 35.11
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1061.52,
+      "tokens_per_sec": 19293.1,
+      "achieved_tflops": 455.58,
+      "peak_vram_gb": 35.84
+    }
+  ],
+  "g4_1gpu_unfused_eager_o_s2": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 67.98,
+      "tokens_per_sec": 3765.9,
+      "achieved_tflops": 63.66,
+      "peak_vram_gb": 32.57
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 71.87,
+      "tokens_per_sec": 7124.2,
+      "achieved_tflops": 121.03,
+      "peak_vram_gb": 33.12
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 90.64,
+      "tokens_per_sec": 11297.0,
+      "achieved_tflops": 193.84,
+      "peak_vram_gb": 35.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 205.42,
+      "tokens_per_sec": 9969.9,
+      "achieved_tflops": 174.46,
+      "peak_vram_gb": 43.94
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 563.95,
+      "tokens_per_sec": 7263.1,
+      "achieved_tflops": 132.03,
+      "peak_vram_gb": 78.5
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "CUDA OOM (96 GB GDDR7 exceeded by O(S^2) [1, 36, 8192, 8192] materialized attention tensors)"
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "CUDA OOM (96 GB GDDR7 exceeded by O(S^2) [1, 36, 16384, 16384] materialized attention tensors)"
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "CUDA OOM (96 GB GDDR7 exceeded by O(S^2) [1, 36, 20480, 20480] materialized attention tensors)"
+    }
+  ],
+  "g4_4gpu_tp4_best_opt_sdpa": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 739.61,
+      "tokens_per_sec": 346.1,
+      "achieved_tflops": 5.85
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 861.85,
+      "tokens_per_sec": 594.1,
+      "achieved_tflops": 10.09
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 1051.15,
+      "tokens_per_sec": 974.2,
+      "achieved_tflops": 16.72
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 1182.71,
+      "tokens_per_sec": 1731.6,
+      "achieved_tflops": 30.3
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 1542.34,
+      "tokens_per_sec": 2655.7,
+      "achieved_tflops": 48.28
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 2159.94,
+      "tokens_per_sec": 3792.7,
+      "achieved_tflops": 74.1
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 3372.13,
+      "tokens_per_sec": 4858.7,
+      "achieved_tflops": 108.13
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 3971.99,
+      "tokens_per_sec": 5156.1,
+      "achieved_tflops": 121.75
+    }
+  ],
+  "tpu_v6e_1chip_w8a8_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 41.93,
+      "tokens_per_sec": 6105.1,
+      "achieved_tflops": 103.2
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 45.25,
+      "tokens_per_sec": 11314.3,
+      "achieved_tflops": 192.22
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 72.72,
+      "tokens_per_sec": 14081.4,
+      "achieved_tflops": 241.62
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 129.12,
+      "tokens_per_sec": 15861.3,
+      "achieved_tflops": 277.55
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 334.14,
+      "tokens_per_sec": 12258.4,
+      "achieved_tflops": 222.83
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "RESOURCE_EXHAUSTED: Ran out of memory on HBM, the total memory required for HLO temporaries (42.84G) exceeds available HBM (31.24G). HLO module: jit_forward_fn."
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "RESOURCE_EXHAUSTED: 32 GB HBM exceeded by [1, 36, 16384, 16384] attention score tensor (RESOURCE_EXHAUSTED: Ran out of memory on HBM, the total memory required for HLO temporaries (52.12G) exceeds available H)"
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OOM",
+      "median_latency_ms": null,
+      "tokens_per_sec": 0.0,
+      "achieved_tflops": 0.0,
+      "error": "RESOURCE_EXHAUSTED: 32 GB HBM exceeded by [1, 36, 20480, 20480] attention score tensor (RESOURCE_EXHAUSTED: Ran out of memory on HBM, the total memory required for HLO temporaries (72.47G) exceeds available H)"
+    }
+  ],
+  "tpu_v6e_1chip_w8a8_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 42.01,
+      "tokens_per_sec": 6093.4,
+      "achieved_tflops": 103.0
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 46.54,
+      "tokens_per_sec": 11002.4,
+      "achieved_tflops": 186.92
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 70.9,
+      "tokens_per_sec": 14443.5,
+      "achieved_tflops": 247.83
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 134.85,
+      "tokens_per_sec": 15187.4,
+      "achieved_tflops": 265.76
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 273.46,
+      "tokens_per_sec": 14978.6,
+      "achieved_tflops": 272.28
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 679.83,
+      "tokens_per_sec": 12050.0,
+      "achieved_tflops": 235.42
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 1930.48,
+      "tokens_per_sec": 8487.0,
+      "achieved_tflops": 188.88
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 2710.3,
+      "tokens_per_sec": 7556.4,
+      "achieved_tflops": 178.43
+    }
+  ],
+  "tpu_v6e_4chip_bf16_tp4_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 18.53,
+      "tokens_per_sec": 13818.3,
+      "achieved_tflops": 233.58
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 21.84,
+      "tokens_per_sec": 23444.0,
+      "achieved_tflops": 398.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 29.26,
+      "tokens_per_sec": 34991.0,
+      "achieved_tflops": 600.4
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 49.71,
+      "tokens_per_sec": 41198.3,
+      "achieved_tflops": 720.91
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 100.24,
+      "tokens_per_sec": 40860.6,
+      "achieved_tflops": 742.76
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 10668.6,
+      "tokens_per_sec": 767.9,
+      "achieved_tflops": 15.0
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 1178.99,
+      "tokens_per_sec": 13896.6,
+      "achieved_tflops": 309.27
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1805.67,
+      "tokens_per_sec": 11342.0,
+      "achieved_tflops": 267.83
+    }
+  ],
+  "tpu_v6e_4chip_bf16_tp4_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 18.73,
+      "tokens_per_sec": 13666.7,
+      "achieved_tflops": 231.02
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 22.17,
+      "tokens_per_sec": 23091.3,
+      "achieved_tflops": 392.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 29.92,
+      "tokens_per_sec": 34227.1,
+      "achieved_tflops": 587.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 50.0,
+      "tokens_per_sec": 40959.0,
+      "achieved_tflops": 716.72
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 102.73,
+      "tokens_per_sec": 39870.0,
+      "achieved_tflops": 724.76
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 221.92,
+      "tokens_per_sec": 36913.9,
+      "achieved_tflops": 721.18
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 576.41,
+      "tokens_per_sec": 28424.2,
+      "achieved_tflops": 632.57
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 793.43,
+      "tokens_per_sec": 25812.0,
+      "achieved_tflops": 609.52
+    }
+  ],
+  "tpu_v7x_1chip_bf16_tp2_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 34.62,
+      "tokens_per_sec": 7395.5,
+      "achieved_tflops": 125.01
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 38.78,
+      "tokens_per_sec": 13202.3,
+      "achieved_tflops": 224.29
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 50.63,
+      "tokens_per_sec": 20226.1,
+      "achieved_tflops": 347.05
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 73.46,
+      "tokens_per_sec": 27877.9,
+      "achieved_tflops": 487.82
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 130.44,
+      "tokens_per_sec": 31402.5,
+      "achieved_tflops": 570.83
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 6974.63,
+      "tokens_per_sec": 1174.5,
+      "achieved_tflops": 22.95
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 936.86,
+      "tokens_per_sec": 17488.1,
+      "achieved_tflops": 389.19
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1343.35,
+      "tokens_per_sec": 15245.5,
+      "achieved_tflops": 360.0
+    }
+  ],
+  "tpu_v7x_1chip_bf16_tp2_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 35.15,
+      "tokens_per_sec": 7282.9,
+      "achieved_tflops": 123.11
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 38.79,
+      "tokens_per_sec": 13199.2,
+      "achieved_tflops": 224.24
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 51.61,
+      "tokens_per_sec": 19842.0,
+      "achieved_tflops": 340.46
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 77.67,
+      "tokens_per_sec": 26366.3,
+      "achieved_tflops": 461.37
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 145.93,
+      "tokens_per_sec": 28067.5,
+      "achieved_tflops": 510.21
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 342.32,
+      "tokens_per_sec": 23931.1,
+      "achieved_tflops": 467.54
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 976.52,
+      "tokens_per_sec": 16778.0,
+      "achieved_tflops": 373.39
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 1404.95,
+      "tokens_per_sec": 14577.0,
+      "achieved_tflops": 344.22
+    }
+  ],
+  "tpu_v7x_4chip_bf16_tp8_baseline_xla": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 12.56,
+      "tokens_per_sec": 20377.4,
+      "achieved_tflops": 344.46
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 15.44,
+      "tokens_per_sec": 33171.3,
+      "achieved_tflops": 563.54
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 22.55,
+      "tokens_per_sec": 45410.2,
+      "achieved_tflops": 779.18
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 38.53,
+      "tokens_per_sec": 53154.5,
+      "achieved_tflops": 930.12
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 70.38,
+      "tokens_per_sec": 58195.8,
+      "achieved_tflops": 1057.88
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 2021.58,
+      "tokens_per_sec": 4052.3,
+      "achieved_tflops": 79.17
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 394.34,
+      "tokens_per_sec": 41548.4,
+      "achieved_tflops": 924.65
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 544.87,
+      "tokens_per_sec": 37586.7,
+      "achieved_tflops": 887.56
+    }
+  ],
+  "tpu_v7x_4chip_bf16_tp8_hyperattention": [
+    {
+      "batch_size": 1,
+      "seq_len": 256,
+      "tokens_per_batch": 256,
+      "status": "OK",
+      "median_latency_ms": 12.79,
+      "tokens_per_sec": 20015.5,
+      "achieved_tflops": 338.34
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 512,
+      "tokens_per_batch": 512,
+      "status": "OK",
+      "median_latency_ms": 15.74,
+      "tokens_per_sec": 32519.5,
+      "achieved_tflops": 552.47
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 1024,
+      "tokens_per_batch": 1024,
+      "status": "OK",
+      "median_latency_ms": 22.67,
+      "tokens_per_sec": 45164.4,
+      "achieved_tflops": 774.96
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 2048,
+      "tokens_per_batch": 2048,
+      "status": "OK",
+      "median_latency_ms": 38.88,
+      "tokens_per_sec": 52679.6,
+      "achieved_tflops": 921.81
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 4096,
+      "tokens_per_batch": 4096,
+      "status": "OK",
+      "median_latency_ms": 72.66,
+      "tokens_per_sec": 56375.1,
+      "achieved_tflops": 1024.78
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 8192,
+      "tokens_per_batch": 8192,
+      "status": "OK",
+      "median_latency_ms": 161.64,
+      "tokens_per_sec": 50681.2,
+      "achieved_tflops": 990.15
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 16384,
+      "tokens_per_batch": 16384,
+      "status": "OK",
+      "median_latency_ms": 401.49,
+      "tokens_per_sec": 40807.7,
+      "achieved_tflops": 908.17
+    },
+    {
+      "batch_size": 1,
+      "seq_len": 20480,
+      "tokens_per_batch": 20480,
+      "status": "OK",
+      "median_latency_ms": 559.74,
+      "tokens_per_sec": 36588.7,
+      "achieved_tflops": 864.0
+    }
+  ]
+}
