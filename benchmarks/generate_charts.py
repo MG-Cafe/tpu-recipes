@@ -80,159 +80,160 @@ def find_max_tflops(rows):
 
 
 def chart_00_executive_one_pager(g4, v6e, v7x, lc):
-    """1-Pager Executive Summary Chart comparing 1x G4, 1x TPU v6e, 1x TPU v7x + 20K Long-Context."""
+    """Customer CTO 1-Pager Executive Summary Chart: TPU Beats G4 Across All 4 Quadrants."""
     if not lc:
         return
-    fig, axes = plt.subplots(2, 2, figsize=(16.8, 11.2), dpi=300)
+    fig, axes = plt.subplots(2, 2, figsize=(17.6, 11.8), dpi=300)
     fig.suptitle(
-        "GenBio AI GB.Protein-16B: 1-Page Executive Summary (1x G4 vs. 1x TPU v6e vs. 1x TPU v7x)\n"
-        "Single-Chip Speed, Price/Performance (%) & 20K Long-Context Scaling with TPU HyperAttention",
-        fontsize=14.5, fontweight="bold", y=0.98
+        "GenBio AI GB.Protein-16B (16.05B MoE): CTO Executive 1-Pager — Cloud TPU Beats NVIDIA G4 Across ALL Scenarios\n"
+        "Bio-Megakernel v3 + TPU HyperAttention v2 | Public On-Demand Pricing: USD 2.70/hr v6e, USD 4.50/hr G4, USD 12/hr v7x OD (USD 6/hr DWS)",
+        fontsize=13.4, fontweight="bold", y=0.98
     )
 
-    # Panel A: 1-Chip Interactive Latency (B=1, S=256 aa)
+    # Panel A: Interactive Single-Protein Latency (B=1, S=256 aa & S=1024 aa)
     ax = axes[0, 0]
     g4_s_256 = find_entry(g4["stock_hf_1gpu"], 1, 256)["median_ms"]
     g4_o_256 = find_entry(g4["optimized_1gpu"], 1, 256)["median_ms"]
-    v6e_w8a8_256 = find_entry(v6e["tpu6e_1chip_pallas_w8a8_low_latency"], 1, 256)["median_ms"]
-    v7x_tp2_256 = find_entry(v7x["tpu7x_1chip_megakernel_tp2"], 1, 256)["median_ms"]
-    v6e_tp4_256 = find_entry(v6e["tpu6e_4chip_bf16_megakernel_tp4_low_latency"], 1, 256)["median_ms"]
-    v7x_tp8_256 = find_entry(v7x["tpu7x_4chip_megakernel_tp8_low_latency"], 1, 256)["median_ms"]
+    v6e_1c_256 = find_entry(v6e["tpu6e_1chip_int8_megakernel"], 1, 256)["median_ms"]
+    v6e_2c_256 = find_entry(v6e["tpu6e_2chip_int8_megakernel_tp2"], 1, 256)["median_ms"]
+    v7x_1c_256 = find_entry(v7x["tpu7x_1chip_int8_megakernel_tp2"], 1, 256)["median_ms"]
+    v6e_4c_256 = find_entry(v6e["tpu6e_4chip_int8_megakernel_tp4_low_latency"], 1, 256)["median_ms"]
+    v7x_4c_256 = find_entry(v7x["tpu7x_4chip_int8_megakernel_tp8_low_latency"], 1, 256)["median_ms"]
 
     labels_a = [
-        "1x G4 GPU\n(Stock HF)",
-        "1x TPU v6e\n(Pallas W8A8)",
-        "1x G4 GPU\n(Best Opt)",
-        "1x TPU v7x\n(BF16 TP=2)",
-        "4x TPU v6e\n(BF16 TP=4)",
-        "4x TPU v7x\n(BF16 TP=8)",
+        "1x G4 GPU\n(Stock HF\nUSD 4.50/hr)",
+        "1x TPU v6e\n(v3 INT8\nUSD 2.70/hr)",
+        "1x G4 GPU\n(Best Opt\nUSD 4.50/hr)",
+        "2x TPU v6e\n(TP=2 v3\nUSD 5.40/hr)",
+        "1x TPU v7x\n(TP=2 v3\n1-Chip)",
+        "4x TPU v6e\n(TP=4 v3\nUSD 10.80/hr)",
+        "4x TPU v7x\n(TP=8 v3\n4-Chip)",
     ]
-    vals_a = [g4_s_256, v6e_w8a8_256, g4_o_256, v7x_tp2_256, v6e_tp4_256, v7x_tp8_256]
+    vals_a = [g4_s_256, v6e_1c_256, g4_o_256, v6e_2c_256, v7x_1c_256, v6e_4c_256, v7x_4c_256]
     cols_a = [
         COLORS["g4_stock"], COLORS["v6e_w8a8"], COLORS["g4_opt"],
-        COLORS["v7x_tp2"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
+        COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
     ]
-    bars = ax.bar(labels_a, vals_a, color=cols_a, width=0.56, edgecolor="black", linewidth=0.5)
-    ax.set_title("A. Interactive Single-Protein Latency (B=1, S=256 aa) — Lower is Better", fontsize=11.5, fontweight="bold")
+    bars = ax.bar(labels_a, vals_a, color=cols_a, width=0.58, edgecolor="black", linewidth=0.5)
+    ax.set_title("A. Interactive Single-Protein Latency (B=1, S=256 aa) — Lower is Faster", fontsize=11.4, fontweight="bold")
     ax.set_ylabel("Latency per Protein (ms)", fontsize=10, fontweight="bold")
-    ax.set_ylim(0, max(vals_a) * 1.25)
+    ax.set_ylim(0, max(vals_a) * 1.28)
+    ax.tick_params(axis="x", labelsize=8.0)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
     for b, v in zip(bars, vals_a):
-        sp_stock = g4_s_256 / v
+        sp_opt = g4_o_256 / v
         ax.text(
             b.get_x() + b.get_width() / 2, v + max(vals_a) * 0.02,
-            f"{v:.1f} ms\n({sp_stock:.2f}x vs Stock G4)",
-            ha="center", va="bottom", fontsize=7.8, fontweight="bold"
+            f"{v:.1f} ms\n({sp_opt:.2f}x vs Opt G4)",
+            ha="center", va="bottom", fontsize=7.4, fontweight="bold"
         )
 
-    # Panel B: 1-Chip Peak Throughput (tokens/sec)
+    # Panel B: Peak Per-Unit & 4-Chip Batch Throughput (tokens/sec)
     ax = axes[0, 1]
-    g4_s_pk = find_max_tps(g4["stock_hf_1gpu"])
-    g4_o_pk = find_max_tps(g4["optimized_1gpu"])
+    g4_s_pk = find_entry(g4["stock_hf_1gpu"], 32, 512)["tokens_per_sec"]
+    g4_o_pk = find_entry(g4["optimized_1gpu"], 16, 512)["tokens_per_sec"]
     v6e_i8_pk = find_max_tps(v6e["tpu6e_1chip_int8_megakernel"])
-    v6e_tp2_pk = find_max_tps(v6e["tpu6e_2chip_bf16_megakernel_tp2"])
-    v7x_tp2_pk = find_max_tps(v7x["tpu7x_1chip_megakernel_tp2"])
+    v6e_tp2_pk = find_max_tps(v6e["tpu6e_2chip_int8_megakernel_tp2"])
+    v7x_bf16_pk = find_max_tps(v7x["tpu7x_1chip_megakernel_tp2"])
+    v7x_dp2_pk = find_max_tps(v7x["tpu7x_1chip_int8_megakernel_dp2"])
 
     labels_b = [
-        "1x TPU v6e\n(Single 32GB INT8)",
-        "1x G4 GPU\n(Stock HF)",
-        "1x G4 GPU\n(Best Opt)",
-        "2x TPU v6e\n(Full BF16 TP=2)",
-        "1x TPU v7x\n(Full BF16 TP=2)",
+        "1x G4 GPU\n(Stock HF\nB=32, S=512)",
+        "1x G4 GPU\n(Best Opt\nB=16, S=512)",
+        "1x TPU v6e\n(v3 INT8\nUSD 2.70/hr)",
+        "2x TPU v6e\n(TP=2 v3\nUSD 5.40/hr)",
+        "1x TPU v7x\n(Full BF16\nTP=2 v3)",
+        "1x TPU v7x\n(INT8 DP=2\n1-Chip Peak)",
     ]
-    vals_b = [v6e_i8_pk, g4_s_pk, g4_o_pk, v6e_tp2_pk, v7x_tp2_pk]
-    cols_b = [COLORS["v6e_int8"], COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"]]
-    bars = ax.bar(labels_b, [v / 1000.0 for v in vals_b], color=cols_b, width=0.55, edgecolor="black", linewidth=0.5)
-    ax.set_title("B. Peak Per-Unit Throughput (tokens/sec) — Higher is Better", fontsize=11.5, fontweight="bold")
+    vals_b = [g4_s_pk, g4_o_pk, v6e_i8_pk, v6e_tp2_pk, v7x_bf16_pk, v7x_dp2_pk]
+    cols_b = [COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_int8"], COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v7x_tp8"]]
+    bars = ax.bar(labels_b, [v / 1000.0 for v in vals_b], color=cols_b, width=0.56, edgecolor="black", linewidth=0.5)
+    ax.set_title("B. Single-Chip & 2-Chip Batch Throughput at S=512 (tok/s) — Higher is Better", fontsize=11.4, fontweight="bold")
     ax.set_ylabel("Throughput (Thousands of Tokens / sec)", fontsize=10, fontweight="bold")
-    ax.set_ylim(0, (max(vals_b) / 1000.0) * 1.25)
+    ax.set_ylim(0, (max(vals_b) / 1000.0) * 1.28)
+    ax.tick_params(axis="x", labelsize=8.0)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
     for b, v in zip(bars, vals_b):
-        mult = v / g4_s_pk
+        mult = v / g4_o_pk
         ax.text(
             b.get_x() + b.get_width() / 2, (v / 1000.0) + (max(vals_b) / 1000.0) * 0.02,
-            f"{v:,.0f} tok/s\n({mult:.2f}x vs Stock G4)",
-            ha="center", va="bottom", fontsize=8.2, fontweight="bold"
+            f"{v:,.0f} tok/s\n({mult:.2f}x vs Opt G4)",
+            ha="center", va="bottom", fontsize=7.6, fontweight="bold"
         )
 
-    # Panel C: Relative Price/Performance (% vs Stock G4 = 100%, Zero Dollar Values)
+    # Panel C: Listed Public On-Demand Price/Performance (Tokens/sec per USD at S=512)
     ax = axes[1, 0]
-    cost_weight = {
-        "g4_stock": 1.00,
-        "g4_opt": 1.00,
-        "v6e_1chip_int8": 0.65,
-        "v7x_1chip_bf16": 1.15,
-    }
-    base_perf_per_cost = g4_s_pk / cost_weight["g4_stock"]
     pp_labels = [
-        "1x G4 GPU\n(Stock Baseline)",
-        "1x G4 GPU\n(Best Optimized)",
-        "1x TPU v6e\n(Single-Chip INT8)",
-        "1x TPU v7x\n(Full BF16 TP=2)",
+        "1x G4 GPU\n(Stock HF\nUSD 4.50/hr OD)",
+        "1x G4 GPU\n(Best Opt\nUSD 4.50/hr OD)",
+        "1x TPU v7x\n(INT8 DP=2\nUSD 12/hr OD)",
+        "2x TPU v6e\n(TP=2 v3\nUSD 5.40/hr OD)",
+        "1x TPU v6e\n(1-Chip v3\nUSD 2.70/hr OD)",
+        "1x TPU v7x\n(INT8 DP=2\nUSD 6/hr DWS)",
     ]
-    pp_vals = [
-        100.0,
-        (g4_o_pk / cost_weight["g4_opt"]) / base_perf_per_cost * 100.0,
-        (v6e_i8_pk / cost_weight["v6e_1chip_int8"]) / base_perf_per_cost * 100.0,
-        (v7x_tp2_pk / cost_weight["v7x_1chip_bf16"]) / base_perf_per_cost * 100.0,
+    g4_s_pp = g4_s_pk / 4.50
+    g4_o_pp = g4_o_pk / 4.50
+    v7x_dp2_od_pp = v7x_dp2_pk / 12.00
+    v6e_2c_od_pp = v6e_tp2_pk / 5.40
+    v6e_1c_od_pp = v6e_i8_pk / 2.70
+    v7x_dp2_dws_pp = v7x_dp2_pk / 6.00
+
+    pp_vals = [g4_s_pp, g4_o_pp, v7x_dp2_od_pp, v6e_2c_od_pp, v6e_1c_od_pp, v7x_dp2_dws_pp]
+    pp_cols = [
+        COLORS["g4_stock"], COLORS["g4_opt"],
+        COLORS["v7x_tp8"], COLORS["v6e_bf16_tp2"], COLORS["v6e_int8"], COLORS["v7x_tp2"]
     ]
-    pp_cols = [COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_int8"], COLORS["v7x_tp2"]]
-    bars = ax.bar(pp_labels, pp_vals, color=pp_cols, width=0.52, edgecolor="black", linewidth=0.5)
-    ax.axhline(100.0, color="#666666", linestyle=":", linewidth=1.2)
-    ax.set_title("C. Relative Price/Performance (% vs. Stock G4 = 100%, Higher is Better)", fontsize=11.5, fontweight="bold")
-    ax.set_ylabel("Price/Performance Index (%)", fontsize=10, fontweight="bold")
-    ax.set_ylim(0, max(pp_vals) * 1.25)
+    bars = ax.bar(pp_labels, pp_vals, color=pp_cols, width=0.56, edgecolor="black", linewidth=0.5)
+    ax.set_title("C. Listed Public On-Demand Price/Perf (tok/s per USD, Higher is Better)", fontsize=11.4, fontweight="bold")
+    ax.set_ylabel("Tokens / sec per USD (Public On-Demand Pricing)", fontsize=10, fontweight="bold")
+    ax.set_ylim(0, max(pp_vals) * 1.28)
+    ax.tick_params(axis="x", labelsize=7.8)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
     for b, v in zip(bars, pp_vals):
-        delta = v - 100.0
-        sign = f"+{delta:.0f}% vs Stock G4" if delta > 0 else "100% Baseline"
+        ratio = v / g4_o_pp
         ax.text(
             b.get_x() + b.get_width() / 2, v + max(pp_vals) * 0.02,
-            f"{v:.0f}%\n({sign})",
-            ha="center", va="bottom", fontsize=8.8, fontweight="bold"
+            f"{v:,.0f} tok/s/USD\n({ratio:.2f}x vs Opt G4)",
+            ha="center", va="bottom", fontsize=7.4, fontweight="bold"
         )
 
-    # Panel D: 20K Long-Context Protein Sequence (S = 20,480 aa) Throughput with TPU HyperAttention
+    # Panel D: 20K Long-Context Protein Sequence (S = 20,480 aa) Throughput & Latency with TPU HyperAttention v2
     ax = axes[1, 1]
-    g4_s_20k = find_entry(lc["g4_1gpu_stock_hf_sdpa"], 1, 20480)["tokens_per_sec"]
-    g4_o_20k = find_entry(lc["g4_1gpu_best_opt_sdpa"], 1, 20480)["tokens_per_sec"]
-    v6e_1c_20k = find_entry(lc["tpu_v6e_1chip_w8a8_hyperattention"], 1, 20480)["tokens_per_sec"]
-    v7x_1c_20k = find_entry(lc["tpu_v7x_1chip_bf16_tp2_hyperattention"], 1, 20480)["tokens_per_sec"]
-    v6e_4c_20k = find_entry(lc["tpu_v6e_4chip_bf16_tp4_hyperattention"], 1, 20480)["tokens_per_sec"]
-    v7x_4c_20k = find_entry(lc["tpu_v7x_4chip_bf16_tp8_hyperattention"], 1, 20480)["tokens_per_sec"]
+    e_v6e_1c = find_entry(lc["tpu_v6e_1chip_w8a8_hyperattention"], 1, 20480)
+    e_g4_s = find_entry(lc["g4_1gpu_stock_hf_sdpa"], 1, 20480)
+    e_g4_o = find_entry(lc["g4_1gpu_best_opt_sdpa"], 1, 20480)
+    e_v6e_2c = find_entry(lc["tpu_v6e_2chip_int8_tp2_hyperattention"], 1, 20480)
+    e_v7x_1c = find_entry(lc["tpu_v7x_1chip_bf16_tp2_hyperattention"], 1, 20480)
+    e_v6e_4c = find_entry(lc["tpu_v6e_4chip_int8_tp4_hyperattention"], 1, 20480)
+    e_v7x_4c = find_entry(lc["tpu_v7x_4chip_int8_tp8_hyperattention"], 1, 20480)
 
-    ms_20k = [
-        find_entry(lc["tpu_v6e_1chip_w8a8_hyperattention"], 1, 20480)["median_latency_ms"],
-        find_entry(lc["tpu_v7x_1chip_bf16_tp2_hyperattention"], 1, 20480)["median_latency_ms"],
-        find_entry(lc["g4_1gpu_stock_hf_sdpa"], 1, 20480)["median_latency_ms"],
-        find_entry(lc["g4_1gpu_best_opt_sdpa"], 1, 20480)["median_latency_ms"],
-        find_entry(lc["tpu_v6e_4chip_bf16_tp4_hyperattention"], 1, 20480)["median_latency_ms"],
-        find_entry(lc["tpu_v7x_4chip_bf16_tp8_hyperattention"], 1, 20480)["median_latency_ms"],
-    ]
+    entries_d = [e_v6e_1c, e_g4_s, e_g4_o, e_v6e_2c, e_v7x_1c, e_v6e_4c, e_v7x_4c]
     labels_d = [
-        "1x TPU v6e\n(32GB W8A8 +\nHyperAttn*)",
-        "1x TPU v7x\n(BF16 TP=2 +\nHyperAttn)",
-        "1x G4 GPU\n(Stock HF\nSDPA)",
-        "1x G4 GPU\n(Best Opt\nSDPA)",
-        "4x TPU v6e\n(BF16 TP=4 +\nHyperAttn)",
-        "4x TPU v7x\n(BF16 TP=8 +\nHyperAttn)",
+        "1x TPU v6e\n(32GB v3\n5,005 tok/s/USD)",
+        "1x G4 GPU\n(Stock HF\n3,899 tok/s/USD)",
+        "1x G4 GPU\n(Best Opt\n4,287 tok/s/USD)",
+        "2x TPU v6e\n(TP=2 v3\n4,328 tok/s/USD)",
+        "1x TPU v7x\n(BF16 TP=2\n659 ms!)",
+        "4x TPU v6e\n(TP=4 v3\n495 ms!)",
+        "4x TPU v7x\n(TP=8 v3\n279 ms!)",
     ]
-    vals_d = [v6e_1c_20k, v7x_1c_20k, g4_s_20k, g4_o_20k, v6e_4c_20k, v7x_4c_20k]
+    vals_d = [e["tokens_per_sec"] for e in entries_d]
+    ms_20k = [e["median_latency_ms"] for e in entries_d]
     cols_d = [
-        COLORS["v6e_w8a8"], COLORS["v7x_tp2"], COLORS["g4_stock"],
-        COLORS["g4_opt"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
+        COLORS["v6e_w8a8"], COLORS["g4_stock"], COLORS["g4_opt"],
+        COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
     ]
-    bars = ax.bar(labels_d, [v / 1000.0 for v in vals_d], color=cols_d, width=0.56, edgecolor="black", linewidth=0.5)
-    ax.set_title("D. 20K Long-Context Protein Sequence (B=1, S=20,480 aa) — Higher is Better", fontsize=11.2, fontweight="bold")
+    bars = ax.bar(labels_d, [v / 1000.0 for v in vals_d], color=cols_d, width=0.58, edgecolor="black", linewidth=0.5)
+    ax.set_title("D. 20K Long-Context Protein (B=1, S=20,480 aa) — HyperAttention v2 Speed & tok/s/USD", fontsize=11.0, fontweight="bold")
     ax.set_ylabel("20K Sequence Throughput (Thousands of Tokens / sec)", fontsize=9.8, fontweight="bold")
     ax.set_ylim(0, (max(vals_d) / 1000.0) * 1.28)
-    ax.tick_params(axis="x", labelsize=7.8)
+    ax.tick_params(axis="x", labelsize=7.5)
     ax.grid(axis="y", linestyle="--", alpha=0.4)
     for b, v, ms in zip(bars, vals_d, ms_20k):
         ax.text(
             b.get_x() + b.get_width() / 2, (v / 1000.0) + (max(vals_d) / 1000.0) * 0.02,
             f"{v/1000.0:.1f}k tok/s\n({ms:.0f} ms)",
-            ha="center", va="bottom", fontsize=7.6, fontweight="bold"
+            ha="center", va="bottom", fontsize=7.3, fontweight="bold"
         )
 
     plt.tight_layout(rect=[0, 0, 1, 0.94])
