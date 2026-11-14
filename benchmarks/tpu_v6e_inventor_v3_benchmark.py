@@ -24,15 +24,25 @@ from jax.experimental.shard_map import shard_map
 from jax.experimental.pallas.ops.tpu import flash_attention as pallas_tpu_fa
 from jax.experimental.pallas.ops.tpu.splash_attention import splash_attention_kernel, splash_attention_mask
 
-sys.path.insert(0, "/tmp")
-sys.path.insert(0, "/dev/shm/gb_protein_16b_bf16")
+_HERE = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.environ.get("MODEL_DIR", "/dev/shm/gb_protein_16b_bf16")
+OUT_JSON = os.environ.get("OUT_JSON", os.path.join(os.path.dirname(_HERE), "results", "v6e_inventor_v3_results.json"))
+sys.path.insert(0, _HERE)
+sys.path.insert(0, MODEL_DIR)
 
-from v6e_benchmark_and_megakernel import (
-    MODEL_DIR,
-    compute_active_flops_per_token,
-    load_checkpoint_arrays,
-    tpu_rmsnorm,
-)
+try:
+    from tpu_v6e_megakernel_benchmark import (
+        compute_active_flops_per_token,
+        load_checkpoint_arrays,
+        tpu_rmsnorm,
+    )
+except ImportError:
+    sys.path.insert(0, "/tmp")
+    from v6e_benchmark_and_megakernel import (
+        compute_active_flops_per_token,
+        load_checkpoint_arrays,
+        tpu_rmsnorm,
+    )
 from tokenization_fm4bio import FM4BioTokenizer
 
 GFP_WT_SEQ = (
@@ -602,9 +612,10 @@ def main():
         "long_context_4chip_v6e_tp4_int8_v3": long_4c_tp4_int8,
         "long_context_4chip_v6e_tp4_bf16_v3": long_tp4_bf16,
     }
-    with open("/tmp/v6e_inventor_v3_results.json", "w") as f:
+    os.makedirs(os.path.dirname(os.path.abspath(OUT_JSON)), exist_ok=True)
+    with open(OUT_JSON, "w") as f:
         json.dump(out, f, indent=2)
-    print("=== Saved /tmp/v6e_inventor_v3_results.json ===", flush=True)
+    print(f"=== Saved {OUT_JSON} ===", flush=True)
 
 
 if __name__ == "__main__":

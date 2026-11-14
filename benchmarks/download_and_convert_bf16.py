@@ -98,6 +98,16 @@ def main():
             if os.path.isfile(src):
                 shutil.copy2(src, dst)
 
+    # Ensure required tokenizer, config, and modeling files are downloaded if not present
+    for meta_fn in ["config.json", "tokenization_fm4bio.py", "vocab_protein.txt", "modeling_fm4bio.py", "configuration_fm4bio.py"]:
+        dst = os.path.join(OUT_DIR, meta_fn)
+        if not os.path.exists(dst):
+            meta_url = f"{BASE_URL}/{meta_fn}"
+            req = urllib.request.Request(meta_url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=60) as resp, open(dst, "wb") as f:
+                shutil.copyfileobj(resp, f)
+            print(f"[DL] Downloaded {meta_fn}", flush=True)
+
     cfg_path = os.path.join(OUT_DIR, "config.json")
     if os.path.exists(cfg_path):
         with open(cfg_path, "r") as f:

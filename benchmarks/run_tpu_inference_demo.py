@@ -26,7 +26,7 @@ from jax.experimental.shard_map import shard_map
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
 
-from tpu_v6e_inventor_v3_benchmark import (
+from tpu_v7x_inventor_v3_benchmark import (
     MODEL_DIR,
     GFP_WT_SEQ,
     precompute_rope_v3,
@@ -61,7 +61,14 @@ def main():
     mesh_axis = ("tp",) if args.tp_size > 1 else ("dp",)
     mesh = Mesh(np.array(devices[: args.tp_size]), mesh_axis)
     rep = NamedSharding(mesh, P())
-    lp, specs = place_v3_params(v3_weights, mesh, tp_size=args.tp_size, tp_axis_name=tp_axis, quant_mode=args.quant)
+    lp, specs = place_v3_params(
+        v3_weights,
+        mesh,
+        tp_size=args.tp_size,
+        tp_axis_name=tp_axis,
+        quant_mode=args.quant,
+        pad_for_tp8=(args.tp_size == 8),
+    )
 
     w_emb = jax.device_put(word_emb_np, rep)
     f_ln = jax.device_put(final_ln_w_np, rep)

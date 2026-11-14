@@ -28,11 +28,17 @@ from jax.experimental.shard_map import shard_map
 from jax.experimental.pallas.ops.tpu import flash_attention as pallas_tpu_fa
 from jax.experimental.pallas.ops.tpu.splash_attention import splash_attention_kernel, splash_attention_mask
 
-MODEL_DIR = "/dev/shm/gb_protein_16b_bf16"
-sys.path.insert(0, "/tmp")
+_HERE = os.path.dirname(os.path.abspath(__file__))
+MODEL_DIR = os.environ.get("MODEL_DIR", "/dev/shm/gb_protein_16b_bf16")
+OUT_JSON = os.environ.get("OUT_JSON", os.path.join(os.path.dirname(_HERE), "results", "v7x_inventor_v3_results.json"))
+sys.path.insert(0, _HERE)
 sys.path.insert(0, MODEL_DIR)
 
-import tpu_benchmark_and_megakernel as tbm
+try:
+    import tpu_v7x_megakernel_benchmark as tbm
+except ImportError:
+    sys.path.insert(0, "/tmp")
+    import tpu_benchmark_and_megakernel as tbm
 from tokenization_fm4bio import FM4BioTokenizer
 
 GFP_WT_SEQ = (
@@ -682,7 +688,8 @@ def main():
         "long_context_4chip_v7x_int8_tp8_v3": long_4c_int8_tp8,
     }
     raw_bytes = json.dumps(out, indent=2).encode("utf-8")
-    with open("/tmp/v7x_inventor_v3_results.json", "wb") as f:
+    os.makedirs(os.path.dirname(os.path.abspath(OUT_JSON)), exist_ok=True)
+    with open(OUT_JSON, "wb") as f:
         f.write(raw_bytes)
 
     b64 = base64.b64encode(gzip.compress(raw_bytes)).decode("ascii")
@@ -690,7 +697,7 @@ def main():
     chunks = [b64[i : i + chunk_sz] for i in range(0, len(b64), chunk_sz)]
     for idx, ch in enumerate(chunks):
         print(f"V7X_V3_GZIP_B64_CHUNK_{idx+1}_OF_{len(chunks)}:{ch}", flush=True)
-    print("=== Saved /tmp/v7x_inventor_v3_results.json ===", flush=True)
+    print(f"=== Saved {OUT_JSON} ===", flush=True)
 
 
 if __name__ == "__main__":

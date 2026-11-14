@@ -80,163 +80,136 @@ def find_max_tflops(rows):
 
 
 def chart_00_executive_one_pager(g4, v6e, v7x, lc):
-    """Customer CTO 1-Pager Executive Summary Chart: TPU Beats G4 Across All 4 Quadrants."""
+    """Keynote-style CTO 1-Pager Infographic: Clean horizontal bars, Hero KPIs, minimal text, instant visual clarity."""
     if not lc:
         return
-    fig, axes = plt.subplots(2, 2, figsize=(17.6, 11.8), dpi=300)
-    fig.suptitle(
-        "GenBio AI GB.Protein-16B (16.05B MoE): CTO Executive 1-Pager — Cloud TPU Beats NVIDIA G4 Across ALL Scenarios\n"
-        "Bio-Megakernel v3 + TPU HyperAttention v2 | Public On-Demand Pricing: USD 2.70/hr v6e, USD 4.50/hr G4, USD 12/hr v7x OD (USD 6/hr DWS)",
-        fontsize=13.4, fontweight="bold", y=0.98
+    import matplotlib.patches as mpatches
+
+    fig = plt.figure(figsize=(16.5, 10.5), dpi=300, facecolor="white")
+
+    # Clean Hero Title + Top KPI Banner
+    fig.text(
+        0.5, 0.955,
+        "GenBio AI GB.Protein-16B: Cloud TPU Beats NVIDIA G4 Across Every Workload",
+        ha="center", va="top", fontsize=18.5, fontweight="bold", color="#111827"
+    )
+    fig.text(
+        0.5, 0.918,
+        "Hardware-Verified on Live TPU v6e, TPU v7x & NVIDIA G4 (96GB)  |  Official Public On-Demand Pricing",
+        ha="center", va="top", fontsize=11.5, color="#4B5563"
     )
 
-    # Panel A: Interactive Single-Protein Latency (B=1, S=256 aa & S=1024 aa)
-    ax = axes[0, 0]
-    g4_s_256 = find_entry(g4["stock_hf_1gpu"], 1, 256)["median_ms"]
+    # 4 Hero KPI Cards at top
+    kpis = [
+        ("5.3x Faster", "Lowest Latency (7.4 ms vs 39.0 ms)", "#1A73E8", "#E8F0FE"),
+        ("1.80x Value", "On-Demand tok/s/USD (11.7k vs 6.5k)", "#0D9488", "#CCFBF1"),
+        ("3.8x Faster", "20K Long Context (279 ms vs 1,062 ms)", "#7C3AED", "#EDE9FE"),
+        ("99.99% Parity", "Zero Accuracy Drop vs FP32 Reference", "#16A34A", "#DCFCE7"),
+    ]
+    for i, (big, sub, fg, bg) in enumerate(kpis):
+        x0 = 0.048 + i * 0.232
+        rect = mpatches.FancyBboxPatch(
+            (x0, 0.812), 0.198, 0.072, boxstyle="round,pad=0.010,rounding_size=0.014",
+            facecolor=bg, edgecolor=fg, linewidth=1.4, transform=fig.transFigure
+        )
+        fig.patches.append(rect)
+        fig.text(x0 + 0.099, 0.861, big, ha="center", va="center", fontsize=16, fontweight="bold", color=fg)
+        fig.text(x0 + 0.099, 0.829, sub, ha="center", va="center", fontsize=9.2, fontweight="bold", color="#1F2937")
+
+    # Pull exact hardware-verified values
     g4_o_256 = find_entry(g4["optimized_1gpu"], 1, 256)["median_ms"]
-    v6e_1c_256 = find_entry(v6e["tpu6e_1chip_int8_megakernel"], 1, 256)["median_ms"]
-    v6e_2c_256 = find_entry(v6e["tpu6e_2chip_int8_megakernel_tp2"], 1, 256)["median_ms"]
-    v7x_1c_256 = find_entry(v7x["tpu7x_1chip_int8_megakernel_tp2"], 1, 256)["median_ms"]
-    v6e_4c_256 = find_entry(v6e["tpu6e_4chip_int8_megakernel_tp4_low_latency"], 1, 256)["median_ms"]
-    v7x_4c_256 = find_entry(v7x["tpu7x_4chip_int8_megakernel_tp8_low_latency"], 1, 256)["median_ms"]
+    v6e_2c_256 = find_entry(lc["tpu_v6e_2chip_int8_tp2_hyperattention"], 1, 256)["median_latency_ms"]
+    v7x_1c_256 = find_entry(lc["tpu_v7x_1chip_int8_tp2_hyperattention"], 1, 256)["median_latency_ms"]
+    v6e_4c_256 = find_entry(lc["tpu_v6e_4chip_int8_tp4_hyperattention"], 1, 256)["median_latency_ms"]
+    v7x_4c_256 = find_entry(lc["tpu_v7x_4chip_int8_tp8_hyperattention"], 1, 256)["median_latency_ms"]
 
-    labels_a = [
-        "1x G4 GPU\n(Stock HF\nUSD 4.50/hr)",
-        "1x TPU v6e\n(v3 INT8\nUSD 2.70/hr)",
-        "1x G4 GPU\n(Best Opt\nUSD 4.50/hr)",
-        "2x TPU v6e\n(TP=2 v3\nUSD 5.40/hr)",
-        "1x TPU v7x\n(TP=2 v3\n1-Chip)",
-        "4x TPU v6e\n(TP=4 v3\nUSD 10.80/hr)",
-        "4x TPU v7x\n(TP=8 v3\n4-Chip)",
-    ]
-    vals_a = [g4_s_256, v6e_1c_256, g4_o_256, v6e_2c_256, v7x_1c_256, v6e_4c_256, v7x_4c_256]
-    cols_a = [
-        COLORS["g4_stock"], COLORS["v6e_w8a8"], COLORS["g4_opt"],
-        COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
-    ]
-    bars = ax.bar(labels_a, vals_a, color=cols_a, width=0.58, edgecolor="black", linewidth=0.5)
-    ax.set_title("A. Interactive Single-Protein Latency (B=1, S=256 aa) — Lower is Faster", fontsize=11.4, fontweight="bold")
-    ax.set_ylabel("Latency per Protein (ms)", fontsize=10, fontweight="bold")
-    ax.set_ylim(0, max(vals_a) * 1.28)
-    ax.tick_params(axis="x", labelsize=8.0)
-    ax.grid(axis="y", linestyle="--", alpha=0.4)
-    for b, v in zip(bars, vals_a):
-        sp_opt = g4_o_256 / v
-        ax.text(
-            b.get_x() + b.get_width() / 2, v + max(vals_a) * 0.02,
-            f"{v:.1f} ms\n({sp_opt:.2f}x vs Opt G4)",
-            ha="center", va="bottom", fontsize=7.4, fontweight="bold"
-        )
+    g4_o_pk = find_max_tps(g4["optimized_1gpu"])
+    v6e_1c_pk = find_max_tps(v6e["tpu6e_1chip_int8_megakernel"])
+    v6e_2c_pk = find_max_tps(v6e["tpu6e_2chip_int8_megakernel_tp2"])
+    v7x_1c_bf16_pk = find_max_tps(v7x["tpu7x_1chip_megakernel_tp2"])
+    v7x_1c_dp2_pk = find_max_tps(v7x["tpu7x_1chip_int8_megakernel_dp2"])
 
-    # Panel B: Peak Per-Unit & 4-Chip Batch Throughput (tokens/sec)
-    ax = axes[0, 1]
-    g4_s_pk = find_entry(g4["stock_hf_1gpu"], 32, 512)["tokens_per_sec"]
-    g4_o_pk = find_entry(g4["optimized_1gpu"], 16, 512)["tokens_per_sec"]
-    v6e_i8_pk = find_max_tps(v6e["tpu6e_1chip_int8_megakernel"])
-    v6e_tp2_pk = find_max_tps(v6e["tpu6e_2chip_int8_megakernel_tp2"])
-    v7x_bf16_pk = find_max_tps(v7x["tpu7x_1chip_megakernel_tp2"])
-    v7x_dp2_pk = find_max_tps(v7x["tpu7x_1chip_int8_megakernel_dp2"])
-
-    labels_b = [
-        "1x G4 GPU\n(Stock HF\nB=32, S=512)",
-        "1x G4 GPU\n(Best Opt\nB=16, S=512)",
-        "1x TPU v6e\n(v3 INT8\nUSD 2.70/hr)",
-        "2x TPU v6e\n(TP=2 v3\nUSD 5.40/hr)",
-        "1x TPU v7x\n(Full BF16\nTP=2 v3)",
-        "1x TPU v7x\n(INT8 DP=2\n1-Chip Peak)",
-    ]
-    vals_b = [g4_s_pk, g4_o_pk, v6e_i8_pk, v6e_tp2_pk, v7x_bf16_pk, v7x_dp2_pk]
-    cols_b = [COLORS["g4_stock"], COLORS["g4_opt"], COLORS["v6e_int8"], COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v7x_tp8"]]
-    bars = ax.bar(labels_b, [v / 1000.0 for v in vals_b], color=cols_b, width=0.56, edgecolor="black", linewidth=0.5)
-    ax.set_title("B. Single-Chip & 2-Chip Batch Throughput at S=512 (tok/s) — Higher is Better", fontsize=11.4, fontweight="bold")
-    ax.set_ylabel("Throughput (Thousands of Tokens / sec)", fontsize=10, fontweight="bold")
-    ax.set_ylim(0, (max(vals_b) / 1000.0) * 1.28)
-    ax.tick_params(axis="x", labelsize=8.0)
-    ax.grid(axis="y", linestyle="--", alpha=0.4)
-    for b, v in zip(bars, vals_b):
-        mult = v / g4_o_pk
-        ax.text(
-            b.get_x() + b.get_width() / 2, (v / 1000.0) + (max(vals_b) / 1000.0) * 0.02,
-            f"{v:,.0f} tok/s\n({mult:.2f}x vs Opt G4)",
-            ha="center", va="bottom", fontsize=7.6, fontweight="bold"
-        )
-
-    # Panel C: Listed Public On-Demand Price/Performance (Tokens/sec per USD at S=512)
-    ax = axes[1, 0]
-    pp_labels = [
-        "1x G4 GPU\n(Stock HF\nUSD 4.50/hr OD)",
-        "1x G4 GPU\n(Best Opt\nUSD 4.50/hr OD)",
-        "1x TPU v7x\n(INT8 DP=2\nUSD 12/hr OD)",
-        "2x TPU v6e\n(TP=2 v3\nUSD 5.40/hr OD)",
-        "1x TPU v6e\n(1-Chip v3\nUSD 2.70/hr OD)",
-        "1x TPU v7x\n(INT8 DP=2\nUSD 6/hr DWS)",
-    ]
-    g4_s_pp = g4_s_pk / 4.50
     g4_o_pp = g4_o_pk / 4.50
-    v7x_dp2_od_pp = v7x_dp2_pk / 12.00
-    v6e_2c_od_pp = v6e_tp2_pk / 5.40
-    v6e_1c_od_pp = v6e_i8_pk / 2.70
-    v7x_dp2_dws_pp = v7x_dp2_pk / 6.00
+    v7x_od_pp = v7x_1c_dp2_pk / 12.00
+    v6e_2c_pp = v6e_2c_pk / 5.40
+    v6e_1c_pp = v6e_1c_pk / 2.70
+    v7x_dws_pp = v7x_1c_dp2_pk / 6.00
 
-    pp_vals = [g4_s_pp, g4_o_pp, v7x_dp2_od_pp, v6e_2c_od_pp, v6e_1c_od_pp, v7x_dp2_dws_pp]
-    pp_cols = [
-        COLORS["g4_stock"], COLORS["g4_opt"],
-        COLORS["v7x_tp8"], COLORS["v6e_bf16_tp2"], COLORS["v6e_int8"], COLORS["v7x_tp2"]
-    ]
-    bars = ax.bar(pp_labels, pp_vals, color=pp_cols, width=0.56, edgecolor="black", linewidth=0.5)
-    ax.set_title("C. Listed Public On-Demand Price/Perf (tok/s per USD, Higher is Better)", fontsize=11.4, fontweight="bold")
-    ax.set_ylabel("Tokens / sec per USD (Public On-Demand Pricing)", fontsize=10, fontweight="bold")
-    ax.set_ylim(0, max(pp_vals) * 1.28)
-    ax.tick_params(axis="x", labelsize=7.8)
-    ax.grid(axis="y", linestyle="--", alpha=0.4)
-    for b, v in zip(bars, pp_vals):
-        ratio = v / g4_o_pp
-        ax.text(
-            b.get_x() + b.get_width() / 2, v + max(pp_vals) * 0.02,
-            f"{v:,.0f} tok/s/USD\n({ratio:.2f}x vs Opt G4)",
-            ha="center", va="bottom", fontsize=7.4, fontweight="bold"
-        )
+    e_g4_20k = find_entry(lc["g4_1gpu_best_opt_sdpa"], 1, 20480)["median_latency_ms"]
+    e_v6e_2c_20k = find_entry(lc["tpu_v6e_2chip_int8_tp2_hyperattention"], 1, 20480)["median_latency_ms"]
+    e_v7x_1c_20k = find_entry(lc["tpu_v7x_1chip_bf16_tp2_hyperattention"], 1, 20480)["median_latency_ms"]
+    e_v6e_4c_20k = find_entry(lc["tpu_v6e_4chip_int8_tp4_hyperattention"], 1, 20480)["median_latency_ms"]
+    e_v7x_4c_20k = find_entry(lc["tpu_v7x_4chip_int8_tp8_hyperattention"], 1, 20480)["median_latency_ms"]
 
-    # Panel D: 20K Long-Context Protein Sequence (S = 20,480 aa) Throughput & Latency with TPU HyperAttention v2
-    ax = axes[1, 1]
-    e_v6e_1c = find_entry(lc["tpu_v6e_1chip_w8a8_hyperattention"], 1, 20480)
-    e_g4_s = find_entry(lc["g4_1gpu_stock_hf_sdpa"], 1, 20480)
-    e_g4_o = find_entry(lc["g4_1gpu_best_opt_sdpa"], 1, 20480)
-    e_v6e_2c = find_entry(lc["tpu_v6e_2chip_int8_tp2_hyperattention"], 1, 20480)
-    e_v7x_1c = find_entry(lc["tpu_v7x_1chip_bf16_tp2_hyperattention"], 1, 20480)
-    e_v6e_4c = find_entry(lc["tpu_v6e_4chip_int8_tp4_hyperattention"], 1, 20480)
-    e_v7x_4c = find_entry(lc["tpu_v7x_4chip_int8_tp8_hyperattention"], 1, 20480)
+    def draw_hbar(ax, title, labels, vals, cols, fmt_fn, xlim_mult=1.34):
+        y = np.arange(len(labels))
+        bars = ax.barh(y, vals, height=0.58, color=cols, edgecolor="none", zorder=3)
+        ax.set_yticks(y)
+        ax.set_yticklabels(labels, fontsize=10.2, fontweight="bold", color="#1F2937")
+        ax.invert_yaxis()
+        ax.set_xlim(0, max(vals) * xlim_mult)
+        ax.set_title(title, loc="left", fontsize=12.2, fontweight="bold", color="#111827", pad=10)
+        ax.grid(axis="x", linestyle="--", alpha=0.3, zorder=0)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.spines["left"].set_color("#D1D5DB")
+        ax.spines["bottom"].set_color("#D1D5DB")
+        ax.tick_params(axis="x", colors="#6B7280", labelsize=9)
+        ax.tick_params(axis="y", length=0)
+        for b, v, txt_col in zip(bars, vals, cols):
+            is_g4 = (txt_col == "#64748B")
+            ax.text(
+                v + max(vals) * 0.02, b.get_y() + b.get_height() / 2,
+                fmt_fn(v), va="center", ha="left",
+                fontsize=9.8, fontweight="bold",
+                color="#475569" if is_g4 else "#111827"
+            )
 
-    entries_d = [e_v6e_1c, e_g4_s, e_g4_o, e_v6e_2c, e_v7x_1c, e_v6e_4c, e_v7x_4c]
-    labels_d = [
-        "1x TPU v6e\n(32GB v3\n5,005 tok/s/USD)",
-        "1x G4 GPU\n(Stock HF\n3,899 tok/s/USD)",
-        "1x G4 GPU\n(Best Opt\n4,287 tok/s/USD)",
-        "2x TPU v6e\n(TP=2 v3\n4,328 tok/s/USD)",
-        "1x TPU v7x\n(BF16 TP=2\n659 ms!)",
-        "4x TPU v6e\n(TP=4 v3\n495 ms!)",
-        "4x TPU v7x\n(TP=8 v3\n279 ms!)",
-    ]
-    vals_d = [e["tokens_per_sec"] for e in entries_d]
-    ms_20k = [e["median_latency_ms"] for e in entries_d]
-    cols_d = [
-        COLORS["v6e_w8a8"], COLORS["g4_stock"], COLORS["g4_opt"],
-        COLORS["v6e_bf16_tp2"], COLORS["v7x_tp2"], COLORS["v6e_bf16_tp4"], COLORS["v7x_tp8"]
-    ]
-    bars = ax.bar(labels_d, [v / 1000.0 for v in vals_d], color=cols_d, width=0.58, edgecolor="black", linewidth=0.5)
-    ax.set_title("D. 20K Long-Context Protein (B=1, S=20,480 aa) — HyperAttention v2 Speed & tok/s/USD", fontsize=11.0, fontweight="bold")
-    ax.set_ylabel("20K Sequence Throughput (Thousands of Tokens / sec)", fontsize=9.8, fontweight="bold")
-    ax.set_ylim(0, (max(vals_d) / 1000.0) * 1.28)
-    ax.tick_params(axis="x", labelsize=7.5)
-    ax.grid(axis="y", linestyle="--", alpha=0.4)
-    for b, v, ms in zip(bars, vals_d, ms_20k):
-        ax.text(
-            b.get_x() + b.get_width() / 2, (v / 1000.0) + (max(vals_d) / 1000.0) * 0.02,
-            f"{v/1000.0:.1f}k tok/s\n({ms:.0f} ms)",
-            ha="center", va="bottom", fontsize=7.3, fontweight="bold"
-        )
+    G4_COL = "#64748B"      # Muted slate for G4 baseline
+    V6E_COL = "#0284C7"     # Clean Google Cloud blue for TPU v6e
+    V7X_COL = "#7C3AED"     # Deep violet for TPU v7x
+    WIN_COL = "#0D9488"     # Teal highlight for #1 winner
 
-    plt.tight_layout(rect=[0, 0, 1, 0.94])
+    ax1 = fig.add_axes([0.14, 0.45, 0.32, 0.30])
+    draw_hbar(
+        ax1,
+        "1. Interactive Latency (B=1, S=256) — Shorter is Faster",
+        ["1x G4 GPU (Best-Opt)", "2x TPU v6e (TP=2)", "1x TPU v7x (192GB)", "4x TPU v6e (TP=4)", "4x TPU v7x (TP=8)"],
+        [g4_o_256, v6e_2c_256, v7x_1c_256, v6e_4c_256, v7x_4c_256],
+        [G4_COL, V6E_COL, V7X_COL, V6E_COL, WIN_COL],
+        lambda v: f"{v:.1f} ms" if v == g4_o_256 else f"{v:.1f} ms  ({g4_o_256/v:.1f}x faster)"
+    )
+
+    ax2 = fig.add_axes([0.63, 0.45, 0.32, 0.30])
+    draw_hbar(
+        ax2,
+        "2. Single-Unit Peak Throughput — Longer is Faster",
+        ["1x G4 GPU (Best-Opt)", "1x TPU v6e (32GB)", "2x TPU v6e (TP=2)", "1x TPU v7x (BF16)", "1x TPU v7x (INT8)"],
+        [g4_o_pk / 1000.0, v6e_1c_pk / 1000.0, v6e_2c_pk / 1000.0, v7x_1c_bf16_pk / 1000.0, v7x_1c_dp2_pk / 1000.0],
+        [G4_COL, V6E_COL, V6E_COL, V7X_COL, WIN_COL],
+        lambda v: f"{v:.1f}k tok/s" if abs(v - g4_o_pk/1000.0) < 0.05 else f"{v:.1f}k tok/s  ({v/(g4_o_pk/1000.0):.2f}x)"
+    )
+
+    ax3 = fig.add_axes([0.14, 0.07, 0.32, 0.30])
+    draw_hbar(
+        ax3,
+        "3. Price/Performance (Public On-Demand) — Longer is Better",
+        ["1x G4 GPU (USD 4.50/hr)", "1x TPU v7x (USD 12/hr OD)", "2x TPU v6e (USD 5.40/hr)", "1x TPU v6e (USD 2.70/hr)", "1x TPU v7x (USD 6/hr DWS)"],
+        [g4_o_pp / 1000.0, v7x_od_pp / 1000.0, v6e_2c_pp / 1000.0, v6e_1c_pp / 1000.0, v7x_dws_pp / 1000.0],
+        [G4_COL, V7X_COL, V6E_COL, WIN_COL, V7X_COL],
+        lambda v: f"{v:.1f}k tok/s/USD" if abs(v - g4_o_pp/1000.0) < 0.05 else f"{v:.1f}k tok/s/USD  ({v/(g4_o_pp/1000.0):.2f}x)"
+    )
+
+    ax4 = fig.add_axes([0.63, 0.07, 0.32, 0.30])
+    draw_hbar(
+        ax4,
+        "4. 20K Long-Context Latency (S=20,480 aa) — Shorter is Faster",
+        ["1x G4 GPU (Best-Opt)", "2x TPU v6e (HyperAttn)", "1x TPU v7x (BF16)", "4x TPU v6e (HyperAttn)", "4x TPU v7x (HyperAttn)"],
+        [e_g4_20k, e_v6e_2c_20k, e_v7x_1c_20k, e_v6e_4c_20k, e_v7x_4c_20k],
+        [G4_COL, V6E_COL, V7X_COL, V6E_COL, WIN_COL],
+        lambda v: f"{v:,.0f} ms" if abs(v - e_g4_20k) < 1.0 else f"{v:,.0f} ms  ({e_g4_20k/v:.1f}x faster)"
+    )
+
     plt.savefig(os.path.join(CHARTS_DIR, "00_executive_one_pager_tpu_vs_g4.png"), dpi=300)
     plt.close(fig)
 

@@ -20,13 +20,13 @@ We compared **GenBio AI's `GB.Protein-16B`** (`16.05B` total parameters, `4.21B`
 | Hardware Configuration | Chip Count & Public Rate | Memory & Precision | Single-Protein Latency (`B=1, S=256` / `S=1024`) | Peak Throughput (`tokens/sec` @ `S=512`) | `20K` Long-Context (`B=1, S=20,480`) | Public On-Demand Price/Perf (`tok/s/$` @ `S=512` & `20K`) | Biological Intelligence (`ClinVar Acc` / `DMS r` / `Logit Cos`) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **1× NVIDIA G4 GPU (Stock HF)** | `1× Chip` (\$4.50/hr) | `BF16` (`32.1 GB` / `96 GB`) | `64.03 ms` / `156.92 ms` | `24,788 tok/s` | `1,167.2 ms` (`17.5k tok/s` SDPA; **OOM $\ge$8K Eager**) | `5,508 tok/s/$` (`3,899` @ `20K`) | `83.3%` / `0.999950` / `0.999959` |
-| **1× NVIDIA G4 GPU (Best-Optimized)** | `1× Chip` (\$4.50/hr) | `BF16` (`32.1 GB` / `96 GB`) | `39.01 ms` / `65.17 ms` | `23,319 tok/s` (`29.2k` @ `S=1024`) | `1,061.5 ms` (`19.3k tok/s` SDPA) | `5,182 tok/s/$` (`6,489` pk / `4,287` @ `20K`) | `83.3%` / `0.999911` / `0.999971` |
-| **1× TPU v6e Chip (Bio-Megakernel v3 INT8)** | `1× Chip` (\$2.70/hr) | `INT8` (`16.1 GB` / `32 GB`) | `41.94 ms` / **`61.19 ms`** | **`31,564 tok/s`** (**`1.35×` vs G4**) | **`1,515.5 ms` (`13.5k tok/s` HyperAttn v2)** | **`11,691 tok/s/$` (`2.26×` vs G4)** / **`5,005` @ `20K` (`+17%`)** | **`83.3%` / `0.999929` / `0.999710`** |
-| **2× TPU v6e Chips (Bio-Megakernel v3 `TP=2`)** | `2× Chips` (\$5.40/hr) | `INT8` / `BF16` (`64 GB`) | **`20.89 ms` / `34.23 ms`** (**`1.90×` faster**) | **`46,230 tok/s`** (`TP=2`) / **`63,128`** (`DP=2`) | **`876.4 ms` (`23.4k tok/s`, `1.21×` faster)** | **`8,561–11,691 tok/s/$`** / **`4,328` @ `20K` (Beats G4!)** | **`83.3%` / `0.999924` / `0.999949`** |
-| **1× TPU v7x Chip (Bio-Megakernel v3 `TP=2` / `DP=2`)** | `1× Chip` (\$12/hr OD, \$6/hr DWS) | `BF16` / `INT8` (`192 GB`) | **`15.90 ms` (`INT8`) / `34.62 ms` (`BF16`)** | **`83,841 tok/s` (`INT8 DP=2`) / `73,699` (`BF16`)** | **`659.0 ms` (`BF16`, `31.1k tok/s`, `1.61×` faster)** | **`6,987 tok/s/$` OD (`1.35×` vs G4) / `13,973` DWS (`2.70×`)** | **`83.3%` / `0.999941` / `0.999875`** |
-| **4× NVIDIA G4 GPUs (Best-Optimized)** | `4× Chips` (\$18.00/hr) | `BF16` (`DP=4` / PCIe `TP=4`) | `39.01 ms` *(1-GPU floor; `739.6 ms` TP=4)* | `84,655 tok/s` (`116.3k` @ `S=1024`) | `3,972.0 ms` (`5.2k tok/s` PCIe `TP=4`) | `4,703 tok/s/$` (`6,460` pk) | `83.3%` / `0.999911` / `0.999971` |
-| **4× TPU v6e Chips (Bio-Megakernel v3 `TP=4` / `DP=4`)** | `4× Chips` (\$10.80/hr) | `INT8` / `BF16` (`128 GB`) | **`10.36 ms` (`INT8`) / `19.24 ms` (`BF16`)** | **`126,207 tok/s`** (**`1.49×` faster**) | **`495.5 ms` (`41.3k tok/s`, `2.14×` vs 1×G4, `8.0×` vs 4×G4)** | **`11,686 tok/s/$` (`2.48×` vs 4×G4)** / **`3,827` @ `20K`** | **`83.3%` / `0.999969` / `0.999939`** |
-| **4× TPU v7x Chips (Bio-Megakernel v3 `TP=8` / `DP=8`)** | `4× Chips` (\$48/hr OD, \$24/hr DWS) | `INT8` / `BF16` (`768 GB`) | **`7.40 ms` (`INT8`) / `12.49 ms` (`BF16`)** | **`335,003 tok/s` (`INT8`) / `299,256` (`BF16`)** | **`278.9 ms` (`73.4k tok/s`, `3.81×` vs 1×G4, `14.2×` vs 4×G4)** | **`6,979 tok/s/$` OD (`1.48×` vs 4×G4) / `13,959` DWS** | **`83.3%` / `0.999965` / `0.999957`** |
+| **1× NVIDIA G4 GPU (Best-Optimized)** | `1× Chip` (\$4.50/hr) | `BF16` (`32.1 GB` / `96 GB`) | `39.01 ms` / `56.09 ms` | `29,202 tok/s` (`28.7k` @ `S=512`) | `1,061.5 ms` (`19.3k tok/s` SDPA) | `6,489 tok/s/$` (`6,382` @ `S=512`, `4,287` @ `20K`) | `83.3%` / `0.999911` / `0.999971` |
+| **1× TPU v6e Chip (Bio-Megakernel v3 INT8)** | `1× Chip` (\$2.70/hr) | `INT8` (`16.1 GB` / `32 GB`) | `41.94 ms` / `61.19 ms` | **`31,564 tok/s`** (**`1.08×–1.10×` vs G4**) | **`1,515.5 ms` (`13.5k tok/s` HyperAttn v2)** | **`11,691 tok/s/$` (`1.80×–1.83×` vs G4)** / **`5,005` @ `20K` (`+17%`)** | **`83.3%` / `0.999929` / `0.999710`** |
+| **2× TPU v6e Chips (Bio-Megakernel v3 `TP=2`)** | `2× Chips` (\$5.40/hr) | `INT8` / `BF16` (`64 GB`) | **`20.89 ms` / `34.23 ms`** (**`1.64×` faster**) | **`46,230 tok/s`** (`TP=2`) / **`63,128`** (`DP=2`) | **`876.4 ms` (`23.4k tok/s`, `1.21×` faster)** | **`8,561–11,691 tok/s/$`** / **`4,328` @ `20K` (Beats G4!)** | **`83.3%` / `0.999924` / `0.999949`** |
+| **1× TPU v7x Chip (Bio-Megakernel v3 `TP=2` / `DP=2`)** | `1× Chip` (\$12/hr OD, \$6/hr DWS) | `BF16` / `INT8` (`192 GB`) | **`15.90 ms` (`INT8`) / `34.62 ms` (`BF16`)** | **`83,841 tok/s` (`INT8 DP=2`) / `73,699` (`BF16`)** | **`659.0 ms` (`BF16`, `31.1k tok/s`, `1.61×` faster)** | **`6,987 tok/s/$` OD (`1.08×` vs G4) / `13,973` DWS (`2.15×`)** | **`83.3%` / `0.999941` / `0.999875`** |
+| **4× NVIDIA G4 GPUs (Best-Optimized)** | `4× Chips` (\$18.00/hr) | `BF16` (`DP=4` / PCIe `TP=4`) | `39.01 ms` *(1-GPU floor; `739.6 ms` TP=4)* | `116,280 tok/s` (`114.6k` @ `S=512`) | `3,972.0 ms` (`5.2k tok/s` PCIe `TP=4`) | `6,460 tok/s/$` (`6,365` @ `S=512`) | `83.3%` / `0.999911` / `0.999971` |
+| **4× TPU v6e Chips (Bio-Megakernel v3 `TP=4` / `DP=4`)** | `4× Chips` (\$10.80/hr) | `INT8` / `BF16` (`128 GB`) | **`10.36 ms` (`INT8`) / `19.24 ms` (`BF16`)** | **`126,207 tok/s`** (**`1.09×–1.10×` faster**) | **`495.5 ms` (`41.3k tok/s`, `2.14×` vs 1×G4, `8.0×` vs 4×G4)** | **`11,686 tok/s/$` (`1.81×` vs 4×G4)** / **`3,827` @ `20K`** | **`83.3%` / `0.999969` / `0.999939`** |
+| **4× TPU v7x Chips (Bio-Megakernel v3 `TP=8` / `DP=8`)** | `4× Chips` (\$48/hr OD, \$24/hr DWS) | `INT8` / `BF16` (`768 GB`) | **`7.40 ms` (`INT8`) / `12.49 ms` (`BF16`)** | **`335,003 tok/s` (`INT8`) / `299,256` (`BF16`)** | **`278.9 ms` (`73.4k tok/s`, `3.81×` vs 1×G4, `14.2×` vs 4×G4)** | **`6,979 tok/s/$` OD (`1.08×` vs 4×G4) / `13,959` DWS** | **`83.3%` / `0.999965` / `0.999957`** |
 
 ---
 
@@ -82,24 +82,24 @@ We compared **GenBio AI's `GB.Protein-16B`** (`16.05B` total parameters, `4.21B`
 
 ## 4. Single-Protein Interactive Latency (`Batch = 1`, `S = 256` to `2,048` aa)
 
-**What this chart shows**: When designing proteins interactively (`Batch = 1`), **`1× TPU v7x` (`34.74 ms`)** beats **`1× Best-Optimized G4` (`39.01 ms`)** across every sequence length from `256` to `2,048` amino acids and is **`1.84×` faster than `1× Stock G4` (`64.03 ms`)**. **`1× TPU v6e` fits the entire 16B model on a single 32 GB chip (`42.06 ms` Pallas W8A8 / `42.87 ms` INT8 W8A16)**, while sharding across 4 chips via high-speed ICI interconnect cuts latency to **`18.85 ms` on `4× TPU v6e` (`2.07×` faster than Best-Opt G4)** and **`12.52 ms` on `4× TPU v7x` (`3.12×` faster than Best-Opt G4)**.
+**What this chart shows**: When designing proteins interactively (`Batch = 1`), **`1× TPU v7x` (`15.90–16.22 ms` INT8 / `34.62 ms` BF16)** and **`2× TPU v6e` (`20.89–20.93 ms` INT8 TP=2)** beat **`1× Best-Optimized G4` (`39.01 ms`)** across every sequence length from `256` to `2,048` amino acids. **`1× TPU v6e` fits the entire 16B model on a single 32 GB chip (`41.94 ms` at `S=256`, and `44.15–44.21 ms` at `S=512` — beating `1× Best-Opt G4` `44.56 ms` in both latency and On-Demand `tok/s/USD`!)**, while sharding across 4 chips via high-speed ICI interconnect cuts latency to **`10.36–10.37 ms` INT8 (`18.85 ms` BF16) on `4× TPU v6e`** and **`7.40–7.41 ms` INT8 (`12.49 ms` BF16) on `4× TPU v7x` (`5.27×` faster than Best-Opt G4)**.
 
 ![Single-Protein Latency Scaling](charts/02_single_protein_latency_scaling.png)
 
-| Protein Length (`Batch = 1`) | `1× G4` (Stock) | `1× G4` (Best-Opt) | `1× TPU v6e` (Pallas W8A8 / INT8 W8A16) | `2× TPU v6e` (BF16 `TP=2`) | `1× TPU v7x` (BF16 `TP=2`) | `4× TPU v6e` (BF16 `TP=4`) | `4× TPU v7x` (BF16 `TP=8`) |
+| Protein Length (`Batch = 1`) | `1× G4` (Stock) | `1× G4` (Best-Opt) | `1× TPU v6e` (`v3` INT8, USD 2.70/hr) | `2× TPU v6e` (`v3` INT8 / BF16 `TP=2`) | `1× TPU v7x` (`v3` INT8 / BF16 `TP=2`) | `4× TPU v6e` (`v3` INT8 / BF16 `TP=4`) | `4× TPU v7x` (`v3` INT8 / BF16 `TP=8`) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`256 aa`** *(Single Domain, e.g., GFP)* | `64.03 ms` | `39.01 ms` | `42.06 ms` / `42.87 ms` | `41.80 ms` | **`34.74 ms`** | **`18.85 ms`** (`2.07×` vs Opt G4) | **`12.52 ms`** (`3.12×` vs Opt G4) |
-| **`512 aa`** *(Medium Protein, e.g., p53)* | `67.97 ms` | `44.56 ms` | `46.50 ms` / `49.90 ms` | `43.98 ms` | **`39.01 ms`** | **`22.67 ms`** (`1.97×` vs Opt G4) | **`15.61 ms`** (`2.85×` vs Opt G4) |
-| **`1,024 aa`** *(Multi-Chain Complex)* | `75.80 ms` | `56.09 ms` | `70.91 ms` / `78.92 ms` | `56.59 ms` | **`50.76 ms`** | **`30.83 ms`** (`1.82×` vs Opt G4) | **`21.86 ms`** (`2.57×` vs Opt G4) |
-| **`2,048 aa`** *(Large Multi-Chain Complex)* | `112.20 ms` | `90.88 ms` | `134.83 ms` / `130.06 ms` | `92.74 ms` | **`73.55 ms`** | **`52.84 ms`** (`1.72×` vs Opt G4) | **`38.37 ms`** (`2.37×` vs Opt G4) |
+| **`256 aa`** *(Single Domain, e.g., GFP)* | `64.03 ms` | `39.01 ms` | `41.94 ms` (**`2,261 tok/s/USD`**) | **`20.89–20.93 ms`** / `41.80 ms` | **`15.90–16.22 ms`** / **`34.62 ms`** | **`10.36–10.37 ms`** / `18.85 ms` | **`7.40–7.41 ms`** / **`12.49 ms`** |
+| **`512 aa`** *(Medium Protein, e.g., p53)* | `67.97 ms` | `44.56 ms` | **`44.15–44.21 ms`** (**`4,295 tok/s/USD`**) | **`25.06–25.08 ms`** / `43.98 ms` | **`19.88–20.06 ms`** / **`37.31 ms`** | **`11.89 ms`** / `22.67 ms` | **`10.16–10.20 ms`** / **`15.29 ms`** |
+| **`1,024 aa`** *(Multi-Chain Complex)* | `75.80 ms` | `56.09 ms` | `61.19 ms` (**`6,198 tok/s/USD`**) | **`34.23–34.41 ms`** / `56.59 ms` | **`30.83 ms`** / **`47.89 ms`** | **`17.64–17.68 ms`** / `30.83 ms` | **`15.95–16.07 ms`** / **`19.64 ms`** |
+| **`2,048 aa`** *(Large Multi-Chain Complex)* | `112.20 ms` | `90.88 ms` | `98.00 ms` (**`7,740 tok/s/USD`**) | **`57.16–57.23 ms`** / `92.74 ms` | **`43.82 ms`** / **`60.91 ms`** | **`29.95–29.97 ms`** / `52.84 ms` | **`24.38 ms`** / **`27.46 ms`** |
 
 ---
 
 ## 5. Single-Chip & 4-Chip Batch Throughput (`tokens/sec`, Higher is Better)
 
 **What these two charts show**:
-- **Single-Chip & 2-Chip Scaling (Chart 3)**: **`1× TPU v7x`** reaches **`52,631 tokens/sec`** (**`1.80×` higher than `1× Best-Optimized G4` and `2.12×` higher than `1× Stock G4`**). **`2× TPU v6e` (minimum BF16)** reaches **`32,801 tokens/sec`** (**`1.12×` higher than `1× Best-Optimized G4`**), while **`1× TPU v6e` (single 32 GB chip INT8)** delivers **`21,563 tokens/sec`**.
-- **4-Chip Cluster Scaling (Chart 4)**: At `4× Chips`, **`4× TPU v7x (DP=4×TP=2)` reaches `202,150 tokens/sec` (`3,468.63 TFLOPS`, `1.74×` higher than `4× Best-Optimized G4`)**, while at medium batch (`Total Batch = 4, S = 512`), **`4× TPU v6e` (`40,987 tok/s` INT8 DP=4 / `41,121 tok/s` BF16 TP=4) is `1.97×–1.98×` faster than `4× Best-Optimized G4` (`20,805 tok/s`)**.
+- **Single-Chip & 2-Chip Scaling (Chart 3)**: **`1× TPU v7x`** reaches **`83,841 tokens/sec` (`v3` INT8 DP=2)** and **`73,699 tokens/sec` (`v3` BF16 TP=2)** (**`2.87×` and `2.52×` higher than `1× Best-Optimized G4` `29,202 tok/s`**). **`2× TPU v6e`** reaches **`46,230 tokens/sec` (`v3` INT8 TP=2, `1.58×` vs Best-Opt G4)** and **`32,801 tokens/sec` (BF16 TP=2)**, while **`1× TPU v6e` (single 32 GB chip, `v3` INT8)** delivers **`31,564 tokens/sec` (`1.08×` faster than `1× Best-Opt G4` and `1.80×` higher On-Demand `tok/s/USD`!)**.
+- **4-Chip Cluster Scaling (Chart 4)**: At `4× Chips`, **`4× TPU v7x` reaches `335,003 tokens/sec` (`v3` INT8 DP=8, `5,663 TFLOPS`, `2.88×` higher than `4× Best-Optimized G4` `116,280 tok/s`)** and **`294,401 tokens/sec` (`v3` BF16 DP=4×TP=2, `4,977 TFLOPS`, `2.53×` higher than `4× Best-Optimized G4`)**, while **`4× TPU v6e (v3 INT8 DP=4)` reaches `126,207 tokens/sec` (`1.09×` higher raw throughput and `1.81×` higher On-Demand `tok/s/USD` than `4× Best-Opt G4`)**.
 
 ![Per-Accelerator Throughput Scaling](charts/03_per_accelerator_throughput_scaling.png)
 
@@ -107,27 +107,28 @@ We compared **GenBio AI's `GB.Protein-16B`** (`16.05B` total parameters, `4.21B`
 
 ---
 
-## 6. Relative Price/Performance Comparison (`%` Only, Zero Dollar Figures)
+## 6. Public On-Demand Price/Performance & Relative Efficiency (`tok/s/USD` & `%`)
 
-**What this chart shows**: Comparing relative Price/Performance as a **percentage (`%`) normalized to `1× Stock G4 = 100%` (Panel A) and `1× Best-Optimized G4 = 100%` (Panel B)**:
-- **`1× TPU v6e (Single-Chip INT8)`**: Delivers `87%` of Stock G4's raw throughput on a compact 32 GB chip (`~65%` of a G4's per-chip cost tier), resulting in **`134%` Price/Performance (`+34%` better than Stock G4, `+14%` better than Best-Optimized G4)**.
-- **`1× TPU v7x (Full BF16)`**: Delivers `212%` of Stock G4's raw throughput at `~115%` of the per-chip cost tier, resulting in **`185%` Price/Performance (`+85%` better than Stock G4, `+57%` better than Best-Optimized G4)**.
+**What this chart shows**: Using official listed public On-Demand rates (**USD 2.70/hr** for `1× TPU v6e`, **USD 5.40/hr** for `2× TPU v6e`, **USD 10.80/hr** for `4× TPU v6e`, **USD 4.50/hr** for `1× NVIDIA G4`, **USD 12.00/hr On-Demand / USD 6.00/hr DWS Flex** for `1× TPU v7x`):
+- **`1× TPU v6e (Single 32 GB Chip, v3 INT8)`**: Delivers **`31,564 tok/s`** at **USD 2.70/hr**, achieving **`11,691 tok/s/USD`** — **`1.80× (+80.2%)` higher On-Demand Price/Performance than `1× Best-Optimized G4` (`6,489 tok/s/USD`)** and **`2.12× (+112.2%)` higher than `1× Stock G4` (`5,508 tok/s/USD`)**.
+- **`2× TPU v6e (v3 INT8 TP=2)`**: Delivers **`46,230 tok/s`** at **USD 5.40/hr** (**`8,561 tok/s/USD`**, **`1.32× (+31.9%)` better than `1× Best-Optimized G4`**).
+- **`1× TPU v7x (192 GB HBM3e, v3 INT8 DP=2)`**: Delivers **`83,841 tok/s`**, achieving **`6,987 tok/s/USD` (`1.08×` better than Best-Opt G4 at USD 12/hr On-Demand)** and **`13,973 tok/s/USD` (`2.15×` better than Best-Opt G4 on USD 6/hr DWS Flex)**.
 
 ![Relative Price/Performance Efficiency Percentage](charts/05_price_performance_efficiency_percentage.png)
 
 ---
 
-## 7. Architecture & Kernel Engineering (`TorchTPU`, Megablox MoE, Pallas VMEM & `TPU HyperAttention`)
+## 7. Architecture & Kernel Engineering (`Bio-Megakernel v3` & `TPU HyperAttention v2`)
 
 **How our TPU optimization stack works**:
-1. **Full-Model SPMD Megakernel (`tpu_v7x_megakernel_benchmark.py` / `tpu_v6e_megakernel_benchmark.py`)**:
-   - **Pre-Stacked 3D Expert Tensors (`[8, H, I]`) & `36`-Layer `jax.lax.scan`**: Fuses all 36 Transformer + Top-2 MoE layers into a single XLA program (`0` host-device round-trips), sustaining up to **`3,468.63 TFLOPS`** (`202,150 tok/s`) on `4× TPU v7x`.
-   - **BF16 Megablox MoE (`megablox_moe_block`) vs. Single-Chip Pallas VMEM W8A8 (`megablox_moe_block_pallas_w8a8`)**: On `BF16` (`TPU v7x` & `2×/4× TPU v6e`), XLA compiler-fuses the active-expert gather + Bias-SwiGLU activation across the 1D/2D `shard_map` mesh with only **2 `psum` AllReduces per layer**. On `1× TPU v6e (32 GB)`, `megablox_moe_block_pallas_w8a8` invokes an explicit `pl.pallas_call` VMEM kernel that tiles `gate` and `up` activations directly in on-chip VMEM SRAM and feeds native `INT8×INT8 -> INT32` MXU matmuls (`1,836 TOPS` peak).
+1. **Full-Model SPMD `Bio-Megakernel v3` (`tpu_v6e_inventor_v3_benchmark.py` / `tpu_v7x_inventor_v3_benchmark.py`)**:
+   - **Pre-Stacked 3D Expert Tensors (`[8, H, I]`) & `36`-Layer `jax.lax.scan`**: Fuses all 36 Transformer + Top-2 MoE layers into a single XLA program (`0` host-device round-trips), sustaining up to **`5,663 TFLOPS` (`335,003 tok/s` INT8)** and **`4,977 TFLOPS` (`294,401 tok/s` BF16)** on `4× TPU v7x`.
+   - **Cross-SwiGLU Bilinear Scale Folding + 1D Inverse-Permutation Gather + OneHot Zero-Gather Epilogue**: Eliminates intermediate dequantization casts and 2D `[8, N, H]` HBM routing buffers, lifting `1× TPU v6e (32 GB)` throughput from `21,563 tok/s` (`v1`) to **`31,564 tok/s` (`v3`, `+46.4%`)** and `1× TPU v7x` throughput from `52,631 tok/s` (`v1`) to **`73,699 tok/s` (`v3` BF16, `+40.0%`)** and **`83,841 tok/s` (`v3` INT8, `+59.3%`)**.
    - **Standalone Pallas VMEM Fused Bias-SwiGLU Microbenchmark (`Chart 6B`)**: Achieves **`1,207.0 GB/s`** effective memory bandwidth (`260.63 µs` at `M=8,192`) on `TPU v7x` and **`759.4 GB/s`** (`414.23 µs`) on `TPU v6e`.
 2. **Native PyTorch Integration (`TorchTPU` + `pallas.jax_op`)**:
-   - On a single `TPU v7x` TensorCore (`tpu:0`), `torch.compile(backend="tpu")` executes 36 layers in **`21.87 ms` (`S=256`), `31.88 ms` (`S=512`), and `53.75 ms` (`S=1024`)**. Wrapping the custom Pallas VMEM kernel via `pallas.jax_op` inside a per-expert Python loop adds `~0.9–8.9 ms` of per-expert dispatch overhead (`22.74 ms / 35.47 ms / 62.63 ms`, `0.999995` cosine similarity vs Stock TorchTPU), which is completely eliminated when combined with vectorized 3D expert stacking in the full-model Megablox engine (`34.74 ms` on `1× v7x TP=2` and `12.52 ms` on `4× v7x TP=8`).
-3. **VMEM-Tiled `TPU HyperAttention` (`tpu_hyperattention_bidirectional`)**:
-   - Tiles bidirectional (`causal=False`) self-attention into `512 × 512` VMEM blocks (`1.69 MiB` VMEM footprint), eliminating the `[B, 36, S, S]` HBM score matrix and enabling `20K`-token inference across both `32 GB` `TPU v6e` and `192 GB` `TPU v7x`.
+   - On a single `TPU v7x` TensorCore (`tpu:0`), `torch.compile(backend="tpu")` executes 36 layers in **`21.87 ms` (`S=256`), `31.88 ms` (`S=512`), and `53.75 ms` (`S=1024`)**. Wrapping the custom Pallas VMEM kernel via `pallas.jax_op` inside a per-expert Python loop adds `~0.9–8.9 ms` of per-expert dispatch overhead (`22.74 ms / 35.47 ms / 62.63 ms`, `0.999995` cosine similarity vs Stock TorchTPU), which is completely eliminated when combined with vectorized 3D expert stacking in `Bio-Megakernel v3` (`15.90 ms` INT8 / `34.62 ms` BF16 on `1× v7x TP=2` and `7.40 ms` INT8 / `12.49 ms` BF16 on `4× v7x TP=8`).
+3. **Zero-Transpose `TPU HyperAttention v2` (`splash_attention_kernel`)**:
+   - Projects QKV directly into `[B, H_heads, S, D_head]` and tiles bidirectional (`causal=False`) self-attention in VMEM (`block_q=1024, block_kv=1024` with `megacore_mode=" head_and_seq"`), cutting `20K` (`S=20,480`) latency from `2,710.3 ms` (`v1`) to **`1,515.49 ms` on `1× TPU v6e`**, **`876.37 ms` on `2× TPU v6e`**, **`658.99 ms` on `1× TPU v7x (BF16)`**, **`495.46 ms` on `4× TPU v6e`**, and **`278.92 ms` on `4× TPU v7x`**.
 
 ![Optimization Waterfall Progression](charts/08_optimization_waterfall_speedup.png)
 
@@ -141,10 +142,10 @@ We compared **GenBio AI's `GB.Protein-16B`** (`16.05B` total parameters, `4.21B`
 
 | GenBio AI Use Case | Recommended Cloud TPU Setup | Why It Wins |
 | :--- | :--- | :--- |
-| **Lowest Cost per Chip / Single-Chip Scaling (`256–20K` aa)** | **`1× TPU v6e` (`Pallas W8A8 / INT8 + HyperAttention`)** | Fits the entire `16.05B` model on **1 single 32 GB chip**, delivering **`42.06 ms` latency** (`1.52×` faster than Stock G4), **`+34%` better Price/Performance than Stock G4**, **`100%` ClinVar accuracy parity (`83.3%`)**, and runs **`20K` context (`2,710 ms`) without OOM**. |
-| **Interactive Protein Design (`Batch = 1`, Sub-20ms)** | **`4× TPU v6e` (`TP=4`)** or **`4× TPU v7x` (`TP=8`)** | Cuts single-protein latency from `39.01 ms` (Best-Opt G4) down to **`18.85 ms` (`4× v6e`, `2.07×` faster)** or **`12.52 ms` (`4× v7x`, `3.12×` faster)**. |
-| **`20K` Long-Context PPI / Structure Design (`S = 8K–20K` aa)** | **`4× TPU v6e` (`TP=4 + HyperAttn`)** or **`4× TPU v7x` (`TP=8 + HyperAttn`)** | Eliminates the `8K` XLA HBM thrashing cliff (**`48.1×` & `12.5×` speedup**) and delivers **`793.4 ms` (`4× v6e`, `1.34×` faster than Opt G4)** and **`544.9–559.7 ms` (`4× v7x`, `1.95×` faster than Opt G4)** at `S = 20,480` tokens. |
-| **Massive Proteome Screening & DMS (`Batch = 16–64`)** | **`1×` or `4× TPU v7x` (`BF16`)** | Delivers **`52,631 tok/s` per chip (`1.80×` vs Best-Opt G4)**, **`202,150 tok/s` (`3,469 TFLOPS`) per 4-chip pod**, **`+85%` Price/Performance vs Stock G4**, and **`100%` FP32-grade biological accuracy**. |
+| **Highest On-Demand Price/Performance (`256–20K` aa)** | **`1× TPU v6e` (`v3 INT8 + HyperAttention v2`, USD 2.70/hr)** | Fits the entire `16.05B` model on **1 single 32 GB chip**, delivering **`31,564 tok/s` (`11,691 tok/s/USD` — `1.80×` higher than Best-Opt G4)**, beats `1× G4` in both latency and `tok/s/USD` at `S=512` (`44.15 ms`), and runs **`20K` context (`1,515 ms`, `5,005 tok/s/USD`) without OOM**. |
+| **Interactive Protein Design (`Batch = 1`, Sub-21ms)** | **`2× TPU v6e` (`20.89 ms`)**, **`1× TPU v7x` (`15.90 ms`)**, or **`4× TPU v7x` (`7.40 ms`)** | Cuts single-protein latency (`S=256`) from `39.01 ms` (Best-Opt G4) down to **`20.89 ms` (`2× v6e`, `1.87×` faster)**, **`15.90 ms` (`1× v7x`, `2.45×` faster)**, **`10.36 ms` (`4× v6e`, `3.77×` faster)**, or **`7.40 ms` (`4× v7x`, `5.27×` faster)**. |
+| **`20K` Long-Context PPI / Structure Design (`S = 8K–20K` aa)** | **`2×/4× TPU v6e`** or **`1×/4× TPU v7x` (`HyperAttention v2`)** | Eliminates the `8K` XLA HBM thrashing cliff and beats `1× Best-Opt G4` (`1,061.5 ms`) across the board: **`876.4 ms` (`2× v6e`)**, **`659.0 ms` (`1× v7x BF16`, `1.61×` faster)**, **`495.5 ms` (`4× v6e`, `2.14×` faster)**, and **`278.9 ms` (`4× v7x`, `3.81×` faster)** at `S = 20,480` tokens. |
+| **Massive Proteome Screening & DMS (`Batch = 16–256`)** | **`1×` or `4× TPU v7x` (`v3 BF16 / INT8`)** | Delivers **`83,841 tok/s` per chip (`2.87×` vs Best-Opt G4)**, **`335,003 tok/s` (`5,663 TFLOPS`) per 4-chip pod (`2.88×` vs `4× Best-Opt G4`)**, and **`99.97%–100.00%` biological accuracy parity**. |
 
 ---
 
